@@ -1,0 +1,16 @@
+---
+title: Portfolio sorts
+---
+
+**Exercises:**
+
+1. Load the monthly CRSP file, the Fama-French Factors, and the estimated betas from the `tidy_finance_*.sqlite` database. 
+1. Create portfolio sorts based on the *lagged* beta. Specifically, you compute the breakpoint as the median *lag* beta each month. Then, you compute the returns of a portfolio that invests only in the stocks with a higher beta than the breakpoint and a portfolio that invests only in the stocks with a lower beta than the breakpoints. The portfolio weights can either be equal or value-weighted.
+1. What are the monthly excess returns of both portfolios?
+1. Does a portfolio that goes long high beta stocks and short low beta stocks yield an excess return significantly different from zero?
+1. Write a general function for portfolio sorts based on a variable number of breakpoints. Then, compute portfolio returns based on *lagged* beta decile sorts. 
+1. What is the CAPM alpha of the ten portfolio returns? Is this finding in line with your expectations based on the CAPM implications?
+1. Does a high beta minus low beta portfolio yield abnormal excess returns? 
+
+**Solutions:**
+All solutions are provided in the book chapter [Univariate portfolio sorts (R Version)](https://www.tidy-finance.org/r/univariate-portfolio-sorts.html) or [Univariate portfolio sorts (Python Version)](https://www.tidy-finance.org/python/univariate-portfolio-sorts.html)

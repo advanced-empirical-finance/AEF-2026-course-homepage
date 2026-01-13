@@ -1,0 +1,33 @@
+---
+title: Slides and Syllabus
+---
+
+| Week | Topic | Preparation and reading | Exercise |
+|:---------------|:---------------|:-------------------------|:---------------|
+| 7 | Kick-off | Complete all technical prerequisites before the lecture | 1 |
+| 8 | Optimal Portfolio Choice | Chapter 3 in [Data Science with R](https://r4ds.hadley.nz/data-transform) (data transformation). Sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0). Read introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | 2 |
+| 9 | CRSP / beta estimation | Chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | 3 |
+| 10 | Portfolio sorts |  | 4 |
+| 11 | Machine Learning in Finance | [Empirical asset pricing via Machine Learning](https://dachxiu.chicagobooth.edu/download/ML.pdf). FT article: "The hidden 'replication crisis' of finance" | 5 |
+| 12 | Machine Learning in Finance |  | 6 |
+| 13 | Machine Learning in Finance |  | 7 |
+| 15 | Volatility estimation |  | 8 |
+| 16 | Volatility estimation |  | 9 |
+| 17 | Portfolio optimization |  | 10 |
+| 18 | Parametric Portfolio Choice |  | 11 |
+| 19 | High-frequency data |  | 12 |
+| 20 | High-frequency econometrics |  | 13 |
+| 21 | Q&A |  |  |
+
+: {.primary .hover}
+
+# Important dates
+
+|                          |                   |
+|--------------------------|-------------------|
+| Submission deadline MA 1 | March 7 (10am)    |
+| Submission deadline MA 2 | April 11 (10am)   |
+| Submission deadline MA 3 | May 9 (10am)      |
+| Final exam               | June 24 - June 26 |
+
+: {.primary .hover}

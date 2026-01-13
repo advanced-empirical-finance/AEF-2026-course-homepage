@@ -1,0 +1,49 @@
+project:
+  type: website
+
+website:
+  navbar:
+    collapse: true
+    search: true
+    right:
+      - text: home
+        file: index.qmd
+      - text: slides 
+        file: slides-index.qmd
+      - text: exercises
+        file: exercises/index.qmd
+      - icon: github
+        url:  https://code.com
+  sidebar:
+     - title: exercises
+       style: docked
+       contents:
+         - section: Introduction
+           contents:
+             - exercises/index.qmd
+             - exercises/introduction.qmd
+         - section: Asset Pricing
+           contents:
+             - exercises/financial_data.qmd
+             - exercises/beta_estimation.qmd
+             - exercises/portfolio_sorts.qmd
+         - section: Machine Learning
+           contents:
+             - exercises/gu_kelly_xiu.qmd
+             - exercises/machine_learning.qmd
+             - exercises/machine_learning_nonlinear.qmd
+         - section: Covariance Estimation and Portfolio Choice
+           contents:
+             - exercises/covariance.qmd
+             - exercises/portfolio_choice.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+    css: styles.css
+    toc: true
+
+eval: 
+  false
+
