@@ -37,7 +37,7 @@ website:
              - exercises/machine_learning_nonlinear.qmd
          - section: Covariance Estimation and Portfolio Choice
            contents:
-             - exercises/covariance.qmd
+             - exercises/covariance_estimation.qmd
              - exercises/portfolio_choice.qmd
 
 format:
