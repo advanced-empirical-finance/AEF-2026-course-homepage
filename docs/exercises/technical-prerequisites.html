@@ -253,7 +253,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#optional-prerequisites" id="toc-optional-prerequisites" class="nav-link active" data-scroll-target="#optional-prerequisites">Optional prerequisites</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites">Prerequisites</a></li>
+  <li><a href="#optional-prerequisites" id="toc-optional-prerequisites" class="nav-link" data-scroll-target="#optional-prerequisites">Optional prerequisites</a></li>
   </ul>
 </nav>
     </div>
@@ -280,24 +281,43 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Before we start working with R, Python, and Quarto in this course, please make sure you have installed all the required software. Follow the steps below to set up your working environment. Should you encounter any issues, please do not hesitate to contact your TAs or me for assistance. To facilitate collaboration, please ask me via the Absalon discussion board to make sure everyone can benefit from the solution.</p>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <ol type="1">
 <li><p>Install <a href="https://cran.r-project.org/">R (Version &gt; 4.5.0)</a></p></li>
-<li><p>Install <a href="https://www.python.org/downloads/">Python (Version &gt; 3.10.0)</a></p></li>
+<li><p>Install <a href="https://www.python.org/downloads/">Python (Version &gt; 3.11.0)</a></p></li>
 <li><p>Install <a href="https://positron.posit.co/start.html">Positron (latest Version)</a></p></li>
 <li><p>Register a <a href="https://happygitwithr.com/github-acct">free GitHub account</a></p></li>
-<li><p>Install [Git] (https://git-scm.com/install/)</p></li>
+<li><p>Install <a href="https://git-scm.com/install/">Git</a></p></li>
 <li><p>Configure Git in Positron:</p>
 <ul>
-<li>In Positron and open the source control view (<code>Ctrl+Shift+G)</code></li>
-<li>If Git is not installed, the Source Control view will show instructions on how to install it.</li>
+<li>In Positron, open the source control view (<code>Ctrl+Shift+G)</code> (if Git is not yet installed, the Source Control view will show instructions on how to install it)</li>
 <li>Once Git is up and running you can clone the course-repository by opening the source control view (<code>Ctrl+Shift+G)</code> and pressing <code>Clone Repository</code>. Then, you provide the course repository url <a href="https://github.com/advanced-empirical-finance/course-repository.git">https://github.com/advanced-empirical-finance/course-repository.git</a> and choose a local folder where the repository should be stored.</li>
 </ul></li>
 <li><p>Open the cloned repository in Positron by navigating to <code>File</code> -&gt; <code>Open Project</code> and selecting the folder where you cloned the repository.</p></li>
-<li><p>To install <em>all</em> required R packages for the course, open the Terminal (<code>Ctrl+``) in Positron and install the</code>renv` package by typing the commands</p>
-<pre><code> install.packages("renv")
- renv::restore()</code></pre></li>
+<li><p>To install <em>all</em> required R packages for the course, open the Console in Positron and install the <code>renv</code> package by typing the commands</p>
+<pre><code> renv::restore()</code></pre>
+<p>You can install new packages, e.g., by calling <code>install.packages("tidymodels")</code>. To collaborate with your peers, just run <code>renv::snapshot()</code> to keep track of all the packages you use, and share the <code>renv.lock</code> file. Your colleagues only have to run <code>renv::restore()</code> to replicate your exact R package environment.</p></li>
+<li><p>To verify that the R installation is working correctly, click on <code>New/New File</code> and select <code>R file</code> to open a new Python script in Positron and type</p>
+<pre><code>library(tidyfinance)
+download_data(
+        domain="stock_prices", 
+        symbols="AAPL",
+        start_date="2000-01-01", 
+          end_date="2023-12-31")</code></pre>
+<p>Mark everything and press <code>Ctrl + Enter</code> to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console.</p></li>
+<li><p>To install <em>all</em> required Python packages for the course, open the Terminal in Positron and type the command</p>
+<pre><code> uv sync</code></pre></li>
+<li><p>To verify that everything is working correctly, click on <code>New/New File</code> and select <code>Python file</code> to open a new Python script in Positron and type</p>
+<pre><code>import tidyfinance as tf
+tf.download_data(
+        domain="stock_prices", 
+        symbols="AAPL",
+        start_date="2000-01-01", 
+          end_date="2023-12-31")</code></pre>
+<p>Mark everything and press <code>Ctrl + Enter</code> to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console. If you receive an error you may have to activate the correct virtual environment first by clicking on the Icon on the top right (next to <code>course-repository</code>) and selecting the environment named <code>aef-2026</code>.</p></li>
 </ol>
-<p>You can install new packages, e.g., by calling <code>install.packages("tidymodels")´. To collaborate with your peers, just run</code>renv::snapshot()<code>to keep track of all the packages you use, and share the</code>renv.lock<code>file. Your colleagues only have to run</code>renv::restore()` to replicate your exact R package environment.</p>
+</section>
 <section id="optional-prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="optional-prerequisites">Optional prerequisites</h2>
 <ol type="1">
