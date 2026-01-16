@@ -1,10 +1,10 @@
 ---
-title: Slides and Syllabus
+title: Syllabus
 ---
 
 | Week | Topic | Preparation and reading | Exercise |
 |:---------------|:---------------|:-------------------------|:---------------|
-| 7 | Kick-off | Complete all technical prerequisites before the lecture | 1 |
+| 7 | Kick-off | Complete all technical prerequisites before the lecture | [0](exercises/technical-prerequisites.qmd), [1](exercises/introduction.qmd#introduction-to-tidy-finance), [2](exercises/introduction.qmd#scaling-up-the-analysis) |
 | 8 | Optimal Portfolio Choice | Chapter 3 in [Data Science with R](https://r4ds.hadley.nz/data-transform) (data transformation). Sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0). Read introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | 2 |
 | 9 | CRSP / beta estimation | Chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | 3 |
 | 10 | Portfolio sorts |  | 4 |

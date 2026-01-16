@@ -8,7 +8,7 @@ website:
     right:
       - text: home
         file: index.qmd
-      - text: slides 
+      - text: lecture plan 
         file: slides-index.qmd
       - text: exercises
         file: exercises/index.qmd
@@ -21,6 +21,7 @@ website:
          - section: Introduction
            contents:
              - exercises/index.qmd
+             - exercises/technical-prerequisites.qmd
              - exercises/introduction.qmd
          - section: Asset Pricing
            contents:
