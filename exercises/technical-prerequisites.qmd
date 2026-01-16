@@ -5,25 +5,49 @@ title: Technical prerequisites
 
 Before we start working with R, Python, and Quarto in this course, please make sure you have installed all the required software. Follow the steps below to set up your working environment. Should you encounter any issues, please do not hesitate to contact your TAs or me for assistance. To facilitate collaboration, please ask me via the Absalon discussion board to make sure everyone can benefit from the solution.
 
+## Prerequisites
+
 1.  Install [R (Version \> 4.5.0)](https://cran.r-project.org/)
-
-2.  Install [Python (Version \> 3.10.0)](https://www.python.org/downloads/)
-
+2.  Install [Python (Version \> 3.11.0)](https://www.python.org/downloads/)
 3.  Install [Positron (latest Version)](https://positron.posit.co/start.html)
 4.  Register a [free GitHub account](https://happygitwithr.com/github-acct)
-5.  Install [Git] (https://git-scm.com/install/)
+5.  Install [Git](https://git-scm.com/install/)
 6.  Configure Git in Positron:
-     - In Positron and open the source control view (`Ctrl+Shift+G)`
-     - If Git is not installed, the Source Control view will show instructions on how to install it.
+     - In Positron, open the source control view (`Ctrl+Shift+G)` (if Git is not yet installed, the Source Control view will show instructions on how to install it)
      - Once Git is up and running you can clone the course-repository by opening the source control view (`Ctrl+Shift+G)` and pressing `Clone Repository`. Then, you provide the course repository url [https://github.com/advanced-empirical-finance/course-repository.git](https://github.com/advanced-empirical-finance/course-repository.git) and choose a local folder where the repository should be stored. 
 
 7. Open the cloned repository in Positron by navigating to `File` -> `Open Project` and selecting the folder where you cloned the repository.
-8. To install *all* required R packages for the course, open the Terminal (`Ctrl+``) in Positron and install the `renv` package by typing the commands
+8. To install *all* required R packages for the course, open the Console in Positron and install the `renv` package by typing the commands
 
-        install.packages("renv")
         renv::restore()
 
-You can install new packages, e.g., by calling `install.packages("tidymodels")´. To collaborate with your peers, just run `renv::snapshot()` to keep track of all the packages you use, and share the `renv.lock` file. Your colleagues only have to run `renv::restore()` to replicate your exact R package environment.
+    You can install new packages, e.g., by calling `install.packages("tidymodels")`. To collaborate with your peers, just run `renv::snapshot()` to keep track of all the packages you use, and share the `renv.lock` file. Your colleagues only have to run `renv::restore()` to replicate your exact R package environment.
+
+10. To verify that the R installation is working correctly, click on `New/New File` and select `R file` to open a new Python script in Positron and type 
+
+        library(tidyfinance)
+        download_data(
+                domain="stock_prices", 
+                symbols="AAPL",
+                start_date="2000-01-01", 
+                  end_date="2023-12-31")
+
+    Mark everything and press `Ctrl + Enter` to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console. 
+
+9. To install *all* required Python packages for the course, open the Terminal in Positron and type the command
+
+        uv sync
+
+10. To verify that everything is working correctly, click on `New/New File` and select `Python file` to open a new Python script in Positron and type 
+
+        import tidyfinance as tf
+        tf.download_data(
+                domain="stock_prices", 
+                symbols="AAPL",
+                start_date="2000-01-01", 
+                  end_date="2023-12-31")
+
+    Mark everything and press `Ctrl + Enter` to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console. If you receive an error you may have to activate the correct virtual environment first by clicking on the Icon on the top right (next to `course-repository`) and selecting the environment named `aef-2026`.
 
 ## Optional prerequisites
 
@@ -33,3 +57,4 @@ You can install new packages, e.g., by calling `install.packages("tidymodels")´
           quarto install tool tinytex
 
 in Positron / Terminal or directly in the console
+        
