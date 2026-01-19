@@ -3,27 +3,36 @@
 title: Technical prerequisites
 --- 
 
-Before we start working with R, Python, and Quarto in this course, please make sure you have installed all the required software. Follow the steps below to set up your working environment. Should you encounter any issues, please do not hesitate to contact your TAs or me for assistance. To facilitate collaboration, please ask me via the Absalon discussion board to make sure everyone can benefit from the solution.
+Before we start working with R, Python, and Quarto in this course, please make sure you have installed all the required software. Before we begin working with R, Python, and Quarto in Advanced Empirical Finance, please set up your computer so that you can run code from day one. No prior experience with programming or development tools is required — this guide walks you through everything step by step. Should you encounter any issues, please do not hesitate to contact your TAs or me for assistance. To facilitate collaboration, please ask me via the Absalon discussion board to make sure everyone can benefit from the solution.
 
 ## Prerequisites
 
-1.  Install [R (Version \> 4.5.0)](https://cran.r-project.org/)
-2.  Install [Python (Version \> 3.11.0)](https://www.python.org/downloads/)
-3.  Install [Positron (latest Version)](https://positron.posit.co/start.html)
-4.  Register a [free GitHub account](https://happygitwithr.com/github-acct)
-5.  Install [Git](https://git-scm.com/install/)
+
+### Install the required software
+
+1.  Install [R (Version \> 4.5.0)](https://cran.r-project.org/). *R is one of the two programming languages we use in this course. Choose the installer for your operating system (Windows, macOS, Linux) and follow the default installation settings.*
+2.  Install [Python (Version \> 3.11.0)](https://www.python.org/downloads/). *Python is the second programming language we use. During installation on Windows, make sure to check “Add Python to PATH” if prompted.*
+3.  Install [Positron (latest Version)](https://positron.posit.co/start.html). *Positron is the integrated development environment (IDE) we use. It supports R, Python, Git, and Quarto in one place. Install Positron using the default settings.*
+4.  Register a [free GitHub account](https://happygitwithr.com/github-acct) *GitHub allows us to share course materials and collaborate. You can register on (https://github.com/).*
+5.  Install [Git](https://git-scm.com/install/). *Git is the version control system we use to connect to GitHub.*
+
+### Set Up the Course Repository
+
 6.  Configure Git in Positron:
-     - In Positron, open the source control view (`Ctrl+Shift+G)` (if Git is not yet installed, the Source Control view will show instructions on how to install it)
-     - Once Git is up and running you can clone the course-repository by opening the source control view (`Ctrl+Shift+G)` and pressing `Clone Repository`. Then, you provide the course repository url [https://github.com/advanced-empirical-finance/course-repository.git](https://github.com/advanced-empirical-finance/course-repository.git) and choose a local folder where the repository should be stored. 
+     - Open Positron, open the source control view `(Ctrl+Shift+G)`. *If Git is not yet installed, the Source Control view will show instructions on how to install it*
+     - Once Git is detected you can clone the course Github repository by opening the source control view `(Ctrl+Shift+G)` and clicking `Clone Repository`. Then, you provide the course repository url [https://github.com/advanced-empirical-finance/course-repository.git](https://github.com/advanced-empirical-finance/course-repository.git) and choose a local folder where the repository should be stored. Cloning a repository simply means creating your own copy of a shared project so you can work on it on your computer without affecting the original. 
+7. Open the cloned repository in Positron by navigating to `File` -> `Open Project` and selecting the folder where you cloned the repository. The folder contains all course materials, including R and Python scripts, datasets, lecture slides, templates for the mandatory assignment and configuration files for R and Python environments.
 
-7. Open the cloned repository in Positron by navigating to `File` -> `Open Project` and selecting the folder where you cloned the repository.
-8. To install *all* required R packages for the course, open the Console in Positron and install the `renv` package by typing the commands
+### Install Required R and Python Packages 
 
+8. In R we use renv to ensure all students have the same package versions. To install *all* required R packages for the course, open the Console (not the Terminal) in Positron and install the `renv` package by typing the commands
+
+        install.packages("renv")
         renv::restore()
 
     You can install new packages, e.g., by calling `install.packages("tidymodels")`. To collaborate with your peers, just run `renv::snapshot()` to keep track of all the packages you use, and share the `renv.lock` file. Your colleagues only have to run `renv::restore()` to replicate your exact R package environment.
 
-10. To verify that the R installation is working correctly, click on `New/New File` and select `R file` to open a new Python script in Positron and type 
+10. To verify that the R installation is working correctly, click on `New/New File` and select `R file` to open a new R script in Positron and type 
 
         library(tidyfinance)
         download_data(
@@ -34,7 +43,7 @@ Before we start working with R, Python, and Quarto in this course, please make s
 
     Mark everything and press `Ctrl + Enter` to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console. 
 
-9. To install *all* required Python packages for the course, open the Terminal in Positron and type the command
+9. For Python we use `uv`, a fast Python package manager. To install *all* required Python packages for the course, open the Terminal (not the Console) in Positron, install [uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer), e.g., via `pip install uv` and type the command
 
         uv sync
 
@@ -49,7 +58,9 @@ Before we start working with R, Python, and Quarto in this course, please make s
 
     Mark everything and press `Ctrl + Enter` to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console. If you receive an error you may have to activate the correct virtual environment first by clicking on the Icon on the top right (next to `course-repository`) and selecting the environment named `aef-2026`.
 
-## Optional prerequisites
+## Optional: Quarto and PDF support
+
+Positron already includes Quarto, so you do not need to install it separately unless you want a standalone installation.
 
 1. Install the newest version of [Quarto](https://quarto.org/docs/download/). (Quarto comes prebundled with Positron, so you will have access to quarto once you followed the previous step)
 1. In order to create PDFs you will need to install a recent distribution of LaTeX. I recomment to install `TinyTeX`, a lightweight, cross-platform, portable, and easy-to-maintain LaTeX distribution by typing the command

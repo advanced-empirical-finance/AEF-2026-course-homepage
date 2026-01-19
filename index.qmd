@@ -14,4 +14,4 @@ There are many ways to get an answer to your questions, most directly you can si
 
 As an absolute minimum before trying to solve the following exercises, make sure you are familiar with Garrett Grolemund's and Hadley Wickham's excellent book [R for Data Science](https://r4ds.hadley.nz/). I will make further information or references available on Absalon. 
 
-**Things to get done before the first lecture**: To dive right into it, check the [readme](https://github.com/advanced-empirical-finance/course_environment_AEF) file to comply with the technical prerequisites of this course - you should have R, Python, and Positron ready to get started. 
+**Things to get done before the first lecture**: To dive right into it, check [Exercise 0](exercises/technical-prerequisites.qmd) file to comply with the technical prerequisites of this course - you should have R, Python, and Positron ready to get started. 
