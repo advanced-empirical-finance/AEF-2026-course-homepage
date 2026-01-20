@@ -36,7 +36,7 @@ Before we start working with R, Python, and Quarto in this course, please make s
 
         library(tidyfinance)
         download_data(
-                domain="stock_prices", 
+                type="stock_prices", 
                 symbols="AAPL",
                 start_date="2000-01-01", 
                   end_date="2023-12-31")
