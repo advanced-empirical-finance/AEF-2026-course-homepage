@@ -1,22 +1,20 @@
----
-title: Syllabus
----
+# Syllabus
 
 | Week | Topic | Preparation and reading | Exercise |
-|:---------------|:---------------|:-------------------------|:---------------|
-| 7 | Kick-off | Complete all technical prerequisites before the lecture | [0](exercises/technical-prerequisites.qmd), [1](exercises/introduction.qmd#introduction-to-tidy-finance), [2](exercises/introduction.qmd#scaling-up-the-analysis) |
-| 8 | Optimal Portfolio Choice | Chapter 3 in [Data Science with R](https://r4ds.hadley.nz/data-transform) (data transformation). Sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0). Read introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | 2 |
-| 9 | CRSP / beta estimation | Chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | 3 |
-| 10 | Portfolio sorts |  | 4 |
-| 11 | Machine Learning in Finance | [Empirical asset pricing via Machine Learning](https://dachxiu.chicagobooth.edu/download/ML.pdf). FT article: "The hidden 'replication crisis' of finance" | 5 |
-| 12 | Machine Learning in Finance |  | 6 |
-| 13 | Machine Learning in Finance |  | 7 |
-| 15 | Volatility estimation |  | 8 |
-| 16 | Volatility estimation |  | 9 |
-| 17 | Portfolio optimization |  | 10 |
-| 18 | Parametric Portfolio Choice |  | 11 |
-| 19 | High-frequency data |  | 12 |
-| 20 | High-frequency econometrics |  | 13 |
+|:----------------|:----------------|:----------------------|:----------------|
+| 7 | Kick-off | Complete all [technical prerequisites](exercises/technical-prerequisites.qmd) before the lecture | [0](exercises/technical-prerequisites.qmd) |
+| 8 | Asset prices and optimal portfolio choice | Read chapter 3 in [Data Science with R](https://r4ds.hadley.nz/data-transform) (data transformation), sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0) and the introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | [1](exercises/introduction.qmd#introduction-to-tidy-finance), [2](exercises/introduction.qmd#scaling-up-the-analysis) |
+| 9 | CRSP data and beta estimation | Read chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | [3](exercises/financial_data.qmd) [4](exercises/beta_estimation.qmd) |
+| 10 | Reproducibility crisis | Read the FT article: "The hidden 'replication crisis' of finance" |  |
+| 11 | Portfolio sorts |  | [5](exercises/portfolio_sorts.qmd) |
+| 12 | Machine Learning in Finance | Read [Empirical asset pricing via Machine Learning](https://dachxiu.chicagobooth.edu/download/ML.pdf) | [6](exercises/gu_kelly_xiu.qmd) |
+| 13 | Machine Learning in Finance |  | [7](exercises/machine_learning.qmd) |
+| 15 | Machine Learning in Finance |  | [8](exercises/machine_learning_nonlinear.qmd) |
+| 16 | Volatility estimation |  | [9](exercises/covariance_estimation.qmd) |
+| 17 | Portfolio optimization |  | [10](exercises/portfolio_choice.qmd) |
+| 18 | Parametric Portfolio Choice |  |  |
+| 19 | High-frequency data |  |  |
+| 20 | High-frequency econometrics |  |  |
 | 21 | Q&A |  |  |
 
 : {.primary .hover}
