@@ -2,9 +2,9 @@
 
 | Week | Topic | Preparation and reading | Exercise |
 |:----------------|:----------------|:----------------------|:----------------|
-| 7 | Kick-off | Complete all [technical prerequisites](exercises/technical-prerequisites.qmd) before the lecture | [0](exercises/technical-prerequisites.qmd) |
+| 7 | [Kick-off]() | Complete all [technical prerequisites](exercises/technical-prerequisites.qmd) before the lecture | [0](exercises/technical-prerequisites.qmd) |
 | 8 | Asset prices and optimal portfolio choice | Read chapter 3 in [Data Science with R](https://r4ds.hadley.nz/data-transform) (data transformation), sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0) and the introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | [1](exercises/introduction.qmd#introduction-to-tidy-finance), [2](exercises/introduction.qmd#scaling-up-the-analysis) |
-| 9 | CRSP data and beta estimation | Read chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | [3](exercises/financial_data.qmd) [4](exercises/beta_estimation.qmd) |
+| 9 | CRSP data and beta estimation | Read chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | [3](exercises/financial_data.qmd), [4](exercises/beta_estimation.qmd) |
 | 10 | Reproducibility crisis | Read the FT article: "The hidden 'replication crisis' of finance" |  |
 | 11 | Portfolio sorts |  | [5](exercises/portfolio_sorts.qmd) |
 | 12 | Machine Learning in Finance | Read [Empirical asset pricing via Machine Learning](https://dachxiu.chicagobooth.edu/download/ML.pdf) | [6](exercises/gu_kelly_xiu.qmd) |
