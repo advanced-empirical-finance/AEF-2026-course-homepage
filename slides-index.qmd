@@ -1,31 +1,32 @@
 # Syllabus
 
-| Week | Topic | Preparation and reading | Exercise |
-|:----------------|:----------------|:----------------------|:----------------|
-| 7 | [Kick-off]() | Complete all [technical prerequisites](exercises/technical-prerequisites.qmd) before the lecture | [0](exercises/technical-prerequisites.qmd) |
-| 8 | Asset prices and optimal portfolio choice | Read chapter 3 in [Data Science with R](https://r4ds.hadley.nz/data-transform) (data transformation), sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0) and the introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | [1](exercises/introduction.qmd#introduction-to-tidy-finance), [2](exercises/introduction.qmd#scaling-up-the-analysis) |
-| 9 | CRSP data and beta estimation | Read chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | [3](exercises/financial_data.qmd), [4](exercises/beta_estimation.qmd) |
-| 10 | Reproducibility crisis | Read the FT article: "The hidden 'replication crisis' of finance" |  |
-| 11 | Portfolio sorts |  | [5](exercises/portfolio_sorts.qmd) |
-| 12 | Machine Learning in Finance | Read [Empirical asset pricing via Machine Learning](https://dachxiu.chicagobooth.edu/download/ML.pdf) | [6](exercises/gu_kelly_xiu.qmd) |
-| 13 | Machine Learning in Finance |  | [7](exercises/machine_learning.qmd) |
-| 15 | Machine Learning in Finance |  | [8](exercises/machine_learning_nonlinear.qmd) |
-| 16 | Volatility estimation |  | [9](exercises/covariance_estimation.qmd) |
-| 17 | Portfolio optimization |  | [10](exercises/portfolio_choice.qmd) |
-| 18 | Parametric Portfolio Choice |  |  |
-| 19 | High-frequency data |  |  |
-| 20 | High-frequency econometrics |  |  |
-| 21 | Q&A |  |  |
-
-: {.primary .hover}
-
-# Important dates
-
-|                          |                   |
-|--------------------------|-------------------|
-| Submission deadline MA 1 | March 7 (10am)    |
-| Submission deadline MA 2 | April 11 (10am)   |
-| Submission deadline MA 3 | May 9 (10am)      |
-| Final exam               | June 24 - June 26 |
+| Week | Date | Topic | Preparation | Exercise |
+|:-----|:-----|:------|:------------|:---------|
+| 7 | Mon Feb 9 | Kick-off | Complete all [technical prerequisites](exercises/technical-prerequisites.qmd) | [0](exercises/technical-prerequisites.qmd) |
+|  | Thu Feb 12 | Asset prices |  |  |
+| 8 | Mon Feb 16 | Optimal portfolio choice | Chapter 3 in [R for Data Science](https://r4ds.hadley.nz/data-transform) (data transformation), Sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0)  | [1](exercises/introduction.qmd#introduction-to-tidy-finance)  |
+|  | Thu Feb 19 | Optimal portfolio choice | Introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | [2](exercises/introduction.qmd#scaling-up-the-analysis) |
+| 9 | Thu Feb 26 | Multifactor models | Chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | [3](exercises/financial_data.qmd), [4](exercises/beta_estimation.qmd) |
+| | Fri Feb 27  | **MA 1 released** | | |
+| 10 | Mon Mar 2 | Reproducibility crisis | FT article: "The hidden 'replication crisis' of finance" | [5](exercises/portfolio_sorts.qmd) |
+|  | Thu Mar 5 | Reproducibility crisis | |  |
+| | Sat Mar 7  | **MA 1 deadline** | | |
+| 11 | Thu Mar 12 | ML in Finance | |  |
+| 12 | Mon Mar 16 | ML in Finance | [Empirical asset pricing via Machine Learning](https://dachxiu.chicagobooth.edu/download/ML.pdf) | [6](exercises/gu_kelly_xiu.qmd) |
+|  | Thu Mar 19 | ML in Finance | |[7](exercises/machine_learning.qmd) |
+| 13 | Thu Mar 26 | ML in Finance | | [8](exercises/machine_learning_nonlinear.qmd) |
+| |  | **Easter break (W14)** | | |
+| | Fri Apr 3 | **MA 2 released** | | |
+| 15 | Thu Apr 9 | Volatility estimation | | [9](exercises/covariance_estimation.qmd)  |
+| | Sat Apr 11 | **MA 2 deadline (10am)** | | |
+| 16 | Mon Apr 13 | Volatility estimation | |  |
+| 17 | Thu Apr 23 | Portfolio optimization | | [10](exercises/portfolio_choice.qmd) |
+| 18 | Mon Apr 27 | Parametric Portfolio Choice | | |
+|  | Thu Apr 30 | High-frequency econometrics | | |
+| | Fri May 1  | **MA 3 released** | | |
+| 19 | Thu May 7 | Guest lecture: Cilie Feldager Chief GenAI Model Evaluation Expert (Danske Bank) | | |
+| | Sat May 9 | **MA 3 deadline (10am)** | | |
+| 20 | Mon May 11 | High-frequency econometrics | | |
+| 21 | Thu May 21 | Q&A | | |
 
 : {.primary .hover}
