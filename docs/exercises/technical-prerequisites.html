@@ -285,7 +285,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Before we start working with R, Python, and Quarto in this course, please make sure you have installed all the required software. Before we begin working with R, Python, and Quarto in Advanced Empirical Finance, please set up your computer so that you can run code from day one. No prior experience with programming or development tools is required — this guide walks you through everything step by step. Should you encounter any issues, please do not hesitate to contact your TAs or me for assistance. To facilitate collaboration, please ask me via the Absalon discussion board to make sure everyone can benefit from the solution.</p>
+<p>Before we begin working with R, Python, and Quarto in Advanced Empirical Finance, please set up your computer so that you can run code from day one. No prior experience with programming or development tools is required — this guide walks you through everything step by step. Should you encounter any issues, please do not hesitate to contact your TAs or me for assistance. To facilitate collaboration, please ask me via the Absalon discussion board to make sure everyone can benefit from the solution.</p>
 <section id="prerequisites" class="level2">
 <h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
 <section id="install-the-required-software" class="level3">
@@ -317,15 +317,15 @@ ul.task-list li input[type="checkbox"] {
  renv::restore()</code></pre>
 <p>You can install new packages, e.g., by calling <code>install.packages("tidymodels")</code>. To collaborate with your peers, just run <code>renv::snapshot()</code> to keep track of all the packages you use, and share the <code>renv.lock</code> file. Your colleagues only have to run <code>renv::restore()</code> to replicate your exact R package environment.</p></li>
 <li><p>To verify that the R installation is working correctly, click on <code>New/New File</code> and select <code>R file</code> to open a new R script in Positron and type</p>
-<pre><code>library(tidyfinance)
-download_data(
-        type="stock_prices", 
-        symbols="AAPL",
-        start_date="2000-01-01", 
-          end_date="2023-12-31")</code></pre>
+<pre><code> library(tidyfinance)
+ download_data(
+         type="stock_prices", 
+         symbols="AAPL",
+         start_date="2000-01-01", 
+           end_date="2023-12-31")</code></pre>
 <p>Mark everything and press <code>Ctrl + Enter</code> to run the code. If everything is working correctly, you should see that you just downloaded financial data in the console.</p></li>
 <li><p>For Python we use <code>uv</code>, a fast Python package manager. To install <em>all</em> required Python packages for the course, open the Terminal (not the Console) in Positron, install <a href="https://docs.astral.sh/uv/getting-started/installation/#standalone-installer">uv</a>, e.g., via <code>pip install uv</code> and type the command</p>
-<pre><code> uv sync</code></pre></li>
+<pre><code>uv sync</code></pre></li>
 <li><p>To verify that everything is working correctly, click on <code>New/New File</code> and select <code>Python file</code> to open a new Python script in Positron and type</p>
 <pre><code>import tidyfinance as tf
 tf.download_data(
@@ -341,8 +341,8 @@ tf.download_data(
 <h2 class="anchored" data-anchor-id="optional-quarto-and-pdf-support">Optional: Quarto and PDF support</h2>
 <p>Positron already includes Quarto, so you do not need to install it separately unless you want a standalone installation.</p>
 <ol type="1">
-<li><p>Install the newest version of <a href="https://quarto.org/docs/download/">Quarto</a>. (Quarto comes prebundled with Positron, so you will have access to quarto once you followed the previous step)</p></li>
-<li><p>In order to create PDFs you will need to install a recent distribution of LaTeX. I recomment to install <code>TinyTeX</code>, a lightweight, cross-platform, portable, and easy-to-maintain LaTeX distribution by typing the command</p>
+<li><p>Install the newest version of <a href="https://quarto.org/docs/download/">Quarto</a>. (Quarto comes prebundled with Positron, so you will have access to quarto once you have followed the previous step)</p></li>
+<li><p>In order to create PDFs you will need to install a recent distribution of LaTeX. I recommend to install <code>TinyTeX</code>, a lightweight, cross-platform, portable, and easy-to-maintain LaTeX distribution by typing the command</p>
 <pre><code>   quarto install tool tinytex</code></pre></li>
 </ol>
 <p>in Positron / Terminal or directly in the console</p>
