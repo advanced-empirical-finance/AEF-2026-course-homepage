@@ -10,7 +10,7 @@ This exercise should help you to fight your way through an actual academic appli
 -   Start reading the paper from Section 2 ("An empirical study of U.S. equities"). In their study, the authors aim to use different machine learning procedures to approximate the overarching empirical model $E_t\left(r_{i, t+1}\right) = g^\star(z_{i,t})$ as defined in the paper. The returns are monthly total individual equity returns from CRSP for all firms listed in the NYSE, AMEX, and NASDAQ. The sample starts in March 1957 (the start date of the S&P 500) and ends in December 2016, totaling 60 years. *Prepare* the data from CRSP according to these requirements.
 -   One significant contribution of the paper is implementing the predictive framework with a vast collection of stock-level predictive characteristics based on the cross-section of stock returns literature. Table A.6 in the Internet Appendix details all these characteristics. You do not have to generate each of the characteristics. Instead *download* the data from [Dacheng Xiu's homepage](https://dachxiu.chicagobooth.edu/download/datashare.zip).
 -   Read the *readme* file and process the data the way the authors explain it in footnote 29 of the paper: "We cross-sectionally rank all stock characteristics period-by-period and map these ranks into the \[-1,1\] interval following Kelly, Pruitt, and Su (2019) and Freyberger, Neuhierl, and Weber (2020)."
--   Merge the dataset with the CRSP file and the macroeconomic predictors following the variable definitions detailed in Welch and Goyal (2008). (Hint: the macroeconomic variables are part of the `tidy_finance_*.sqlite` database, consult Chapter 2 for more information).
+-   Merge the dataset with the CRSP file and the macroeconomic predictors following the variable definitions detailed in Welch and Goyal (2008). (Hint: the macroeconomic variables are available as `macro_predictors.parquet` in `data-r` / `data-python`).
 -   Replace missing values with the cross-sectional median at each month for each stock
 -   Then, *process* the column \`sic2', which currently contains categorical data and which should be transformed into a matrix with 74 columns: The values in the cells should be one if the 'permno' corresponds to the specific industry classification and 0 otherwise
 -   In the original paper, the authors inflate the dataset by considering any possible interaction between macroeconomic variables and firm characteristics. How could you implement this? (*Note: the dataset is enormous already without interaction terms. For this lecture, feel free to skip this final step.*)
@@ -21,7 +21,7 @@ This exercise should help you to fight your way through an actual academic appli
 ## R
 ```{r}
 library(tidyverse)
-library(RSQLite)
+library(arrow)
 library(lubridate)
 library(archive)
 ```
@@ -32,14 +32,13 @@ import requests
 import numpy as np
 from io import BytesIO, StringIO
 import zipfile
-import sqlite3
 ```
 :::
 
 ::: {.panel-tabset group="language"}
 ## R
 
-First, we download the (large) dataset directly from within R. The data is stored as a .csv file within a zipped folder. For such purposes, the `archive` package is useful. Presumably, you want to store the output in a `.sqlite` file, for instance, the file `tidy_finance_*.sqlite` or in a new file. Next, we set `options(timeout = 200)`, which allows the R session to download the dataset for 200 seconds. The default in R is 60 seconds which was too short on my machine.
+First, we download the (large) dataset directly from within R. The data is stored as a .csv file within a zipped folder. For such purposes, the `archive` package is useful. Presumably, you want to store the output as a parquet file. Next, we set `options(timeout = 200)`, which allows the R session to download the dataset for 200 seconds. The default in R is 60 seconds which was too short on my machine.
 
 ```{r}
 options(timeout = 1200)
@@ -57,7 +56,7 @@ characteristics <- characteristics |>
 
 ## Python
 
-First, we download the (large) dataset directly from within Python. The data is stored as a .csv file within a zipped folder. For such purposes, the `requests` library is useful. Presumably, you want to store the output in a `.sqlite` file, for instance, the file `tidy_finance_*.sqlite` or in a new file. We set `timeout = 1200`, which allows the session to download the dataset for 1200 seconds. The default was too short on my machine.
+First, we download the (large) dataset directly from within Python. The data is stored as a .csv file within a zipped folder. For such purposes, the `requests` library is useful. Presumably, you want to store the output as a parquet file. We set `timeout = 1200`, which allows the session to download the dataset for 1200 seconds. The default was too short on my machine.
 
 ```{python}
 url = "https://dachxiu.chicagobooth.edu/download/datashare.zip"
@@ -119,17 +118,11 @@ Next, merge the data with monthly CRSP data to get excess returns. To create por
 ## R
 
 ```{r}
-tidy_finance <- dbConnect(SQLite(), "../data/tidy_finance.sqlite",
-  extended_types = TRUE
-)
+crsp_monthly <- read_parquet("data-r/crsp_monthly.parquet") |>
+  select(month, permno, mktcap_lag, ret_excess)
 
-crsp_monthly <- tbl(tidy_finance, "crsp_monthly") |>
-  select(month, permno, mktcap_lag, ret_excess) |>
-  collect()
-
-macro_predictors <- tbl(tidy_finance, "macro_predictors") |>
+macro_predictors <- read_parquet("data-r/macro_predictors.parquet") |>
   select(-rp_div) |>
-  collect() |>
   rename_with(~ paste0("macro_", .), -month)
 
 characteristics <- characteristics |>
@@ -141,19 +134,12 @@ characteristics <- characteristics |>
 
 ## Python
 ```{python}
-tidy_finance = sqlite3.connect(database="../data/tidy_finance_python.sqlite")
+crsp_monthly = (pd.read_parquet("data-python/crsp_monthly.parquet")
+  [["month", "permno", "mktcap_lag", "ret_excess"]])
 
-crsp_monthly = pd.read_sql_query(
-  sql="SELECT month, permno, mktcap_lag, ret_excess FROM crsp_monthly",
-  con=tidy_finance,
-  parse_dates={"month"}
-)
-
-macro_predictors = (pd.read_sql_query(
-    sql="SELECT * FROM macro_predictors",
-    con=tidy_finance
-).drop(columns=['rp_div'])
- .rename(columns=lambda x: f'macro_{x}' if x != 'month' else x)
+macro_predictors = (pd.read_parquet("data-python/macro_predictors.parquet")
+  .drop(columns=['rp_div'])
+  .rename(columns=lambda x: f'macro_{x}' if x != 'month' else x)
 )
 
 characteristics = (
@@ -203,33 +189,23 @@ characteristics = (characteristics
 ```
 :::
 
-Finally, for your convenience, I include the pre-processed file into a new file, the `tidy_finance_ML.sqlite` database. You find the document on Absalon and can use it for your research and replication attempts. 
+Finally, for your convenience, I include the pre-processed file as `stock_characteristics_monthly.parquet`. You find it on Absalon and can use it for your research and replication attempts.
 
 ::: {.panel-tabset group="language"}
 ## R
 ```{r}
-tidy_finance_ML <- dbConnect(SQLite(), "../data/tidy_finance_ML.sqlite",
-  extended_types = TRUE
-)
-
-dbWriteTable(tidy_finance_ML,
-  "stock_characteristics_monthly",
-  value = characteristics |> ungroup(),
-  overwrite = TRUE
+write_parquet(
+  characteristics |> ungroup(),
+  "data-r/stock_characteristics_monthly.parquet"
 )
 ```
 
 ## Python
 ```{python}
-tidy_finance_ML = sqlite3.connect(database="../data/tidy_finance_ML.sqlite")
-
-
-characteristics.to_sql(
-  name="stock_characteristics_monthly",
-  con=tidy_finance_ML, 
-  if_exists="replace", 
+characteristics.to_parquet(
+  "data-python/stock_characteristics_monthly.parquet",
   index=False
-  )
+)
 ```
 
 :::

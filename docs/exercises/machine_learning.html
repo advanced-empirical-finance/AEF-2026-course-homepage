@@ -349,7 +349,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="introduction-to-penalized-regressions">Introduction to penalized regressions</h2>
 <p><strong>Exercises:</strong></p>
 <ul>
-<li>Load the file <code>macro_predictors</code> from the <code>tidy_finance_*.sqlite</code>database. Create a variable <code>y</code>that contains the market excess returns from the Goyal-Welsh dataset (<code>rp_div</code>) and a matrix <code>X</code> that contains the remaining macroeconomic variables except for the column <code>month</code>. You will use <code>X</code> and <code>y</code> to perform penalized regressions. Try to run a simple linear regression of <code>X</code> on `y´ to analyze the relationship between the macroeconomic variables and market returns. Which problems do you encounter?</li>
+<li>Load <code>macro_predictors.parquet</code> from the <code>data-r</code> / <code>data-python</code> folder. Create a variable <code>y</code>that contains the market excess returns from the Goyal-Welsh dataset (<code>rp_div</code>) and a matrix <code>X</code> that contains the remaining macroeconomic variables except for the column <code>month</code>. You will use <code>X</code> and <code>y</code> to perform penalized regressions. Try to run a simple linear regression of <code>X</code> on `y´ to analyze the relationship between the macroeconomic variables and market returns. Which problems do you encounter?</li>
 <li>Write a function that requires three inputs, <code>y</code> (a <span class="math inline">\(T\)</span> vector), <code>X</code> (a <span class="math inline">\((T \times K)\)</span> matrix), and <code>lambda</code> and which returns the <strong>Ridge</strong> estimator (a <span class="math inline">\(K\)</span> vector) for given penalization parameter <span class="math inline">\(\lambda\)</span>. Recall that the intercept should not be penalized. Therefore, your function should allow you to indicate whether <span class="math inline">\(X\)</span> contains a vector of ones as the first column which should be exempt from the <span class="math inline">\(L_2\)</span> penalty.</li>
 <li>Compute the <span class="math inline">\(L_2\)</span> norm (<span class="math inline">\(\beta'\beta\)</span>) for the regression coefficients based on the predictive regression from the previous exercise for a range of <span class="math inline">\(\lambda\)</span>’s and illustrate the effect of the penalization in a suitable figure.</li>
 <li>Now, write a function that requires three inputs, <code>y</code> (a <span class="math inline">\(T\)</span> vector), <code>X</code> (a <span class="math inline">\((T \times K)\)</span> matrix), and ’lambda` and which returns the <strong>Lasso</strong> estimator (a <span class="math inline">\(K\)</span> vector) for given penalization parameter <span class="math inline">\(\lambda\)</span>. Recall that the intercept should not be penalized. Therefore, your function should allow you to indicate whether <span class="math inline">\(X\)</span> contains a vector of ones as the first column which should be exempt from the <span class="math inline">\(L_1\)</span> penalty.</li>
@@ -362,25 +362,19 @@ window.Quarto = {
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RSQLite)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in the data</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>tidy_finance <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">SQLite</span>(),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../AEF_2024/data/tidy_finance_r.sqlite"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">extended_types =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="ot">&lt;-</span> <span class="fu">tbl</span>(tidy_finance, <span class="st">"macro_predictors"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> macro_predictors<span class="sc">$</span>rp_div</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> macro_predictors <span class="sc">|&gt;</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>month, <span class="sc">-</span>rp_div) <span class="sc">|&gt;</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># OLS for Welsh data fails because X is not of full rank</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">ncol</span>(X), Matrix<span class="sc">::</span><span class="fu">rankMatrix</span>(X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"data-r/macro_predictors.parquet"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> macro_predictors<span class="sc">$</span>rp_div</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> macro_predictors <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>month, <span class="sc">-</span>rp_div) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># OLS for Welsh data fails because X is not of full rank</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">ncol</span>(X), Matrix<span class="sc">::</span><span class="fu">rankMatrix</span>(X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
@@ -390,23 +384,18 @@ window.Quarto = {
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO, StringIO</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> ggplot, aes, geom_line, labs</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the data</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>tidy_finance <span class="op">=</span> sqlite3.<span class="ex">connect</span>(database<span class="op">=</span><span class="st">"../AEF_2024/data/tidy_finance_python.sqlite"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> ggplot, aes, geom_line, labs</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Read the data</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> pd.read_parquet(<span class="st">"data-python/macro_predictors.parquet"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> pd.read_sql_query(</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    sql<span class="op">=</span><span class="st">"SELECT * FROM macro_predictors"</span>,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    con<span class="op">=</span>tidy_finance)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> macro_predictors[<span class="st">'dp'</span>].values</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> macro_predictors.drop(columns<span class="op">=</span>[<span class="st">'month'</span>, <span class="st">'dp'</span>]).values</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># OLS for Welsh data fails because X is not of full rank</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X.shape[<span class="dv">1</span>], np.linalg.matrix_rank(X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> macro_predictors[<span class="st">'dp'</span>].values</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> macro_predictors.drop(columns<span class="op">=</span>[<span class="st">'month'</span>, <span class="st">'dp'</span>]).values</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># OLS for Welsh data fails because X is not of full rank</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X.shape[<span class="dv">1</span>], np.linalg.matrix_rank(X))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div>

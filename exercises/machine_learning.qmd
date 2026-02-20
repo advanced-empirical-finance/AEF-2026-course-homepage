@@ -8,7 +8,7 @@ In these exercises, you familiarize yourself with the details behind shrinkage r
 
 **Exercises:**
 
--   Load the file `macro_predictors` from the `tidy_finance_*.sqlite`database. Create a variable `y`that contains the market excess returns from the Goyal-Welsh dataset (`rp_div`) and a matrix `X` that contains the remaining macroeconomic variables except for the column `month`. You will use `X` and `y` to perform penalized regressions. Try to run a simple linear regression of `X` on \`y´ to analyze the relationship between the macroeconomic variables and market returns. Which problems do you encounter?
+-   Load `macro_predictors.parquet` from the `data-r` / `data-python` folder. Create a variable `y`that contains the market excess returns from the Goyal-Welsh dataset (`rp_div`) and a matrix `X` that contains the remaining macroeconomic variables except for the column `month`. You will use `X` and `y` to perform penalized regressions. Try to run a simple linear regression of `X` on \`y´ to analyze the relationship between the macroeconomic variables and market returns. Which problems do you encounter?
 -   Write a function that requires three inputs, `y` (a $T$ vector), `X` (a $(T \times K)$ matrix), and `lambda` and which returns the **Ridge** estimator (a $K$ vector) for given penalization parameter $\lambda$. Recall that the intercept should not be penalized. Therefore, your function should allow you to indicate whether $X$ contains a vector of ones as the first column which should be exempt from the $L_2$ penalty.
 -   Compute the $L_2$ norm ($\beta'\beta$) for the regression coefficients based on the predictive regression from the previous exercise for a range of $\lambda$'s and illustrate the effect of the penalization in a suitable figure.
 -   Now, write a function that requires three inputs, `y` (a $T$ vector), `X` (a $(T \times K)$ matrix), and 'lambda\` and which returns the **Lasso** estimator (a $K$ vector) for given penalization parameter $\lambda$. Recall that the intercept should not be penalized. Therefore, your function should allow you to indicate whether $X$ contains a vector of ones as the first column which should be exempt from the $L_1$ penalty.
@@ -21,17 +21,11 @@ In these exercises, you familiarize yourself with the details behind shrinkage r
 ## R
 ```{r}
 # Load required packages
-library(RSQLite)
+library(arrow)
 library(tidyverse)
 
 # Read in the data
-tidy_finance <- dbConnect(SQLite(),
-  "../AEF_2024/data/tidy_finance_r.sqlite",
-  extended_types = TRUE
-)
-
-macro_predictors <- tbl(tidy_finance, "macro_predictors") |>
-  collect()
+macro_predictors <- read_parquet("data-r/macro_predictors.parquet")
 
 y <- macro_predictors$rp_div
 X <- macro_predictors |>
@@ -50,16 +44,11 @@ import requests
 import numpy as np
 from io import BytesIO, StringIO
 import zipfile
-import sqlite3
 from plotnine import ggplot, aes, geom_line, labs
 from scipy.optimize import minimize
 
 #Read the data
-tidy_finance = sqlite3.connect(database="../AEF_2024/data/tidy_finance_python.sqlite")
-
-macro_predictors = pd.read_sql_query(
-    sql="SELECT * FROM macro_predictors",
-    con=tidy_finance)
+macro_predictors = pd.read_parquet("data-python/macro_predictors.parquet")
 
 
 y = macro_predictors['dp'].values
