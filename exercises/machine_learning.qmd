@@ -51,8 +51,8 @@ from scipy.optimize import minimize
 macro_predictors = pd.read_parquet("data-python/macro_predictors.parquet")
 
 
-y = macro_predictors['dp'].values
-X = macro_predictors.drop(columns=['month', 'dp']).values
+y = macro_predictors['rp_div'].values
+X = macro_predictors.drop(columns=['month', 'rp_div']).values
 
 # OLS for Welsh data fails because X is not of full rank
 print(X.shape[1], np.linalg.matrix_rank(X))

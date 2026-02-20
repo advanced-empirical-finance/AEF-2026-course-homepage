@@ -41,7 +41,7 @@ returns <- index_prices |>
   drop_na(ret) |>
   mutate(ret = ret - mean(ret))
 ```
-Similar to the Chapter on beta estimation, I use the `slider` package for convenient rolling window computations. For detailed documentation, consult (this homepage.)[https://github.com/DavisVaughan/slider]. The option `.complete = TRUE' ensures that the rolling standard deviations are only computed if sufficient data is available. 
+Similar to the Chapter on beta estimation, I use the `slider` package for convenient rolling window computations. For detailed documentation, consult [this homepage](https://github.com/DavisVaughan/slider). The option `.complete = TRUE' ensures that the rolling standard deviations are only computed if sufficient data is available. 
 ```{r}
 library(slider)
 
@@ -81,7 +81,7 @@ logL_arch <- function(params, p, ret){
 
 The function `logL_arch` computes an ARCH specification's (log) likelihood with $p$ lags. The function returns the *negative* log-likelihood because most optimization procedures in `R` are designed to search for minima instead of maximization. 
 
-The following lines show how to estimate the model for the time series of demeaned APPL returns (in percent) with `optim` and `p = 2` lags. Note my (almost) arbitrary choice for the initial parameter vector. Also, note that the function `logL_arch` and the optimization procedure do not enforce the regularity conditions, which would ensure stationary volatility processes. 
+The following lines show how to estimate the model for the time series of demeaned AAPL returns (in percent) with `optim` and `p = 2` lags. Note my (almost) arbitrary choice for the initial parameter vector. Also, note that the function `logL_arch` and the optimization procedure do not enforce the regularity conditions, which would ensure stationary volatility processes. 
 
 ```{r}
 p <- 2

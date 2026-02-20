@@ -8,7 +8,7 @@ In this exercise set you familiarize yourself with the inner working of `tidymod
 
 You will apply well-known methods such as random forests and neural networks to a simple application in option pricing. More specifically, we are going to create an artificial dataset of option prices for different values based on the Black-Scholes pricing equation for call options. Then, we train different models to learn how to price call options without prior knowledge of the theoretical underpinnings of the famous option pricing equation.
 
-**Exercises: **
+**Exercises:**
 
 - Simulate prices for Call options based on a grid of different combinations of times to maturity (`T`), risk-free rates (`r`), volatilities (`sigma`), strike prices (`K`), and current stock prices (`S`). Compute the Black-Scholes option price for each combination of your grid. 
 - Add an idiosyncratic error term to each observation such that the prices considered do not exactly reflect the values implied by the Black-Scholes equation.
@@ -20,5 +20,5 @@ You will apply well-known methods such as random forests and neural networks to 
 - Fit the deep neural network with the *pre-processed* training data 
 - Evaluate the predictive performance of your competing model. Which model performed best in the test sample to predict option prices? 
 
-**Solutions: **
-All solutions are provided in the book chapter [Option pricing via machine learning (R version)](https://tidy-finance.org/r/option-pricing-via-machine-learning.html) or [Option pricing via machine learning (Python version)](https://tidy-finance.org/r/option-pricing-via-machine-learning.html)
+**Solutions:**
+All solutions are provided in the book chapter [Option pricing via machine learning (R version)](https://tidy-finance.org/r/option-pricing-via-machine-learning.html) or [Option pricing via machine learning (Python version)](https://tidy-finance.org/python/option-pricing-via-machine-learning.html)
