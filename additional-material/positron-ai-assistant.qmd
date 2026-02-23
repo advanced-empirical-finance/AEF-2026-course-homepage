@@ -1,0 +1,59 @@
+---
+title: Positron AI Assistant Guide
+---
+
+Positron offers several AI-powered features to assist you in your work, including the Positron Assistant Chat and Code Completion with GitHub Copilot. These tools are designed to help you save time, increase efficiency, and enhance your overall productivity. For a more detailed introduction to the Positron Assistant, we recommend reading the [Positron Assistant Introduction](https://positron.posit.co/assistant).
+
+
+
+## Setting up Positron Assistant
+
+xxx - briefly describe how to set up
+
+## Positron AI
+
+xxx - briefly describe context files.
+
+### Chat interface - 'Ask', 'Edit' and 'Agent' mode
+
+At the bottom of the main chat interface, you will find a button that allow you to switch between different modes of interaction with the AI assistant: 'Ask', 'Edit', and 'Agent' mode, as well as a button to choose your desired large language model provider.  \
+
+- **Ask mode**: This is the default mode where you can ask the assistant questions or request information. Think of it as having ChatGPT embedded directly in the side panel. The assistant will provide responses based on your queries, which can be related to coding, documentation, or general knowledge. \
+- **Edit mode**: In this mode, you can provide the assistant with a piece of code or text and ask it to edit or improve it. For example, you can ask the assistant to optimize a function, rewrite a paragraph for clarity, or suggest improvements to your code. \
+- **Agent mode**: This mode allows you to set up a more complex interaction with the assistant, including multi-step tasks and workflow planning across the entire project.
+
+We will primarily be working with the **ask** and **edit** modes in this course, as they are the most commonly used for coding assistance and documentation generation.
+
+xxx - screenshot here
+
+
+### Code Completion with GitHub Copilot
+
+Given that you've chosen to use GitHub Copilot as the large language model provider, you may take advantage of the **code completion** feature. This allows you to receive so called *'ghost text'* suggestions as you write, which are greyed-out text that appears as you type, suggesting completions for your code or text.
+
+Note that for the standard free setup (Copilot Free plan through Github), there is a usage limit which you may find on GitHub.com under [Copilot settings](https://github.com/settings/copilot/features)
+
+![Github Copilot usage](figures/github-copilot-usage.png)
+
+The suggestions will appear naturally as you write. You can accept the suggestions by pressing `Tab` or `Ctrl + Right Arrow` on Windows/Linux, or `Option + Right Arrow` on Mac. You can also cycle through different suggestions by pressing `Ctrl + Space` (or `Cmd + Space` on Mac) after the initial suggestion appears.
+
+![Code suggestions will automatically pop up](figures/code-completion-1.png)
+
+It is also possible to give *code suggestions* by writing `// ` followed by a text prompt, which will trigger the assistant to generate a suggestion based on the prompt. This is particularly useful for generating code, if you're e.g. unsure about the syntax for a specific function or package.
+
+![If you're a Python user who's used to matplotlib, the assistant can e.g. guide you to using the plotnine package](figures/code-completion-2.png)
+
+
+
+### Inline chat
+
+In addition to the main chat interface, Positron also offers an *inline chat* feature. This allows you to use the AI assistant directly within your code or text editor, without needing to switch to a separate chat window. You can access the inline chat by `Ctrl + i` (or `Cmd + i` on Mac) while your cursor is in the editor. This will open a small chat interface where you can ask questions or request assistance related to the code or text you're working on, which is ideal for assistance with very specific lines of code, e.g. *"Write documentation for this function"*, *"Explain this line of code"*, *"Rewrite this as a function instead"*, etc.
+
+![Pressing `Ctrl + i` opens up the inline chat function](figures/inline-chat.png)
+
+After providing the inline chat with a prompt, the assistant will generate a response and insert it directly into your code or text editor at the location of your cursor. You can then accept the suggestion, modify it, or ask for a different response if needed.  
+
+![You will get the opportunity to accept the suggestion](figures/inline-chat-2.png)
+
+
+

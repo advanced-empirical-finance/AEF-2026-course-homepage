@@ -10,6 +10,8 @@ website:
     right:
       - text: home
         file: index.qmd
+      - text: more ressources 
+        file: additional-material/index.qmd
       - text: lecture plan 
         file: slides-index.qmd
       - text: exercises
@@ -39,6 +41,13 @@ website:
            contents:
              - exercises/covariance_estimation.qmd
              - exercises/portfolio_choice.qmd
+     - title: more ressources
+       style: docked
+       contents:
+         - additional-material/index.qmd
+         - section: Positron
+           contents:
+             - additional-material/positron-ai-assistant.qmd
 
 format:
   html:
