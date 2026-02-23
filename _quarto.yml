@@ -48,6 +48,7 @@ website:
          - section: Positron
            contents:
              - additional-material/positron-ai-assistant.qmd
+             - additional-material/quarto-documentation.qmd
 
 format:
   html:
@@ -58,4 +59,3 @@ format:
 
 eval: 
   false
-

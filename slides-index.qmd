@@ -7,7 +7,7 @@
 | 8 | Mon Feb 16 | Optimal portfolio choice | Chapter 3 in [R for Data Science](https://r4ds.hadley.nz/data-transform) (data transformation), Sections 2.1 and 3.1 of [Portfolio Choice Problems](https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0)  | [1](exercises/introduction.qmd#introduction-to-tidy-finance)  |
 |  | Thu Feb 19 | Optimal portfolio choice | Introduction and Section 1 of [Risk Reduction in Large Portfolios](https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580) | [2](exercises/introduction.qmd#scaling-up-the-analysis) |
 | 9 | Thu Feb 26 | Multifactor models | Chapters 7 and 8 of [Empirical Asset Pricing: The Cross-Section of Stock Returns](https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041) | [3](exercises/financial_data.qmd), [4](exercises/beta_estimation.qmd) |
-| | Fri Feb 27  | **MA 1 released** | | |
+| | Fri Feb 27  | **MA 1 released** | | [Quarto](additional-material/quarto-documentation.qmd) |
 | 10 | Mon Mar 2 | Reproducibility crisis | FT article: "The hidden 'replication crisis' of finance" | [5](exercises/portfolio_sorts.qmd) |
 |  | Thu Mar 5 | Reproducibility crisis | |  |
 | | Sat Mar 7  | **MA 1 deadline** | | |
@@ -17,7 +17,8 @@
 | 13 | Thu Mar 26 | ML in Finance | | [8](exercises/machine_learning_nonlinear.qmd) |
 | |  | **Easter break (W14)** | | |
 | | Fri Apr 3 | **MA 2 released** | | |
-| 15 | Thu Apr 9 | Volatility estimation | | [9](exercises/covariance_estimation.qmd)  |
+| 15 | Tue Apr 7 | Volatility estimation | | [9](exercises/covariance_estimation.qmd)  |
+|  | Thu Apr 9 | Volatility estimation | |  |
 | | Sat Apr 11 | **MA 2 deadline (10am)** | | |
 | 16 | Mon Apr 13 | Volatility estimation | |  |
 | 17 | Thu Apr 23 | Portfolio optimization | | [10](exercises/portfolio_choice.qmd) |
@@ -27,6 +28,7 @@
 | 19 | Thu May 7 | Guest lecture: Cilie Feldager Chief GenAI Model Evaluation Expert (Danske Bank) | | |
 | | Sat May 9 | **MA 3 deadline (10am)** | | |
 | 20 | Mon May 11 | High-frequency econometrics | | |
-| 21 | Thu May 21 | Q&A | | |
+| 21 | Tue May 19 | High-frequency econometrics | | |
+|  | Thu May 21 | Q&A | | |
 
 : {.primary .hover}
