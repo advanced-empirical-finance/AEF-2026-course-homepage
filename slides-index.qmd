@@ -17,7 +17,8 @@
 | 13 | Thu Mar 26 | ML in Finance | | [8](exercises/machine_learning_nonlinear.qmd) |
 | |  | **Easter break (W14)** | | |
 | | Fri Apr 3 | **MA 2 released** | | |
-| 15 | Thu Apr 9 | Volatility estimation | | [9](exercises/covariance_estimation.qmd)  |
+| 15 | Tue Apr 7 | Volatility estimation | | [9](exercises/covariance_estimation.qmd)  |
+|  | Thu Apr 9 | Volatility estimation | |  |
 | | Sat Apr 11 | **MA 2 deadline (10am)** | | |
 | 16 | Mon Apr 13 | Volatility estimation | |  |
 | 17 | Thu Apr 23 | Portfolio optimization | | [10](exercises/portfolio_choice.qmd) |
@@ -27,6 +28,7 @@
 | 19 | Thu May 7 | Guest lecture: Cilie Feldager Chief GenAI Model Evaluation Expert (Danske Bank) | | |
 | | Sat May 9 | **MA 3 deadline (10am)** | | |
 | 20 | Mon May 11 | High-frequency econometrics | | |
-| 21 | Thu May 21 | Q&A | | |
+| 21 | Tue May 19 | High-frequency econometrics | | |
+|  | Thu May 21 | Q&A | | |
 
 : {.primary .hover}
