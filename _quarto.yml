@@ -48,7 +48,7 @@ website:
          - section: Positron
            contents:
              - additional-material/quarto-documentation.qmd
-
+             - additional-material/ml-data-preparation-for-python.qmd
 format:
   html:
     theme:
