@@ -115,7 +115,7 @@ def rank_transform(x):
 
     if max_rank == 0:  # only NAs
         return pd.Series(np.nan, index=x.index)
-    elif max_rank == 0:  # exactly one non-NA
+    elif max_rank == 1:  # exactly one non-NA
         return pd.Series(np.nan, index=x.index)
     else:
         scaled = 2 * ((rank_x - min_rank) / (max_rank - min_rank) - 0.5)
@@ -246,7 +246,6 @@ y = characteristics["ret_excess"]
 X = characteristics.drop(columns=id_cols + ["ret_excess"])
 
 char_cols = [c for c in X.columns if "characteristic" in c]
-
 macro_cols = [c for c in X.columns if "macro" in c]
 
 for c in char_cols:
@@ -254,6 +253,7 @@ for c in char_cols:
         X[f"{c}_x_{m}"] = X[c] * X[m]
 
 X = pd.get_dummies(X, columns=["sic2"], prefix="sic2")
+
 ```
 
 Next, I create the full dataset containing 3,046,332 monthly observations and 920 covariates.
@@ -266,6 +266,7 @@ Next, I create the full dataset containing 3,046,332 monthly observations and 92
 characteristics_prepared = pd.concat([characteristics[id_cols], y, X], axis=1).assign(
     year=lambda df: df["month"].dt.year
 )
+
 ```
 
 I store the prepared file for your convenience. Furthermore, the authors never use the entire dataset for training, instead, only a fraction needs to be available in memory at any given point in time.
@@ -295,6 +296,12 @@ I visualize my understanding of this data-budget below.
 validation_length = 12
 all_years = np.arange(1967, 2022)
 oos_years = np.arange(1987, 2022)
+
+estimation_periods = pd.DataFrame(
+    {
+        "oos_year": oos_years,
+    }
+)
 
 estimation_periods = estimation_periods.assign(
     validation_end=lambda df: df["oos_year"] - 1,
@@ -395,8 +402,6 @@ id_cols_new = ["permno", "month", "mktcap_lag", "year"]
 
 X = characteristics_prepared.drop(columns=id_cols_new + ["ret_excess"])
 y = characteristics_prepared["ret_excess"]
-
-ml_workflow = Pipeline(steps=[("rf", rf_model)])
 ```
 
 
@@ -411,21 +416,19 @@ The following performs the model estimation to create predictions for all the ye
 j = 0
 
 split_dates = estimation_periods.iloc[j]
+oos_year = int(split_dates["oos_year"])
+pred_file = Path(f"results/predictions_{oos_year}.parquet")
 
 id_cols = ["permno", "month", "mktcap_lag", "year"]
 
-X_train, y_train = (characteristics_prepared
-    [characteristics_prepared["month"].dt.year < split_dates["training_end"]]
-    .pipe(lambda df: (df.drop(columns=id_cols + ["ret_excess"]), df["ret_excess"]))
-)
+X_train, y_train = characteristics_prepared[
+    characteristics_prepared["month"].dt.year < split_dates["training_end"]
+].pipe(lambda df: (df.drop(columns=id_cols + ["ret_excess"]), df["ret_excess"]))
 
-X_val, y_val = (
-    characteristics_prepared[
-        (characteristics_prepared["month"].dt.year >= split_dates["validation_start"]) &
-        (characteristics_prepared["month"].dt.year <= split_dates["validation_end"])
-    ]
-    .pipe(lambda df: (df.drop(columns=id_cols + ["ret_excess"]), df["ret_excess"]))
-)
+X_val, y_val = characteristics_prepared[
+    (characteristics_prepared["month"].dt.year >= split_dates["validation_start"])
+    & (characteristics_prepared["month"].dt.year <= split_dates["validation_end"])
+].pipe(lambda df: (df.drop(columns=id_cols + ["ret_excess"]), df["ret_excess"]))
 
 X_combined = pd.concat([X_train, X_val], axis=0)
 y_combined = pd.concat([y_train, y_val], axis=0)
@@ -475,7 +478,20 @@ rf_final.fit(X_combined, y_combined)
 
 joblib.dump(rf_final, f"results/fitted_workflow_{int(split_dates['oos_year'])}.joblib")
 
+out_of_sample = characteristics_prepared[
+    characteristics_prepared["month"].dt.year == oos_year
+].copy()
+
+X_oos = out_of_sample.drop(columns=id_cols + ["ret_excess"])
+
+out_of_sample[".pred"] = rf_final.predict(X_oos)
+
+out_of_sample.to_parquet(pred_file)
+
+print(f"Finished {oos_year}")
 ``` 
+
+
 
 ## Other ML models
 
@@ -640,4 +656,10 @@ summary = final_portfolios.groupby("portfolio").agg(
 summary["sharpe_ratio"] = summary["realized_mean"] / summary["realized_sd"]
 
 print(summary)
+
+summary_reset = summary.reset_index()
+summary_reset["portfolio"] = summary_reset["portfolio"].astype(
+    str
+)  
+summary_reset.to_parquet("results/portfolio_summary.parquet", index=False)
 ```
