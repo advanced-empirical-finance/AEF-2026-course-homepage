@@ -10,7 +10,7 @@ This blog post is an attempt to replicate the core elements of the paper *Empiri
 To render this blog post, I used a virtual machine with 32 CPU cores and 192 GB of memory. Given the dataset I work with is huge, the later may play a major role for replication on your own machine. However, the data-intensive tasks can be split into many smaller tasks, so with minor adjustments everybody should be able to replicate everything I do. I provide some reflections on reducing the computational burden at the end of the blog post. 
 :::
 
-The code relies on the following Python libraries. Note that the libraries sklearn and tensorflow are only needed if you want to implement the random forests, elastic net, or neural networks, respectively.
+The code relies on the following Python packages. Note that the packages sklearn and tensorflow are only needed if you want to implement the random forests, elastic net, or neural networks, respectively.
 
 ```{python}
 # | label: load-packages
@@ -38,7 +38,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 > we build a large collection of stock-level predictive characteristics based on the cross-section of stock returns literature. These include 94 characteristics (61 of which are updated annually, 13 are updated quarterly, and 20 are updated monthly). In addition, we include 74 industry dummies corresponding to the first two digits of Standard Industrial Classification (SIC) codes. 
 
 
-The authors provide the dataset with stock-level characteristics online. While the original sample from the published version ended in December 2016, the author furnished the stock-level characteristics dataset until 2021. I download this (large) dataset directly from within R from the Dacheng Xiu’s homepage. The data is stored as a .csv file within a zipped folder. For such purposes, the archive package is useful. I set timeout = 1200, which allows the Python session to download the dataset for 20 minutes. To avoid multiple downloads, I first check if the .csv file is already stored in the data-folder. If not, the download will be initiated and the .csv will be saved in the data-folder.
+The authors provide the dataset with stock-level characteristics online. While the original sample from the published version ended in December 2016, the author furnished the stock-level characteristics dataset until 2021. I download this (large) dataset directly from within Python from the Dacheng Xiu’s homepage. The data is stored as a .csv file within a zipped folder. For such purposes, the archive package is useful. I set timeout = 1200, which allows the Python session to download the dataset for 20 minutes. To avoid multiple downloads, I first check if the .csv file is already stored in the data-folder. If not, the download will be initiated and the .csv will be saved in the data-folder.
 
 ```{python}
 # | label: read data
@@ -370,7 +370,9 @@ from sklearn.linear_model import ElasticNet
 
 In the following I rely on the well-documented `tidymodels` workflow (e.g. [Factor Selection with Machine Learning](https://www.tidy-finance.org/r/factor-selection-via-machine-learning.html#the-tidymodels-workflow)) to estimate the random forest model. 
 
-For the random forest, Table A5 in the Online Appendix states that the number of grown trees is fixed to 300. The number of features in each split is set to $\in \{3, 5, 10, 20, 30, 50, ...\}$. It is not clear to me what $...$ means in that context, for that reason I fix the number of choices to six. Finally, in the paper *depth* is chosen as a hyperparameter, ranging from one (pruned tree) to six (more complex tree). `ranger` does not support *depth* as a hyperparameter but rather allows to dynamically stop growing further branches once a minimum number of observations in a group is reached. The effect is similar (if `min_n` is small, the tree can grow deep, otherwise we expect pruned trees), but cannot be translated directly into `depth`. I set the option `num.threads` to allow parallelization for the construction of the trees according to the [documentation](https://parsnip.tidymodels.org/reference/details_rand_forest_ranger.html#other-notes) of the `ranger` engine in `tidymodels`.
+For the random forest, Table A5 in the Online Appendix states that the number of grown trees is fixed to 300. The number of features in each split is set to $\in \{3, 5, 10, 20, 30, 50, ...\}$. It is not clear to me what $...$ means in that context, for that reason I fix the number of choices to six. Tree depth is controlled indirectly via the minimum number of samples per leaf `min_samples_leaf`, with values `[5000, 10000]` considered in the grid. This setting roughly correpsonds to pruning: a small `min_samples_leaf` allows deeper trees, while a larger value produces more pruned trees. I set the option `n_jobs=1`to use all available CPU cores.  
+
+The workflow is implemented using a sklearn Pipeline, with the random forest as the main estimator:
 
 ```{python}
 # | label: rf
@@ -435,7 +437,7 @@ test_fold = np.concatenate([np.full(len(X_train), -1), np.zeros(len(X_val))])
 ps = PredefinedSplit(test_fold)
 ```
 
-I tune the model and - after selecting the optimal tuning parameter value based on the prediction error in the validation set - fit the penalized regression using the available data (training and validation test set). The process can be faster by distribution the parameter tuning across multiple workers. `tidymodels` takes care of this as long as the user specifies a plan. I set the option `parallel_over = "resamples"` so that the formula is processed only once and then reused across all models that need to be fit. parallelization across the hyperparameter grid in `tidymodels` is done by initiating a `plan()` according to the [documentation](https://tune.tidymodels.org/articles/extras/optimizations.html).
+I tune the model and - after selecting the optimal tuning parameter value based on the prediction error in the validation set - fit the penalized regression using the available data (training and validation test set). The process can be faster by distribution the parameter tuning across multiple workers. This is done by setting `n_jobs=-1`. In `sklearn`, `GridSearchCV` handles both the evaluation of multiple hyperparameter combinations and cros-validation in parralel. 
 
 ```{python}
 # | label: hyperparameter grid
@@ -461,7 +463,7 @@ If more computation time is available, it is likely advisable to expand the numb
 ml_fit_best = grid_search.best_params_
 ```
 
-Trained workflows contain a lot of information which may be redundant for the task at hand: generating predictions. The `butcher` package provides tooling to “axe” parts of the fitted output that are no longer needed, without sacrificing prediction functionality from the original model object. To provide an intermediary anchor (also to ensure reprocudibility), I follow this [example](https://github.com/juliasilge/modelops-playground/blob/main/train-model/train.md#save-model) to store the trained model. Julia Silge provided some reflections on best practices [here](https://forum.posit.co/t/saving-a-model-fit-with-tidymodels/114839/2) which I tried to incorporate. 
+Trained models contain a lot of information which may be redundant for the task at hand: generating predictions. The final model can be saved efficiently for reproductibility and later use using `joblib`. To provide an intermediary anchor (also to ensure reprocudibility), I follow this [example](https://github.com/juliasilge/modelops-playground/blob/main/train-model/train.md#save-model) to store the trained model. Julia Silge provided some reflections on best practices [here](https://forum.posit.co/t/saving-a-model-fit-with-tidymodels/114839/2) which I tried to incorporate. 
 
 ```{python}
 # | label: fitted workflow
@@ -483,7 +485,7 @@ While this blog post only shows how to implement the prediction procedure based 
 
 > For OLS, ENet, GLM, and GBRT, we present their robust versions using Huber loss, which perform better than the version without. (p. 2250)
 
-For the sake of simplicity, I only show how to fit linear models using $l2$ loss functions. In R, the package `hqreg` implements algorithms for fitting regularization paths for Lasso or elastic net penalized regression models with Huber loss. However, `hqreg` is not a running engine for `pairsnip` (yet). 
+For the sake of simplicity, I only show how to fit linear models using $l2$ loss functions. In R, the package hqreg implements regularization paths for Lasso or elastic net models with Huber loss, but Python’s sklearn does not directly support Huber-penalized regularization paths.
 
 For instance, to fit the elastic net it seems necessary to evaluate the mean-squared prediction error in the validation sample for *only* two values of the penalty term. Instead of tuning the elastic net mixture coefficient, I follow the paper and show how to fix its value to $0.5$. 
 
@@ -502,13 +504,12 @@ penalty_grid = {"alpha": [1e-4, 1e-1]}
 
 For the neural network, the paper specifies the manifold architecture choices
 
-> Our shallowest neural network has a single hidden layer of 32 neurons, which we denoted NN1. Next,
-NN2 has two hidden layers with 32 and 16 neurons, respectively; NN3 has three hidden layers with 32, 16, and 8 neurons, respectively; NN4 has four hidden layers with 32, 16, 8, and 4 neurons, respectively; and NN5 has five hidden layers with 32, 16, 8, 4, and 2 neurons, respectively. (p. 2244)
+> Our shallowest neural network has a single hidden layer of 32 neurons, which we denoted NN1. Next, NN2 has two hidden layers with 32 and 16 neurons, respectively; NN3 has three hidden layers with 32, 16, and 8 neurons, respectively; NN4 has four hidden layers with 32, 16, 8, and 4 neurons, respectively; and NN5 has five hidden layers with 32, 16, 8, 4, and 2 neurons, respectively. (p. 2244)
 
 > We use the same activation function at all nodes, and choose a popular functional form in recent literature known as the
 rectified linear unit (ReLU) (p. 2244)
 
-In the following I show the exemplary implementation of the neural network with two hidden layers using the package `brulee`. Most information is taken from Table A5 in the online appendix. The table mentions a parameter `patience = 5` which I understand as a command on how many iterations with no improvement before stopping the optimization process.
+In the following I show the exemplary implementation of the neural network with two hidden layers using `keras`. Most information is taken from Table A5 in the online appendix. The table mentions a parameter `patience = 5` which I understand as a command on how many iterations with no improvement before stopping the optimization process.
 
 ```{python}
 # | label: nn
@@ -585,7 +586,7 @@ oos_predictions = pd.concat(
 ).reset_index(drop=True)
 ```
 
-To assign portfolios using the predictions, I use the assign_portfolio() from the tidyfinance package.
+To assign portfolios using the predictions, I implement a procedure similar to the assign_portfolio() from the tidyfinance package in `R`. I use `pandas.qcut`to divide the predicted reutns into deciles (portfolios 1-10).
 
 ```{python}
 # | label: assign portfolios
