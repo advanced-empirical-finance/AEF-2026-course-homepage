@@ -68,8 +68,7 @@ characteristics = pd.read_csv(datashare_path)
 # | include: true
 # | echo: true
 characteristics = (
-    characteristics
-    .assign(
+    characteristics.assign(
         DATE=lambda df: (
             pd.to_datetime(
                 df["DATE"],
@@ -255,7 +254,6 @@ for c in char_cols:
         X[f"{c}_x_{m}"] = X[c] * X[m]
 
 X = pd.get_dummies(X, columns=["sic2"], prefix="sic2")
-
 ```
 
 Next, I create the full dataset containing 3,046,332 monthly observations and 920 covariates.
@@ -585,8 +583,11 @@ oos_predictions = pd.concat(
     [create_predictions(y) for y in estimation_periods["oos_year"]], axis=0
 ).reset_index(drop=True)
 ```
+::: {.callout-warning}
 
-To assign portfolios using the predictions, I implement a procedure similar to the assign_portfolio() from the tidyfinance package in `R`. I use `pandas.qcut`to divide the predicted reutns into deciles (portfolios 1-10).
+Note that I am calling the fitted model from the first out-of-sample year (1987) in each iteration. In other words, the model parameters do not get updated every year as in the original paper. *If* you estimated the model for each value of $j$ as described above, you can replace the line above to replicate the original procedure. 
+:::
+To assign portfolios using the predictions, I implement a procedure similar to the `assign_portfolio()` from the tidyfinance package in `R`. I use `pandas.qcut`to divide the predicted reutns into deciles (portfolios 1-10).
 
 ```{python}
 # | label: assign portfolios
