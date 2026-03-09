@@ -49,6 +49,7 @@ website:
            contents:
              - additional-material/positron-ai-assistant.qmd
              - additional-material/quarto-documentation.qmd
+             - additional-material/ml-data-preparation-for-python.qmd
              - additional-material/assignment-quality-criteria.qmd
 
 format:
