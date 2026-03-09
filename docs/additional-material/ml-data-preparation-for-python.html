@@ -185,7 +185,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/quarto-documentation.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/ml-data-preparation-for-python.html">Replicating Gu Kelly &amp; Xiu (2020)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/positron-ai-assistant.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/ml-data-preparation-for-python.html">Replicating Gu Kelly &amp; Xiu (2020)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -218,6 +218,12 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../additional-material/positron-ai-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Positron AI Assistant Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../additional-material/quarto-documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reproducible Research with Quarto</span></a>
   </div>
@@ -226,6 +232,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../additional-material/ml-data-preparation-for-python.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Replicating Gu Kelly &amp; Xiu (2020)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/assignment-quality-criteria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment Quality Criteria</span></a>
   </div>
 </li>
       </ul>
@@ -258,7 +270,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/quarto-documentation.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/ml-data-preparation-for-python.html">Replicating Gu Kelly &amp; Xiu (2020)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/positron-ai-assistant.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/ml-data-preparation-for-python.html">Replicating Gu Kelly &amp; Xiu (2020)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Replicating Gu Kelly &amp; Xiu (2020)</h1>
 </div>
@@ -291,7 +303,7 @@ Warning
 <p>To render this blog post, I used a virtual machine with 32 CPU cores and 192 GB of memory. Given the dataset I work with is huge, the later may play a major role for replication on your own machine. However, the data-intensive tasks can be split into many smaller tasks, so with minor adjustments everybody should be able to replicate everything I do. I provide some reflections on reducing the computational burden at the end of the blog post.</p>
 </div>
 </div>
-<p>The code relies on the following Python libraries. Note that the library tensorflow is only needed if you want to implement the random forests, elastic net, or neural networks, respectively.</p>
+<p>The code relies on the following Python packages. Note that the packages sklearn and tensorflow are only needed if you want to implement the random forests, elastic net, or neural networks, respectively.</p>
 <div id="load-packages" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -302,11 +314,9 @@ Warning
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># import tensorflow as tf</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># from tensorflow import keras</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># from tensorflow.keras import layers, regularizers</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># from sklearn.model_selection import ParameterGrid</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install tensorflow</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">RuntimeWarning</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="data-preparation" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation">Data preparation</h2>
@@ -315,66 +325,53 @@ Warning
 <blockquote class="blockquote">
 <p>we build a large collection of stock-level predictive characteristics based on the cross-section of stock returns literature. These include 94 characteristics (61 of which are updated annually, 13 are updated quarterly, and 20 are updated monthly). In addition, we include 74 industry dummies corresponding to the first two digits of Standard Industrial Classification (SIC) codes.</p>
 </blockquote>
-<p>The authors provide the dataset with stock-level characteristics online. While the original sample from the published version ended in December 2016, the author furnished the stock-level characteristics dataset until 2021. I download this (large) dataset directly from within R from the Dacheng Xiu’s homepage. The data is stored as a .csv file within a zipped folder. For such purposes, the archive package is useful. I set TIMEOUT = 1200, which allows the Python session to download the dataset for 20 minutes.</p>
-<div id="c432900c" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># First part (timeout equivalent)</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>TIMEOUT <span class="op">=</span> <span class="dv">1200</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define local paths</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>crsp_path <span class="op">=</span> Path(<span class="st">"data/crsp_monthly.parquet"</span>)</span>
+<p>The authors provide the dataset with stock-level characteristics online. While the original sample from the published version ended in December 2016, the author furnished the stock-level characteristics dataset until 2021. I download this (large) dataset directly from within Python from the Dacheng Xiu’s homepage. The data is stored as a .csv file within a zipped folder. For such purposes, the archive package is useful. I set timeout = 1200, which allows the Python session to download the dataset for 20 minutes. To avoid multiple downloads, I first check if the .csv file is already stored in the data-folder. If not, the download will be initiated and the .csv will be saved in the data-folder.</p>
+<div id="read-data" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>timeout <span class="op">=</span> <span class="dv">1200</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://dachxiu.chicagobooth.edu/download/datashare.zip"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>datashare_path <span class="op">=</span> Path(<span class="st">"data/datashare.csv"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>datashare_path.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> datashare_path.exists():</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url, timeout<span class="op">=</span>timeout)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    response.raise_for_status()</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>datashare_path <span class="op">=</span> Path(<span class="st">"data/datashare.csv"</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data directory if it doesn't exist</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>datashare_path.parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Load local file if it exists, otherwise download</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> datashare_path.exists():</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    characteristics <span class="op">=</span> pd.read_csv(datashare_path)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="st">"https://dachxiu.chicagobooth.edu/download/datashare.zip"</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(url, timeout<span class="op">=</span>TIMEOUT)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    response.raise_for_status()</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(BytesIO(response.content)) <span class="im">as</span> z:</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> z.<span class="bu">open</span>(<span class="st">"datashare.csv"</span>) <span class="im">as</span> f:</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            characteristics <span class="op">=</span> pd.read_csv(f)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save local copy</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    characteristics.to_csv(datashare_path, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Data transformations</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> pd.read_csv(datashare_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> zipfile.ZipFile(BytesIO(response.content)) <span class="im">as</span> z:</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        characteristics <span class="op">=</span> pd.read_csv(z.<span class="bu">open</span>(<span class="st">"datashare.csv"</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    characteristics.to_csv(datashare_path, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> pd.read_csv(datashare_path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="transform" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> characteristics.rename(columns<span class="op">=</span>{<span class="st">"DATE"</span>: <span class="st">"month"</span>})</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>characteristics[<span class="st">"month"</span>] <span class="op">=</span> pd.to_datetime(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    characteristics[<span class="st">"month"</span>].astype(<span class="bu">str</span>), <span class="bu">format</span><span class="op">=</span><span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>, errors<span class="op">=</span><span class="st">"raise"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>characteristics[<span class="st">"month"</span>] <span class="op">=</span> characteristics[<span class="st">"month"</span>].dt.to_period(<span class="st">"M"</span>).dt.to_timestamp()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>cols_remain <span class="op">=</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"sic2"</span>]</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> characteristics.rename(</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        col: <span class="ss">f"characteristic_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> cols_remain</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> characteristics.dropna(subset<span class="op">=</span>[<span class="st">"sic2"</span>])</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>characteristics[<span class="st">"sic2"</span>] <span class="op">=</span> characteristics[<span class="st">"sic2"</span>].astype(<span class="st">"category"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="transform-data" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    characteristics.assign(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        DATE<span class="op">=</span><span class="kw">lambda</span> df: (</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            pd.to_datetime(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                df[<span class="st">"DATE"</span>],</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="bu">format</span><span class="op">=</span><span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                errors<span class="op">=</span><span class="st">"raise"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            .dt.to_period(<span class="st">"M"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            .dt.to_timestamp()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">"DATE"</span>: <span class="st">"month"</span>})</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    .pipe(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">lambda</span> df: df.rename(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            columns<span class="op">=</span>{</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                col: <span class="ss">f"characteristic_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> col <span class="kw">in</span> df.columns</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"sic2"</span>]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> characteristics.dropna(subset<span class="op">=</span>[<span class="st">"sic2"</span>]).assign(</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    sic2<span class="op">=</span><span class="kw">lambda</span> df: df[<span class="st">"sic2"</span>].astype(<span class="st">"category"</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The characteristics appear in raw format. As many machine-learning applications are sensitive to the scaling of the data, one typically employs some form of standardization.</p>
 <blockquote class="blockquote">
@@ -383,29 +380,26 @@ Warning
 <p>The idea is that at each date, the cross-section of each predictor should be scaled such that the maximum value is 1 and the minimum value is -1. The cross-sectional ranking is time-consuming. The function below explicitly handles NA values, so they do not tamper with the ranking.</p>
 <div id="scaling" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rank_transform(x):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(x, pd.Series):</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> pd.Series(x)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    orig_index <span class="op">=</span> x.index</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    rank_x <span class="op">=</span> x.rank(method<span class="op">=</span><span class="st">"average"</span>, na_option<span class="op">=</span><span class="st">"keep"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    min_rank <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    max_rank <span class="op">=</span> x.notna().<span class="bu">sum</span>()  <span class="co"># equivalent to length(na.omit(x))</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> max_rank <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.Series(np.nan, index<span class="op">=</span>orig_index)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    denominator <span class="op">=</span> max_rank <span class="op">-</span> min_rank</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    scaled <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> ((rank_x <span class="op">-</span> min_rank) <span class="op">/</span> denominator <span class="op">-</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> pd.Series(x)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    rank_x <span class="op">=</span> x.rank(method<span class="op">=</span><span class="st">"average"</span>, na_option<span class="op">=</span><span class="st">"keep"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    min_rank <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    max_rank <span class="op">=</span> <span class="bu">float</span>(x.notna().<span class="bu">sum</span>())</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> max_rank <span class="op">==</span> <span class="dv">0</span>:  <span class="co"># only NAs</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.Series(np.nan, index<span class="op">=</span>x.index)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> max_rank <span class="op">==</span> <span class="dv">1</span>:  <span class="co"># exactly one non-NA</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.Series(np.nan, index<span class="op">=</span>x.index)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        scaled <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> ((rank_x <span class="op">-</span> min_rank) <span class="op">/</span> (max_rank <span class="op">-</span> min_rank) <span class="op">-</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> scaled</span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> denominator <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        scaled <span class="op">=</span> pd.Series(np.nan, index<span class="op">=</span>orig_index)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>char_cols <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">"characteristic"</span> <span class="kw">in</span> col]</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scaled</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>char_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">"characteristic"</span> <span class="kw">in</span> c]</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>characteristics[char_cols] <span class="op">=</span> characteristics.groupby(<span class="st">"month"</span>)[char_cols].transform(</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    rank_transform</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>characteristics[char_cols] <span class="op">=</span> characteristics.groupby(<span class="st">"month"</span>)[char_cols].transform(</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    rank_transform</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -448,52 +442,58 @@ Warning
 <p>In this dataset, we’ve already adjusted the lags. (e.g.&nbsp;When DATE=19570329 in our dataset, you can use the monthly RET at 195703 as the response variable.) (readme.txt from the available dataset on Dacheng Xiu’s homepage).</p>
 </blockquote>
 <p>To remain consistent, we only lag the macropredictors by one month.</p>
-<div id="crsp-and-macro-predictors" class="cell" data-execution_count="6">
+<div id="crsp-and-macro" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>crsp_monthly <span class="op">=</span> pd.read_parquet(<span class="st">"data/crsp_monthly.parquet"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>crsp_monthly[<span class="st">"date"</span>] <span class="op">=</span> pd.to_datetime(crsp_monthly[<span class="st">"date"</span>], errors<span class="op">=</span><span class="st">"raise"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>crsp_monthly[<span class="st">"month"</span>] <span class="op">=</span> crsp_monthly[<span class="st">"date"</span>].dt.to_period(<span class="st">"M"</span>).dt.to_timestamp()</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>crsp_monthly <span class="op">=</span> crsp_monthly[[<span class="st">"month"</span>, <span class="st">"permno"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"ret"</span>]].rename(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{<span class="st">"ret"</span>: <span class="st">"ret_excess"</span>}</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> pd.read_parquet(<span class="st">"data/macro_predictors.parquet"</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>macro_predictors[<span class="st">"date"</span>] <span class="op">=</span> pd.to_datetime(macro_predictors[<span class="st">"date"</span>], errors<span class="op">=</span><span class="st">"raise"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>macro_predictors[<span class="st">"month"</span>] <span class="op">=</span> macro_predictors[<span class="st">"date"</span>].dt.to_period(<span class="st">"M"</span>).dt.to_timestamp()</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> macro_predictors[</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"month"</span>, <span class="st">"dp"</span>, <span class="st">"ep"</span>, <span class="st">"bm"</span>, <span class="st">"ntis"</span>, <span class="st">"tbl"</span>, <span class="st">"tms"</span>, <span class="st">"dfy"</span>, <span class="st">"svar"</span>]</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>].rename(columns<span class="op">=</span>{<span class="st">"ret_excess"</span>: <span class="st">"ret"</span>})</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> macro_predictors.rename(</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>{col: <span class="ss">f"macro_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> col <span class="kw">in</span> macro_predictors.columns <span class="cf">if</span> col <span class="op">!=</span> <span class="st">"month"</span>}</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> macro_predictors.sort_values(<span class="st">"month"</span>).assign(</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>{</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        col: macro_predictors[col].shift(<span class="dv">1</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col <span class="kw">in</span> macro_predictors.columns</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> col <span class="op">!=</span> <span class="st">"month"</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    characteristics.merge(crsp_monthly, on<span class="op">=</span>[<span class="st">"month"</span>, <span class="st">"permno"</span>], how<span class="op">=</span><span class="st">"inner"</span>)</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    .merge(macro_predictors, on<span class="op">=</span><span class="st">"month"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    .sort_values([<span class="st">"month"</span>, <span class="st">"permno"</span>])</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>characteristics[<span class="st">"macro_intercept"</span>] <span class="op">=</span> <span class="dv">1</span>  </span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> characteristics[</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"ret_excess"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"sic2"</span>]</span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">"macro"</span> <span class="kw">in</span> col]</span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">"characteristic"</span> <span class="kw">in</span> col]</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> pd.read_parquet(<span class="st">"data/macro_predictors.parquet"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>crsp_monthly <span class="op">=</span> (</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    crsp_monthly.assign(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        month<span class="op">=</span><span class="kw">lambda</span> df: (</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            pd.to_datetime(df[<span class="st">"date"</span>], errors<span class="op">=</span><span class="st">"raise"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>            .dt.to_period(<span class="st">"M"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            .dt.to_timestamp()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    .loc[:, [<span class="st">"month"</span>, <span class="st">"permno"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"ret"</span>]]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">"ret"</span>: <span class="st">"ret_excess"</span>})</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> (</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    macro_predictors.assign(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        month<span class="op">=</span><span class="kw">lambda</span> df: (</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>            pd.to_datetime(df[<span class="st">"date"</span>], errors<span class="op">=</span><span class="st">"raise"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>            .dt.to_period(<span class="st">"M"</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>            .dt.to_timestamp()</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    .loc[:, [<span class="st">"month"</span>, <span class="st">"dp"</span>, <span class="st">"ep"</span>, <span class="st">"bm"</span>, <span class="st">"ntis"</span>, <span class="st">"tbl"</span>, <span class="st">"tms"</span>, <span class="st">"dfy"</span>, <span class="st">"svar"</span>]]</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    .rename(</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        columns<span class="op">=</span>{</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>            col: <span class="ss">f"macro_</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> col <span class="kw">in</span> macro_predictors.columns <span class="cf">if</span> col <span class="op">!=</span> <span class="st">"month"</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> macro_predictors.sort_values(<span class="st">"month"</span>).assign(</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">**</span>{</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        col: macro_predictors[col].shift(<span class="dv">1</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> col <span class="kw">in</span> macro_predictors.columns</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> col <span class="op">!=</span> <span class="st">"month"</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    characteristics.merge(crsp_monthly, on<span class="op">=</span>[<span class="st">"month"</span>, <span class="st">"permno"</span>], how<span class="op">=</span><span class="st">"inner"</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    .merge(macro_predictors, on<span class="op">=</span><span class="st">"month"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    .sort_values([<span class="st">"month"</span>, <span class="st">"permno"</span>])</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    .assign(macro_intercept<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    .loc[</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        :,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>        [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"ret_excess"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"sic2"</span>]</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">"macro"</span> <span class="kw">in</span> col]</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="op">+</span> [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">"characteristic"</span> <span class="kw">in</span> col],</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="create-dataset-with-all-interaction-terms" class="level3">
@@ -504,59 +504,32 @@ Warning
 </blockquote>
 <p>The following recipe creates dummies for each <code>sic2</code> code and adds interaction terms between macro variables and stock characteristics. Note that <code>data</code> for the recipe is only required to identify the columns in the sample. No computations are performed at the first step. For that reason, I call <code>head()</code> to keep the computational burden a bit lower without affecting the outcome.</p>
 <div id="recipe" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1️⃣ Separate ID columns</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>id_cols <span class="op">=</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"mktcap_lag"</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>id_cols <span class="op">=</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"mktcap_lag"</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> characteristics[<span class="st">"ret_excess"</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> characteristics.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>])</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Target</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> characteristics[<span class="st">"ret_excess"</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>char_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> X.columns <span class="cf">if</span> <span class="st">"characteristic"</span> <span class="kw">in</span> c]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>macro_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> X.columns <span class="cf">if</span> <span class="st">"macro"</span> <span class="kw">in</span> c]</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature dataframe (drop id + target)</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> characteristics.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>])</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2️⃣ Interaction terms</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># characteristic_* × macro_*</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>char_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> X.columns <span class="cf">if</span> <span class="st">"characteristic"</span> <span class="kw">in</span> c]</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># subset! CHANGE WHEN DONE</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>char_cols <span class="op">=</span> char_cols[<span class="dv">0</span>:<span class="dv">3</span>]</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">################ REMOVE ABOVE LINE ################</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>macro_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> X.columns <span class="cf">if</span> <span class="st">"macro"</span> <span class="kw">in</span> c]</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> char_cols:</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> macro_cols:</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        X[<span class="ss">f"</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">_x_</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> X[c] <span class="op">*</span> X[m]</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 3️⃣ One-hot encode sic2</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>[<span class="st">"sic2"</span>], prefix<span class="op">=</span><span class="st">"sic2"</span>)</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4️⃣ Recombine everything</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>characteristics_prepared <span class="op">=</span> pd.concat([characteristics[id_cols], y, X], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 5️⃣ Write partitioned by year</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>characteristics_prepared[<span class="st">"year"</span>] <span class="op">=</span> characteristics_prepared[<span class="st">"month"</span>].dt.year</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> char_cols:</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> m <span class="kw">in</span> macro_cols:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        X[<span class="ss">f"</span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">_x_</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> X[c] <span class="op">*</span> X[m]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>[<span class="st">"sic2"</span>], prefix<span class="op">=</span><span class="st">"sic2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Next, I create the full dataset containing 3,046,332 monthly observations and 920 covariates.</p>
-<div id="full-dataset" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save parquet files</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> year, df_year <span class="kw">in</span> characteristics_prepared.groupby(<span class="st">"year"</span>):</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    df_year.drop(columns<span class="op">=</span><span class="st">"year"</span>).to_parquet(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"results/characteristics_prepared/year=</span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">.parquet"</span>, index<span class="op">=</span><span class="va">False</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="bake" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>characteristics_prepared <span class="op">=</span> pd.concat([characteristics[id_cols], y, X], axis<span class="op">=</span><span class="dv">1</span>).assign(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    year<span class="op">=</span><span class="kw">lambda</span> df: df[<span class="st">"month"</span>].dt.year</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>I store the prepared file for your convenience. Furthermore, the authors never use the entire dataset for training, instead, only a fraction needs to be available in memory at any given point in time.</p>
-<div id="store-prepared-file" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This is not part of my code. Let's see what happens"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="store" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> year, df_year <span class="kw">in</span> characteristics_prepared.groupby(<span class="st">"year"</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    df_year.drop(columns<span class="op">=</span><span class="st">"year"</span>).to_parquet(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"results/characteristics_prepared/year=</span><span class="sc">{</span>year<span class="sc">}</span><span class="ss">.parquet"</span>, index<span class="op">=</span><span class="va">False</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -577,40 +550,40 @@ Warning
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>estimation_periods[<span class="st">"validation_end"</span>] <span class="op">=</span> estimation_periods[<span class="st">"oos_year"</span>] <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>estimation_periods[<span class="st">"validation_start"</span>] <span class="op">=</span> (</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    estimation_periods[<span class="st">"oos_year"</span>] <span class="op">-</span> validation_length</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>estimation_periods[<span class="st">"training_start"</span>] <span class="op">=</span> <span class="dv">1957</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>estimation_periods[<span class="st">"training_end"</span>] <span class="op">=</span> estimation_periods[<span class="st">"validation_start"</span>] <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>estimation_periods <span class="op">=</span> estimation_periods[</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"training_start"</span>, <span class="st">"training_end"</span>, <span class="st">"validation_start"</span>, <span class="st">"validation_end"</span>, <span class="st">"oos_year"</span>]</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> estimation_periods.iterrows():</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> year <span class="kw">in</span> all_years:</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row.training_start <span class="op">&lt;=</span> year <span class="op">&lt;=</span> row.training_end:</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>            classification <span class="op">=</span> <span class="st">"Training"</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> row.validation_start <span class="op">&lt;=</span> year <span class="op">&lt;=</span> row.validation_end:</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            classification <span class="op">=</span> <span class="st">"Validation"</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> year <span class="op">==</span> row.oos_year:</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            classification <span class="op">=</span> <span class="st">"OOS"</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        rows.append(</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"year"</span>: year, <span class="st">"oos_year"</span>: row.oos_year, <span class="st">"classification"</span>: classification}</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>visualization_data <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 3️⃣ Plot</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>estimation_periods <span class="op">=</span> estimation_periods.assign(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    validation_end<span class="op">=</span><span class="kw">lambda</span> df: df[<span class="st">"oos_year"</span>] <span class="op">-</span> <span class="dv">1</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    validation_start<span class="op">=</span><span class="kw">lambda</span> df: df[<span class="st">"oos_year"</span>] <span class="op">-</span> validation_length,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    training_start<span class="op">=</span><span class="dv">1957</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    training_end<span class="op">=</span><span class="kw">lambda</span> df: df[<span class="st">"validation_start"</span>] <span class="op">-</span> <span class="dv">1</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>).loc[</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    :,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    [</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"training_start"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"training_end"</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"validation_start"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"validation_end"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"oos_year"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _, row <span class="kw">in</span> estimation_periods.iterrows():</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> year <span class="kw">in</span> all_years:</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row.training_start <span class="op">&lt;=</span> year <span class="op">&lt;=</span> row.training_end:</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            classification <span class="op">=</span> <span class="st">"Training"</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> row.validation_start <span class="op">&lt;=</span> year <span class="op">&lt;=</span> row.validation_end:</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>            classification <span class="op">=</span> <span class="st">"Validation"</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> year <span class="op">==</span> row.oos_year:</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>            classification <span class="op">=</span> <span class="st">"OOS"</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        rows.append(</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"year"</span>: year, <span class="st">"oos_year"</span>: row.oos_year, <span class="st">"classification"</span>: classification}</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>visualization_data <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    ggplot(visualization_data, aes(x<span class="op">=</span><span class="st">"year"</span>, y<span class="op">=</span><span class="st">"oos_year"</span>, color<span class="op">=</span><span class="st">"classification"</span>))</span>
 <span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(size<span class="op">=</span><span class="dv">1</span>)</span>
@@ -627,22 +600,24 @@ Warning
 <h3 class="anchored" data-anchor-id="model-specification">Model specification</h3>
 <p>The paper describes a collection of machine learning methods that was used in the analysis. I refer to Section 1 for a detailed description of the individual models. This blog post focuses on the implementation issues that arise when applying off-the-shelf ML methods on such a large dataset.</p>
 <div id="ml-library" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> layers, regularizers</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> ParameterGrid</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> FunctionTransformer</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, PredefinedSplit</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> layers, regularizers</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> ParameterGrid</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> FunctionTransformer</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, PredefinedSplit</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <blockquote class="blockquote">
 <p>Table A.5 (online appendix) describes the set of hyperparameters and their potential values used for tuning each machine learning model.</p>
 </blockquote>
 <p>In the following I rely on the well-documented <code>tidymodels</code> workflow (e.g.&nbsp;<a href="https://www.tidy-finance.org/r/factor-selection-via-machine-learning.html#the-tidymodels-workflow">Factor Selection with Machine Learning</a>) to estimate the random forest model.</p>
-<p>For the random forest, Table A5 in the Online Appendix states that the number of grown trees is fixed to 300. The number of features in each split is set to <span class="math inline">\(\in \{3, 5, 10, 20, 30, 50, ...\}\)</span>. It is not clear to me what <span class="math inline">\(...\)</span> means in that context, for that reason I fix the number of choices to six. Finally, in the paper <em>depth</em> is chosen as a hyperparameter, ranging from one (pruned tree) to six (more complex tree). <code>ranger</code> does not support <em>depth</em> as a hyperparameter but rather allows to dynamically stop growing further branches once a minimum number of observations in a group is reached. The effect is similar (if <code>min_n</code> is small, the tree can grow deep, otherwise we expect pruned trees), but cannot be translated directly into <code>depth</code>. I set the option <code>num.threads</code> to allow parallelization for the construction of the trees according to the <a href="https://parsnip.tidymodels.org/reference/details_rand_forest_ranger.html#other-notes">documentation</a> of the <code>ranger</code> engine in <code>tidymodels</code>.</p>
+<p>For the random forest, Table A5 in the Online Appendix states that the number of grown trees is fixed to 300. The number of features in each split is set to <span class="math inline">\(\in \{3, 5, 10, 20, 30, 50, ...\}\)</span>. It is not clear to me what <span class="math inline">\(...\)</span> means in that context, for that reason I fix the number of choices to six. Tree depth is controlled indirectly via the minimum number of samples per leaf <code>min_samples_leaf</code>, with values <code>[5000, 10000]</code> considered in the grid. This setting roughly correpsonds to pruning: a small <code>min_samples_leaf</code> allows deeper trees, while a larger value produces more pruned trees. I set the option <code>n_jobs=1</code>to use all available CPU cores.</p>
+<p>The workflow is implemented using a sklearn Pipeline, with the random forest as the main estimator:</p>
 <div id="rf" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rf_model <span class="op">=</span> RandomForestRegressor(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">300</span>,  <span class="co"># trees</span></span>
@@ -662,9 +637,7 @@ Warning
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>id_cols_new <span class="op">=</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"year"</span>]</span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> characteristics_prepared.drop(columns<span class="op">=</span>id_cols_new <span class="op">+</span> [<span class="st">"ret_excess"</span>])</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> characteristics_prepared[<span class="st">"ret_excess"</span>]</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>ml_workflow <span class="op">=</span> Pipeline(steps<span class="op">=</span>[(<span class="st">"rf"</span>, rf_model)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> characteristics_prepared[<span class="st">"ret_excess"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="model-fitting" class="level3">
@@ -672,21 +645,21 @@ Warning
 <p>The following performs the model estimation to create predictions for all the years until 2021. For a complete replication of the procedure laid out in the paper, you’ll have to run a loop over all out-of-sample years (<code>j</code>).</p>
 <div id="fitting" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>j <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>split_dates <span class="op">=</span> estimation_periods.iloc[j]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> characteristics_prepared[</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">&lt;</span> split_dates[<span class="st">"training_end"</span>]</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>validation <span class="op">=</span> characteristics_prepared[</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    (characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">&gt;=</span> split_dates[<span class="st">"validation_start"</span>])</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">&lt;=</span> split_dates[<span class="st">"validation_end"</span>])</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>id_cols <span class="op">=</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"year"</span>]</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>])</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[<span class="st">"ret_excess"</span>]</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>X_val <span class="op">=</span> validation.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>])</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>y_val <span class="op">=</span> validation[<span class="st">"ret_excess"</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>split_dates <span class="op">=</span> estimation_periods.iloc[j]</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>oos_year <span class="op">=</span> <span class="bu">int</span>(split_dates[<span class="st">"oos_year"</span>])</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pred_file <span class="op">=</span> Path(<span class="ss">f"results/predictions_</span><span class="sc">{</span>oos_year<span class="sc">}</span><span class="ss">.parquet"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>id_cols <span class="op">=</span> [<span class="st">"permno"</span>, <span class="st">"month"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"year"</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> characteristics_prepared[</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">&lt;</span> split_dates[<span class="st">"training_end"</span>]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>].pipe(<span class="kw">lambda</span> df: (df.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>]), df[<span class="st">"ret_excess"</span>]))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>X_val, y_val <span class="op">=</span> characteristics_prepared[</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    (characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">&gt;=</span> split_dates[<span class="st">"validation_start"</span>])</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">&amp;</span> (characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">&lt;=</span> split_dates[<span class="st">"validation_end"</span>])</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>].pipe(<span class="kw">lambda</span> df: (df.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>]), df[<span class="st">"ret_excess"</span>]))</span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>X_combined <span class="op">=</span> pd.concat([X_train, X_val], axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>y_combined <span class="op">=</span> pd.concat([y_train, y_val], axis<span class="op">=</span><span class="dv">0</span>)</span>
@@ -695,8 +668,8 @@ Warning
 <span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>ps <span class="op">=</span> PredefinedSplit(test_fold)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>I tune the model and - after selecting the optimal tuning parameter value based on the prediction error in the validation set - fit the penalized regression using the available data (training and validation test set). The process can be faster by distribution the parameter tuning across multiple workers. <code>tidymodels</code> takes care of this as long as the user specifies a plan. I set the option <code>parallel_over = "resamples"</code> so that the formula is processed only once and then reused across all models that need to be fit. parallelization across the hyperparameter grid in <code>tidymodels</code> is done by initiating a <code>plan()</code> according to the <a href="https://tune.tidymodels.org/articles/extras/optimizations.html">documentation</a>.</p>
-<div id="47cea552" class="cell" data-execution_count="14">
+<p>I tune the model and - after selecting the optimal tuning parameter value based on the prediction error in the validation set - fit the penalized regression using the available data (training and validation test set). The process can be faster by distribution the parameter tuning across multiple workers. This is done by setting <code>n_jobs=-1</code>. In <code>sklearn</code>, <code>GridSearchCV</code> handles both the evaluation of multiple hyperparameter combinations and cros-validation in parralel.</p>
+<div id="hyperparameter-grid" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rf_model <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">300</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>param_grid <span class="op">=</span> {<span class="st">"max_features"</span>: [<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">50</span>], <span class="st">"min_samples_leaf"</span>: [<span class="dv">5000</span>, <span class="dv">10000</span>]}</span>
@@ -708,18 +681,30 @@ Warning
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>grid_search.fit(X_combined, y_combined)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>If more computation time is available, it is likely advisable to expand the number of evaluation by providing a wider grid of possible parameter constellations. Next, we finalize the process by selecting the hyperparameter constellation which delivered the smallest mean squared prediction error and fit the model once more using the entire (training and validation) datasets.</p>
-<div id="6df5bc5b" class="cell" data-execution_count="15">
+<div id="expand-grid" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ml_fit_best <span class="op">=</span> grid_search.best_params_</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Trained workflows contain a lot of information which may be redundant for the task at hand: generating predictions. The <code>butcher</code> package provides tooling to “axe” parts of the fitted output that are no longer needed, without sacrificing prediction functionality from the original model object. To provide an intermediary anchor (also to ensure reprocudibility), I follow this <a href="https://github.com/juliasilge/modelops-playground/blob/main/train-model/train.md#save-model">example</a> to store the trained model. Julia Silge provided some reflections on best practices <a href="https://forum.posit.co/t/saving-a-model-fit-with-tidymodels/114839/2">here</a> which I tried to incorporate.</p>
-<div id="08e238da" class="cell" data-execution_count="16">
+<p>Trained models contain a lot of information which may be redundant for the task at hand: generating predictions. The final model can be saved efficiently for reproductibility and later use using <code>joblib</code>. To provide an intermediary anchor (also to ensure reprocudibility), I follow this <a href="https://github.com/juliasilge/modelops-playground/blob/main/train-model/train.md#save-model">example</a> to store the trained model. Julia Silge provided some reflections on best practices <a href="https://forum.posit.co/t/saving-a-model-fit-with-tidymodels/114839/2">here</a> which I tried to incorporate.</p>
+<div id="fitted-workflow" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rf_final <span class="op">=</span> RandomForestRegressor(</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">300</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>, random_state<span class="op">=</span><span class="dv">42</span>, <span class="op">**</span>ml_fit_best</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>rf_final.fit(X_combined, y_combined)</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>joblib.dump(rf_final, <span class="ss">f"results/fitted_workflow_</span><span class="sc">{</span><span class="bu">int</span>(split_dates[<span class="st">'oos_year'</span>])<span class="sc">}</span><span class="ss">.joblib"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>joblib.dump(rf_final, <span class="ss">f"results/fitted_workflow_</span><span class="sc">{</span><span class="bu">int</span>(split_dates[<span class="st">'oos_year'</span>])<span class="sc">}</span><span class="ss">.joblib"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>out_of_sample <span class="op">=</span> characteristics_prepared[</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    characteristics_prepared[<span class="st">"month"</span>].dt.year <span class="op">==</span> oos_year</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>].copy()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>X_oos <span class="op">=</span> out_of_sample.drop(columns<span class="op">=</span>id_cols <span class="op">+</span> [<span class="st">"ret_excess"</span>])</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>out_of_sample[<span class="st">".pred"</span>] <span class="op">=</span> rf_final.predict(X_oos)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>out_of_sample.to_parquet(pred_file)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Finished </span><span class="sc">{</span>oos_year<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -729,9 +714,9 @@ Warning
 <blockquote class="blockquote">
 <p>For OLS, ENet, GLM, and GBRT, we present their robust versions using Huber loss, which perform better than the version without. (p.&nbsp;2250)</p>
 </blockquote>
-<p>For the sake of simplicity, I only show how to fit linear models using <span class="math inline">\(l2\)</span> loss functions. In R, the package <code>hqreg</code> implements algorithms for fitting regularization paths for Lasso or elastic net penalized regression models with Huber loss. However, <code>hqreg</code> is not a running engine for <code>pairsnip</code> (yet).</p>
+<p>For the sake of simplicity, I only show how to fit linear models using <span class="math inline">\(l2\)</span> loss functions. In R, the package hqreg implements regularization paths for Lasso or elastic net models with Huber loss, but Python’s sklearn does not directly support Huber-penalized regularization paths.</p>
 <p>For instance, to fit the elastic net it seems necessary to evaluate the mean-squared prediction error in the validation sample for <em>only</em> two values of the penalty term. Instead of tuning the elastic net mixture coefficient, I follow the paper and show how to fix its value to <span class="math inline">\(0.5\)</span>.</p>
-<div id="9385cb17" class="cell" data-execution_count="17">
+<div id="elastic-net" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>elastic_net <span class="op">=</span> ElasticNet(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    alpha<span class="op">=</span><span class="fl">1.0</span>,  </span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    l1_ratio<span class="op">=</span><span class="fl">0.5</span>,  </span>
@@ -747,8 +732,8 @@ Warning
 <blockquote class="blockquote">
 <p>We use the same activation function at all nodes, and choose a popular functional form in recent literature known as the rectified linear unit (ReLU) (p.&nbsp;2244)</p>
 </blockquote>
-<p>In the following I show the exemplary implementation of the neural network with two hidden layers using the package <code>brulee</code>. Most information is taken from Table A5 in the online appendix. The table mentions a parameter <code>patience = 5</code> which I understand as a command on how many iterations with no improvement before stopping the optimization process.</p>
-<div id="fb7c9cc2" class="cell" data-execution_count="18">
+<p>In the following I show the exemplary implementation of the neural network with two hidden layers using <code>keras</code>. Most information is taken from Table A5 in the online appendix. The table mentions a parameter <code>patience = 5</code> which I understand as a command on how many iterations with no improvement before stopping the optimization process.</p>
+<div id="nn" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_model(learn_rate<span class="op">=</span><span class="fl">0.001</span>, penalty<span class="op">=</span><span class="fl">1e-5</span>, input_dim<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> keras.Sequential(</span>
@@ -787,7 +772,7 @@ Warning
 <p>At the end of each month, we calculate 1-month-ahead out-of-sample stock return predictions for each method. We then sort stocks into deciles based on each model’s forecasts. We reconstitute portfolios each month using value weights. Finally, we construct a zero-net-investment portfolio that buys the highest expected return stocks (decile 10) and sells the lowest (decile 1). (p.&nbsp;2264)</p>
 </blockquote>
 <p>The following code chunks performs the predictions for every out-of-sample year (starting from 1987): First, I predict stock excess returns based on the fitted model, then we sort assets into portfolios based on the prediction. In line with the original paper, I chose an equal-weighted scheme which is arguably more sensitive to trading cost (see the discussion on p.&nbsp;2265 of the paper). Note that in the original paper, the model parameters are updated each year.</p>
-<div id="0e6fd72a" class="cell" data-execution_count="19">
+<div id="oos-pred" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fitted_workflow <span class="op">=</span> joblib.load(<span class="st">"results/fitted_workflow_1987.joblib"</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -814,8 +799,21 @@ Warning
 <span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>    [create_predictions(y) <span class="cf">for</span> y <span class="kw">in</span> estimation_periods[<span class="st">"oos_year"</span>]], axis<span class="op">=</span><span class="dv">0</span></span>
 <span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>To assign portfolios using the predictions, I use the assign_portfolio() from the tidyfinance package.</p>
-<div id="1eaa37c6" class="cell" data-execution_count="20">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that I am calling the fitted model from the first out-of-sample year (1987) in each iteration. In other words, the model parameters do not get updated every year as in the original paper. <em>If</em> you estimated the model for each value of <span class="math inline">\(j\)</span> as described above, you can replace the line above to replicate the original procedure.</p>
+</div>
+</div>
+<p>To assign portfolios using the predictions, I implement a procedure similar to the <code>assign_portfolio()</code> from the tidyfinance package in <code>R</code>. I use <code>pandas.qcut</code>to divide the predicted reutns into deciles (portfolios 1-10).</p>
+<div id="assign-portfolios" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assign_portfolio(group):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    group <span class="op">=</span> group.copy()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    group[<span class="st">"portfolio"</span>] <span class="op">=</span> (</span>
@@ -835,7 +833,7 @@ Warning
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally, we evaluate the performance of the ML-portfolios. The table reports the predicted return, the average realized return, the standard deviation, and the out-of-sample Sharpe ratio for each of the decile portfolios as well as the long-short zero-cost portfolio.</p>
-<div id="92ff2350" class="cell" data-execution_count="21">
+<div id="evaluation" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>hml <span class="op">=</span> ml_portfolios.pivot(index<span class="op">=</span><span class="st">"month"</span>, columns<span class="op">=</span><span class="st">"portfolio"</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>hml_portfolio <span class="op">=</span> pd.DataFrame(</span>
@@ -857,7 +855,13 @@ Warning
 <span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>summary[<span class="st">"sharpe_ratio"</span>] <span class="op">=</span> summary[<span class="st">"realized_mean"</span>] <span class="op">/</span> summary[<span class="st">"realized_sd"</span>]</span>
 <span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(summary)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>summary_reset <span class="op">=</span> summary.reset_index()</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>summary_reset[<span class="st">"portfolio"</span>] <span class="op">=</span> summary_reset[<span class="st">"portfolio"</span>].astype(</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">str</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>)  </span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>summary_reset.to_parquet(<span class="st">"results/portfolio_summary.parquet"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
