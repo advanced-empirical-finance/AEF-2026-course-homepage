@@ -1,6 +1,7 @@
 ---
 title: Replicating Gu Kelly & Xiu (2020)
-execute: 
+jupyter: aef-2026
+execute:
     eval: false
 ---
 
