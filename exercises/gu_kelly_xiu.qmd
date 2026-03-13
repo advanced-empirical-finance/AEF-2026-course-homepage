@@ -46,12 +46,12 @@ characteristics <- read_csv(archive_read("https://dachxiu.chicagobooth.edu/downl
                                          file = "datashare.csv"))
 
 characteristics <- characteristics |>
-  rename("month" = "DATE") |>
+  rename("date" = "DATE") |>
   mutate(
-    month = ymd(month),
-    month = floor_date(month, "month")
+    date = ymd(date),
+    date = floor_date(date, "date")
   ) |>
-  rename_with(~ paste0("characteristic_", .), -c(permno, month, sic2))
+  rename_with(~ paste0("characteristic_", .), -c(permno, date, sic2))
 ```
 
 ## Python
@@ -69,9 +69,9 @@ with zipfile.ZipFile(BytesIO(response.content)) as z:
     characteristics = pd.read_csv(csv_file)
 
 characteristics = (characteristics
-    .rename(columns={'DATE': 'month'})
-    .assign(month=lambda df: pd.to_datetime(df['month']).dt.to_period('M').dt.to_timestamp())
-    .rename(columns={col: 'characteristic_' + col for col in characteristics.columns if col not in ['permno', 'month', 'sic2']})
+    .rename(columns={'DATE': 'date'})
+    .assign(date=lambda df: pd.to_datetime(df['date']).dt.to_period('M').dt.to_timestamp())
+    .rename(columns={col: 'characteristic_' + col for col in characteristics.columns if col not in ['permno', 'date', 'sic2']})
 )    
 ```
 :::
@@ -91,7 +91,7 @@ rank_transform <- function(x) {
 }
 
 characteristics <- characteristics |>
-  group_by(month) |>
+  group_by(date) |>
   mutate(across(contains("characteristic"), rank_transform))
 ```
 
@@ -105,8 +105,8 @@ def rank_transform(x):
 
 
 characteristics = (characteristics
-    .groupby('month', group_keys=False)
-    .apply(lambda group: group.apply(lambda x: rank_transform(x) if 'characteristic' in x.name and x.name != 'month' else x))
+    .groupby('date', group_keys=False)
+    .apply(lambda group: group.apply(lambda x: rank_transform(x) if 'characteristic' in x.name and x.name != 'date' else x))
 )
 ```
 
@@ -119,36 +119,36 @@ Next, merge the data with monthly CRSP data to get excess returns. To create por
 
 ```{r}
 crsp_monthly <- read_parquet("data-r/crsp_monthly.parquet") |>
-  select(month, permno, mktcap_lag, ret_excess)
+  select(date, permno, mktcap_lag, ret_excess)
 
 macro_predictors <- read_parquet("data-r/macro_predictors.parquet") |>
   select(-rp_div) |>
-  rename_with(~ paste0("macro_", .), -month)
+  rename_with(~ paste0("macro_", .), -date)
 
 characteristics <- characteristics |>
-  inner_join(crsp_monthly, by = c("month", "permno")) |>
-  inner_join(macro_predictors, by = "month") |>
-  arrange(permno, month) |>
-  select(permno, month, ret_excess, mktcap_lag, sic2, contains("macro"), contains("characteristic"))
+  inner_join(crsp_monthly, by = c("date", "permno")) |>
+  inner_join(macro_predictors, by = "date") |>
+  arrange(permno, date) |>
+  select(permno, date, ret_excess, mktcap_lag, sic2, contains("macro"), contains("characteristic"))
 ```
 
 ## Python
 ```{python}
 crsp_monthly = (pd.read_parquet("data-python/crsp_monthly.parquet")
-  [["month", "permno", "mktcap_lag", "ret_excess"]])
+  [["date", "permno", "mktcap_lag", "ret_excess"]])
 
 macro_predictors = (pd.read_parquet("data-python/macro_predictors.parquet")
   .drop(columns=['rp_div'])
-  .rename(columns=lambda x: f'macro_{x}' if x != 'month' else x)
+  .rename(columns=lambda x: f'macro_{x}' if x != 'date' else x)
 )
 
 characteristics = (
     characteristics
-    .merge(crsp_monthly, on=['month', 'permno'], how='inner')
-    .merge(macro_predictors, on='month', how='inner')
-    .sort_values(by=['permno', 'month'])
+    .merge(crsp_monthly, on=['date', 'permno'], how='inner')
+    .merge(macro_predictors, on='date', how='inner')
+    .sort_values(by=['permno', 'date'])
     .reset_index(drop=True)  
-    [['permno', 'month', 'ret_excess', 'mktcap_lag', 'sic2'] +
+    [['permno', 'date', 'ret_excess', 'mktcap_lag', 'sic2'] +
      [col for col in characteristics.columns if 'macro_' in col] +
      [col for col in characteristics.columns if 'characteristic_' in col]]
 )
@@ -167,7 +167,7 @@ replace_nas <- function(x) {
 }
 
 characteristics <- characteristics |>
-  group_by(month) |>
+  group_by(date) |>
   mutate(across(contains("characteristic"), replace_nas)) |>
   drop_na(sic2) |>
   mutate(sic2 = as_factor(sic2))
@@ -180,7 +180,7 @@ def replace_nas(x):
     return x
 
 characteristics = (characteristics
-    .groupby('month')
+    .groupby('date')
     .apply(lambda group: group.apply(replace_nas) if group.select_dtypes(include='number').any().any() else group)
     .reset_index(drop=True)
     .dropna(subset=['sic2'])

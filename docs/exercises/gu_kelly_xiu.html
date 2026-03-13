@@ -386,12 +386,12 @@ window.Quarto = {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">file =</span> <span class="st">"datashare.csv"</span>))</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>characteristics <span class="ot">&lt;-</span> characteristics <span class="sc">|&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"month"</span> <span class="ot">=</span> <span class="st">"DATE"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"date"</span> <span class="ot">=</span> <span class="st">"DATE"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">month =</span> <span class="fu">ymd</span>(month),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">month =</span> <span class="fu">floor_date</span>(month, <span class="st">"month"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">ymd</span>(date),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">date =</span> <span class="fu">floor_date</span>(date, <span class="st">"date"</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"characteristic_"</span>, .), <span class="sc">-</span><span class="fu">c</span>(permno, month, sic2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"characteristic_"</span>, .), <span class="sc">-</span><span class="fu">c</span>(permno, date, sic2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
@@ -407,9 +407,9 @@ window.Quarto = {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    characteristics <span class="op">=</span> pd.read_csv(csv_file)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (characteristics</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">'DATE'</span>: <span class="st">'month'</span>})</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    .assign(month<span class="op">=</span><span class="kw">lambda</span> df: pd.to_datetime(df[<span class="st">'month'</span>]).dt.to_period(<span class="st">'M'</span>).dt.to_timestamp())</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{col: <span class="st">'characteristic_'</span> <span class="op">+</span> col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'permno'</span>, <span class="st">'month'</span>, <span class="st">'sic2'</span>]})</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{<span class="st">'DATE'</span>: <span class="st">'date'</span>})</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    .assign(date<span class="op">=</span><span class="kw">lambda</span> df: pd.to_datetime(df[<span class="st">'date'</span>]).dt.to_period(<span class="st">'M'</span>).dt.to_timestamp())</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{col: <span class="st">'characteristic_'</span> <span class="op">+</span> col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> col <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'permno'</span>, <span class="st">'date'</span>, <span class="st">'sic2'</span>]})</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>)    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
@@ -429,7 +429,7 @@ window.Quarto = {
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>characteristics <span class="ot">&lt;-</span> characteristics <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">|&gt;</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"characteristic"</span>), rank_transform))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
@@ -443,8 +443,8 @@ window.Quarto = {
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (characteristics</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'month'</span>, group_keys<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">apply</span>(<span class="kw">lambda</span> group: group.<span class="bu">apply</span>(<span class="kw">lambda</span> x: rank_transform(x) <span class="cf">if</span> <span class="st">'characteristic'</span> <span class="kw">in</span> x.name <span class="kw">and</span> x.name <span class="op">!=</span> <span class="st">'month'</span> <span class="cf">else</span> x))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'date'</span>, group_keys<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">apply</span>(<span class="kw">lambda</span> group: group.<span class="bu">apply</span>(<span class="kw">lambda</span> x: rank_transform(x) <span class="cf">if</span> <span class="st">'characteristic'</span> <span class="kw">in</span> x.name <span class="kw">and</span> x.name <span class="op">!=</span> <span class="st">'date'</span> <span class="cf">else</span> x))</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
@@ -457,36 +457,36 @@ window.Quarto = {
 <div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>crsp_monthly <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"data-r/crsp_monthly.parquet"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(month, permno, mktcap_lag, ret_excess)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, permno, mktcap_lag, ret_excess)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"data-r/macro_predictors.parquet"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>rp_div) <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"macro_"</span>, .), <span class="sc">-</span>month)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="fu">paste0</span>(<span class="st">"macro_"</span>, .), <span class="sc">-</span>date)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>characteristics <span class="ot">&lt;-</span> characteristics <span class="sc">|&gt;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(crsp_monthly, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"month"</span>, <span class="st">"permno"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(macro_predictors, <span class="at">by =</span> <span class="st">"month"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(permno, month) <span class="sc">|&gt;</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(permno, month, ret_excess, mktcap_lag, sic2, <span class="fu">contains</span>(<span class="st">"macro"</span>), <span class="fu">contains</span>(<span class="st">"characteristic"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(crsp_monthly, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"permno"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(macro_predictors, <span class="at">by =</span> <span class="st">"date"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(permno, date) <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(permno, date, ret_excess, mktcap_lag, sic2, <span class="fu">contains</span>(<span class="st">"macro"</span>), <span class="fu">contains</span>(<span class="st">"characteristic"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>crsp_monthly <span class="op">=</span> (pd.read_parquet(<span class="st">"data-python/crsp_monthly.parquet"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  [[<span class="st">"month"</span>, <span class="st">"permno"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"ret_excess"</span>]])</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  [[<span class="st">"date"</span>, <span class="st">"permno"</span>, <span class="st">"mktcap_lag"</span>, <span class="st">"ret_excess"</span>]])</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>macro_predictors <span class="op">=</span> (pd.read_parquet(<span class="st">"data-python/macro_predictors.parquet"</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  .drop(columns<span class="op">=</span>[<span class="st">'rp_div'</span>])</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  .rename(columns<span class="op">=</span><span class="kw">lambda</span> x: <span class="ss">f'macro_</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span> <span class="cf">if</span> x <span class="op">!=</span> <span class="st">'month'</span> <span class="cf">else</span> x)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  .rename(columns<span class="op">=</span><span class="kw">lambda</span> x: <span class="ss">f'macro_</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span> <span class="cf">if</span> x <span class="op">!=</span> <span class="st">'date'</span> <span class="cf">else</span> x)</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    characteristics</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    .merge(crsp_monthly, on<span class="op">=</span>[<span class="st">'month'</span>, <span class="st">'permno'</span>], how<span class="op">=</span><span class="st">'inner'</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    .merge(macro_predictors, on<span class="op">=</span><span class="st">'month'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span>[<span class="st">'permno'</span>, <span class="st">'month'</span>])</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    .merge(crsp_monthly, on<span class="op">=</span>[<span class="st">'date'</span>, <span class="st">'permno'</span>], how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    .merge(macro_predictors, on<span class="op">=</span><span class="st">'date'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span>[<span class="st">'permno'</span>, <span class="st">'date'</span>])</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    .reset_index(drop<span class="op">=</span><span class="va">True</span>)  </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    [[<span class="st">'permno'</span>, <span class="st">'month'</span>, <span class="st">'ret_excess'</span>, <span class="st">'mktcap_lag'</span>, <span class="st">'sic2'</span>] <span class="op">+</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    [[<span class="st">'permno'</span>, <span class="st">'date'</span>, <span class="st">'ret_excess'</span>, <span class="st">'mktcap_lag'</span>, <span class="st">'sic2'</span>] <span class="op">+</span></span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>     [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">'macro_'</span> <span class="kw">in</span> col] <span class="op">+</span></span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>     [col <span class="cf">for</span> col <span class="kw">in</span> characteristics.columns <span class="cf">if</span> <span class="st">'characteristic_'</span> <span class="kw">in</span> col]]</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -506,7 +506,7 @@ window.Quarto = {
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>characteristics <span class="ot">&lt;-</span> characteristics <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(date) <span class="sc">|&gt;</span></span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">contains</span>(<span class="st">"characteristic"</span>), replace_nas)) <span class="sc">|&gt;</span></span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(sic2) <span class="sc">|&gt;</span></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sic2 =</span> <span class="fu">as_factor</span>(sic2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -519,7 +519,7 @@ window.Quarto = {
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>characteristics <span class="op">=</span> (characteristics</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'month'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    .groupby(<span class="st">'date'</span>)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">apply</span>(<span class="kw">lambda</span> group: group.<span class="bu">apply</span>(replace_nas) <span class="cf">if</span> group.select_dtypes(include<span class="op">=</span><span class="st">'number'</span>).<span class="bu">any</span>().<span class="bu">any</span>() <span class="cf">else</span> group)</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    .reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    .dropna(subset<span class="op">=</span>[<span class="st">'sic2'</span>])</span>
