@@ -54,6 +54,12 @@ The workflow outlined below only needs to be done by one person in your group (S
 
 2. To verify that it worked, you can write `git remote -v` in the terminal. Your output should look something like this:
 
+```bash
+origin   https://github.com/your-username/AEF-Assignments-Group1.git (fetch)
+origin   https://github.com/your-username/AEF-Assignments-Group1.git (push)
+upstream https://github.com/advanced-empirical-finance/course-repository.git (fetch)
+upstream https://github.com/advanced-empirical-finance/course-repository.git (push)
+```
 
 3. We don't necessarily need all the files from the course repository, so to get the specific files we need, we will use the *checkout* command instead of the *pull* command for this part. First, write `git fetch upstream` to load the latest changes from the course repository. Second, grab the environment files by writing `git checkout upstream/main -- renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore`. This will copy the specified files from the course repository to your local repository and you should see them appear in the file explorer on the left side of Positron. (Note that to add an entire folder you simply need to write `git checkout upstream/main -- foldername/` and it will copy the entire folder with all its contents).
 
