@@ -8,14 +8,14 @@ First, some introduction is in order before we start. ***Git*** is a version con
 
 #### Why use Git and GitHub for collaboration?
 
-Most people have at some point ended up with multiple versions of the same file on their computer (see figure 1), which not only makes it hard for yourself to keep track of the most recent version, but also makes it difficult to collaborate with others, as you may up sending different versions of the same file back and forth. 
+Most people have at some point ended up with multiple versions of the same file on their computer (see figure 1), which not only makes it hard for yourself to keep track of the most recent version, but also makes it difficult to collaborate with others, as you may end up sending different versions of the same file back and forth. 
 
 ![Bad file management can be a burden](figures/git-file-versions.png){fig-align="center"}
 
-**There is also a good chance that you will encounter Git and Github at some point in your future career**, as it is the industry standard for version control and collaboration on code projects. The goal of this overview is not to make you an expert nor cover all the features of Git, but rather to give you a basic understanding of the tools and an opportunity to use them, by showing you to set up a GitHub repository to collaborate with your group on the mandatory assignments.
+**There is also a good chance that you will encounter Git and Github at some point in your future career**, as it is the industry standard for version control and collaboration on code projects. The goal of this overview is not to make you an expert nor cover all the features of Git, but rather to give you a basic understanding of the tools and an opportunity to use them, by showing you how to set up a GitHub repository to collaborate with your group on the mandatory assignments.
 
 
-#### Is there any limitations?
+#### Are there any limitations?
 
 An important note is that Git and GitHub are primarily designed for collaboration on code projects. This is essentially done by sharing - i.e. pushing and pulling - *commits* (which are snapshots of your project at a specific point in time) to and from a shared repository on GitHub. This also means that there is no live-editing as in Overleaf or similar, so you won't be able to see each other's changes in real-time. I would recommend either working on the models in python files separate from your quarto-document - for example creating files such as `mean-variance-pfo.py` and adding the code to the quarto document afterwards, or at the very least, work on different sections of the quarto document to avoid merge conflicts.
 
@@ -35,7 +35,7 @@ The workflow outlined below only needs to be done by one person in your group (S
 
 ![You should see a similar setup as above. Copy the URL](figures/git-url.png){fig-align="center"}
 
-4. Add collaborator.
+4. Add collaborators: On GitHub, go to your new repository’s main page, click on the *"Settings"* tab, then select *"Collaborators"* (or *"Collaborators and teams"*). Click *"Add people"*, search for your group members by their GitHub username or email, and send them invitations. Each group member must accept the invitation (they will receive an email and/or a notification on GitHub) before they can push changes to the repository.
 
 
 #### Part 2 - Making a local copy of the repository through Positron
@@ -61,7 +61,7 @@ The workflow outlined below only needs to be done by one person in your group (S
 
 #### Part 4 (Optional) - Organizing the folder structure
 
-1. If you want a different folder structure, e.g. a folder for each assignment, you can simple move the files around in the file explorer on the left side of Positron. You can also use the terminal by writing `mkdir Assignment 1` to create a new folder, `mv mandatory-assignments/MA_1_portfolio_choice_2026.pdf "Assignment 1/"` `mv mandatory-assignments/MA_python_template.qmd "Assignment 1/"` to move the assignment files and `rmdir mandatory-assignments` to remove the now empty folder. Leave the environment files in the main root folder.
+1. If you want a different folder structure, e.g. a folder for each assignment, you can simply move the files around in the file explorer on the left side of Positron. You can also use the terminal by writing `mkdir "Assignment 1"` to create a new folder, `mv mandatory-assignments/MA_1_portfolio_choice_2026.pdf "Assignment 1/"` `mv mandatory-assignments/MA_python_template.qmd "Assignment 1/"` to move the assignment files and `rmdir mandatory-assignments` to remove the now empty folder. Leave the environment files in the main root folder.
 
 #### Part 5 - Saving and sharing your work with Git and GitHub
 
