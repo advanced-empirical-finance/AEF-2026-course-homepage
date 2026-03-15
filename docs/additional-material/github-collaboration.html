@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>git-collaboration</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="git-collaboration_files/libs/clipboard/clipboard.min.js"></script>
+<script src="git-collaboration_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="git-collaboration_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="git-collaboration_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="git-collaboration_files/libs/quarto-html/popper.min.js"></script>
+<script src="git-collaboration_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="git-collaboration_files/libs/quarto-html/anchor.min.js"></script>
+<link href="git-collaboration_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="git-collaboration_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="git-collaboration_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="git-collaboration_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="git-collaboration_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="collaboration-with-git-and-github" class="level1">
+<h1>Collaboration with Git and GitHub</h1>
+<p>In this section, we will cover the basics of collaborating on code projects using Git and GitHub. We will go through the essential commands and workflows that you need to know to effectively collaborate with others on coding projects such as your mandatory assignments.</p>
+<p>First, some introduction is in order before we start. <strong><em>Git</em></strong> is a version control system, which allows one or multiple people to work on a project simultaneously without overwriting each other’s work. It keeps track of changes made to files and allows you to revert back to previous versions if needed. <strong><em>GitHub</em></strong> is a web-based platform that provides hosting for Git repositories, making it easier to collaborate with others and share your code.</p>
+<section id="why-use-git-and-github-for-collaboration" class="level4">
+<h4 class="anchored" data-anchor-id="why-use-git-and-github-for-collaboration">Why use Git and GitHub for collaboration?</h4>
+<p>Most people have at some point ended up with multiple versions of the same file on their computer (see figure 1), which not only makes it hard for yourself to keep track of the most recent version, but also makes it difficult to collaborate with others, as you may end up sending different versions of the same file back and forth.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/git-file-versions.png" class="img-fluid figure-img"></p>
+<figcaption>Bad file management can be a burden</figcaption>
+</figure>
+</div>
+<p><strong>There is also a good chance that you will encounter Git and Github at some point in your future career</strong>, as it is the industry standard for version control and collaboration on code projects. The goal of this overview is not to make you an expert nor cover all the features of Git, but rather to give you a basic understanding of the tools and an opportunity to use them, by showing you how to set up a GitHub repository to collaborate with your group on the mandatory assignments.</p>
+</section>
+<section id="are-there-any-limitations" class="level4">
+<h4 class="anchored" data-anchor-id="are-there-any-limitations">Are there any limitations?</h4>
+<p>An important note is that Git and GitHub are primarily designed for collaboration on code projects. This is essentially done by sharing - i.e.&nbsp;pushing and pulling - <em>commits</em> (which are snapshots of your project at a specific point in time) to and from a shared repository on GitHub. This also means that there is no live-editing as in Overleaf or similar, so you won’t be able to see each other’s changes in real-time. I would recommend either working on the models in python files separate from your quarto-document - for example creating files such as <code>mean-variance-pfo.py</code> and adding the code to the quarto document afterwards, or at the very least, work on different sections of the quarto document to avoid merge conflicts.</p>
+</section>
+<section id="overview-of-the-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="overview-of-the-workflow">Overview of the workflow</h3>
+<p>The workflow outlined below only needs to be done by one person in your group (Student A). After Student A has set up the GitHub repository and pushed the initial files, the other group members (Student B and C) can simply clone the repository to their local machines and pull down the files.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/git-figurative-workflow.jpg" class="img-fluid figure-img"></p>
+<figcaption>A sketch of the workflow introduced below, including the groups new assignment repo (black), as well as the downloading of files from the course repo (orange).</figcaption>
+</figure>
+</div>
+<section id="part-1---creating-a-github-repository-for-your-group." class="level4">
+<h4 class="anchored" data-anchor-id="part-1---creating-a-github-repository-for-your-group.">Part 1 - Creating a GitHub repository for your group.</h4>
+<ol type="1">
+<li><p>Go to <a href="https://github.com">GitHub.com</a> and click on the green <em>“New”</em> button at the left side of your screen. You may also navigate to the “Repositories” tab on your profile (top right corner) and click on the <em>“New”</em> button there.</p></li>
+<li><p>Choose a name for your repository (e.g.&nbsp;<em>“AEF-2026-Assignments-Group1”</em>). Add a description and set the visibility to “Private” (such that only you and your group members can access it). You do not need to initialize the repository with a README or .gitignore file. Click <em>“Create repository”</em></p></li>
+<li><p>Copy the HTTPS URL of this new repository.</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/git-url.png" class="img-fluid figure-img"></p>
+<figcaption>You should see a similar setup as above. Copy the URL</figcaption>
+</figure>
+</div>
+<ol start="4" type="1">
+<li>Add collaborators: On GitHub, go to your new repository’s main page, click on the <em>“Settings”</em> tab, then select <em>“Collaborators”</em> (or <em>“Collaborators and teams”</em>). Click <em>“Add people”</em>, search for your group members by their GitHub username or email, and send them invitations. Each group member must accept the invitation (they will receive an email and/or a notification on GitHub) before they can push changes to the repository.</li>
+</ol>
+</section>
+<section id="part-2---making-a-local-copy-of-the-repository-through-positron" class="level4">
+<h4 class="anchored" data-anchor-id="part-2---making-a-local-copy-of-the-repository-through-positron">Part 2 - Making a local copy of the repository through Positron</h4>
+<ol type="1">
+<li><p>Within Positron, click on <em>“New”</em> (top left corner) and then select <em>“New folder from Git”</em>.</p></li>
+<li><p>Paste the URL of your new GitHub repository and click OK. This will create a local copy of the empty repository on your computer, which you can work on and later push changes to GitHub. If you’re prompted by the Git Credential Manager, log in.</p></li>
+<li><p>Go to the terminal window in Positron. The default terminal will most likely be PowerShell on Windows, but you can change this to Git Bash (which I recommend) or any terminal of your choice.</p></li>
+</ol>
+</section>
+<section id="part-3---connecting-to-the-course-repository-and-grabbing-files" class="level4">
+<h4 class="anchored" data-anchor-id="part-3---connecting-to-the-course-repository-and-grabbing-files">Part 3 - Connecting to the course repository and grabbing files</h4>
+<ol type="1">
+<li><p>As of now, our newly created repository is empty. In order to access the course materials, such as the mandatory assignment files, we will add an “upstream” connection to the course repository. This will allow us to pull changes from the course repository into our local repository, which we can then push to our GitHub repository. In the terminal, write <code>git remote add upstream https://github.com/advanced-empirical-finance/course-repository.git</code> and press enter.</p></li>
+<li><p>To verify that it worked, you can write <code>git remote -v</code> in the terminal. Your output should look something like this:</p></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li><p>We don’t necessarily need all the files from the course repository, so to get the specific files we need, we will use the <em>checkout</em> command instead of the <em>pull</em> command for this part. First, write <code>git fetch upstream</code> to load the latest changes from the course repository. Second, grab the environment files by writing <code>git checkout upstream/main -- renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore</code>. This will copy the specified files from the course repository to your local repository and you should see them appear in the file explorer on the left side of Positron. (Note that to add an entire folder you simply need to write <code>git checkout upstream/main -- foldername/</code> and it will copy the entire folder with all its contents).</p></li>
+<li><p>Grab the assignment files, e.g.&nbsp;by grabbing the whole folder or by writing <code>git checkout upstream/main -- mandatory-assignments/MA_1_portfolio_choice_2026.pdf mandatory-assignments/MA_python_template.qmd</code> (if using Python, choose similarly for R).</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/git-upstream-files-1.png" class="img-fluid figure-img"></p>
+<figcaption>After getting the files with the checkout command, you should be able to see them in the left side of Positron</figcaption>
+</figure>
+</div>
+</section>
+<section id="part-4-optional---organizing-the-folder-structure" class="level4">
+<h4 class="anchored" data-anchor-id="part-4-optional---organizing-the-folder-structure">Part 4 (Optional) - Organizing the folder structure</h4>
+<ol type="1">
+<li>If you want a different folder structure, e.g.&nbsp;a folder for each assignment, you can simply move the files around in the file explorer on the left side of Positron. You can also use the terminal by writing <code>mkdir "Assignment 1"</code> to create a new folder, <code>mv mandatory-assignments/MA_1_portfolio_choice_2026.pdf "Assignment 1/"</code> <code>mv mandatory-assignments/MA_python_template.qmd "Assignment 1/"</code> to move the assignment files and <code>rmdir mandatory-assignments</code> to remove the now empty folder. Leave the environment files in the main root folder.</li>
+</ol>
+</section>
+<section id="part-5---saving-and-sharing-your-work-with-git-and-github" class="level4">
+<h4 class="anchored" data-anchor-id="part-5---saving-and-sharing-your-work-with-git-and-github">Part 5 - Saving and sharing your work with Git and GitHub</h4>
+<ol type="1">
+<li><p>We now have the files that we need. However, these are only saved locally on your computer as for now (you can check GitHub and see that the repository is still empty). Therefore, we need to push our changes to GitHub, such that our other group members can access the files and we can collaborate on them.</p></li>
+<li><p>To do this, we first need to add the files to the staging area by writing <code>git add .</code> (the dot means that we want to add all the files in the current folder and subfolders). You can also specify specific files instead of adding everything through <code>git add filename</code>, e.g.&nbsp;if you’ve changed multiple files but you only want to share some of them. Think of the staging area as where you select which changes you want to include in your next commit.</p></li>
+<li><p>Next, we need to commit our changes by writing <code>git commit -m "Initial commit with environment and assignment files"</code>. The message in the quotation marks should be a brief description of the changes you’ve made, which will help you and your collaborators keep track of the history of changes in the project. This will create a snapshot of your project at this point in time, which you can revert back to if needed. You can make multiple commits as you work on the project, and each commit will be saved in the history of the project. These commits (snapshots) are what you will be sharing with your collaborators through GitHub, by pushing them to the shared repository.</p></li>
+<li><p>Finally, we need to push our changes to GitHub by writing <code>git push origin main</code>. This will upload your committed changes to the GitHub repository, making them accessible to your collaborators. You can check the repository on GitHub and you should see that the files have been added.</p></li>
+<li><p><strong>Student B and C can now clone the repository to their local machines</strong> and simply write <code>git pull origin main</code> to pull down the files that Student A has pushed to GitHub. Your assignment files are now shared and you can collaborate on them by making changes locally, committing those changes, and pushing them to GitHub. Remember to pull down the latest changes from GitHub before you start working, to ensure that you’re working on the most up-to-date version of the files. You can do this by writing <code>git pull origin main</code> in the terminal when you start working.</p></li>
+</ol>
+</section>
+<section id="part-6---keeping-your-repository-up-to-date-with-the-course-repository" class="level4">
+<h4 class="anchored" data-anchor-id="part-6---keeping-your-repository-up-to-date-with-the-course-repository">Part 6 - Keeping your repository up to date with the course repository</h4>
+<ol type="1">
+<li><p>If there are updates to the course repository which you would like to add to your assignment repository, or when the next assignment is released, you can simply load the latest changes from the course repository by writing <code>git fetch upstream</code> and then <code>git checkout upstream/main -- files_or_folders_you_want_to_update</code>. I do <strong>not</strong> recommend using the <code>git pull upstream main</code> command here, as this will pull all the changes from the course repository and may cause merge conflicts.</p></li>
+<li><p>To share the updates with your group members, simply do as before, to push it to Github by<br>
+<code>git add .</code><br>
+<code>git commit -m "Updated files with latest changes from course repository"</code><br>
+<code>git push origin main</code></p></li>
+</ol>
+</section>
+<section id="part-7---the-daily-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="part-7---the-daily-workflow">Part 7 - The daily workflow</h4>
+<ol type="1">
+<li><p>Make sure that you’re working on the latest version of your group’s repository by writing <code>git pull origin main</code> in the terminal before you start working.</p></li>
+<li><p>Open or create the files you want to work on and make your changes, while saving the work regularly.</p></li>
+<li><p>Once you’ve finished a task or want to share your changes, proceed as in part 5 and 6 to add (<code>git add .</code>), commit (<code>git commit -m "message here"</code>), and push (<code>git push origin main</code>) your changes to your groups repository on GitHub.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
