@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.23">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Collaboration with Github</title>
+<title>positron-ai-assistant</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,189 +23,125 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-43081d808c96cc46af55a3a816ae9eed.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
-  "copy-button": false,
-  "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
-  "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
-  }
-}</script>
+<script src="positron-ai-assistant_files/libs/clipboard/clipboard.min.js"></script>
+<script src="positron-ai-assistant_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="positron-ai-assistant_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="positron-ai-assistant_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="positron-ai-assistant_files/libs/quarto-html/popper.min.js"></script>
+<script src="positron-ai-assistant_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="positron-ai-assistant_files/libs/quarto-html/anchor.min.js"></script>
+<link href="positron-ai-assistant_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="positron-ai-assistant_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="positron-ai-assistant_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="positron-ai-assistant_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="positron-ai-assistant_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
-<link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="fullcontent quarto-light">
 
-<div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="../index.html" aria-current="page"> 
-<span class="menu-text">home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../additional-material/index.html"> 
-<span class="menu-text">more ressources</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../slides-index.html"> 
-<span class="menu-text">lecture plan</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../exercises/index.html"> 
-<span class="menu-text">exercises</span></a>
-  </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://code.com"> <i class="bi bi-github" role="img">
-</i> 
-<span class="menu-text"></span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/positron-ai-assistant.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/github-collaboration.html">Collaboration with Github</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
-<!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      </a>
-      </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../additional-material/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Additional ressources</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Positron</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../additional-material/positron-ai-assistant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Positron AI Assistant Guide</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../additional-material/quarto-documentation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reproducible Research with Quarto</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../additional-material/github-collaboration.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Collaboration with Github</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
-<!-- main -->
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/positron-ai-assistant.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/github-collaboration.html">Collaboration with Github</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Collaboration with Github</h1>
+
+
+
+<section id="positron-assistant-guide" class="level1">
+<h1>Positron Assistant Guide</h1>
+<p>Positron offers several AI-powered features to assist you in your work, including the Positron Assistant Chat and Code Completion with GitHub Copilot. These tools are designed to help you save time, increase efficiency, and enhance your overall productivity. For a more detailed introduction to the Positron Assistant, we recommend reading the <a href="https://positron.posit.co/assistant">Positron Assistant Introduction</a> including their guide for getting started.</p>
+<p>Before we begin, remember that AI assistants are not perfect and may sometimes provide incorrect or suboptimal suggestions. <strong>Always review the suggestions provided by the assistant and use your own judgment when deciding whether to accept them.</strong></p>
+<section id="setting-up-positron-assistant" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-positron-assistant">Setting up Positron Assistant</h2>
+<p>To set up the Positron Assistant, you will first need to enable it in the Positron settings. You may either click on the <code>Chat</code> tab at the left side bar (<code>Ctrl + Alt + I</code>) and enter the settings through there, <em>or</em> by clicking the small gear in the bottom left corner (“Manage” -&gt; “Settings”). Write <code>"Positron Assistant Enable"</code> in the search bar and <strong>check the first box</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/positron_assistant_enable.png" class="img-fluid figure-img"></p>
+<figcaption>Check this box</figcaption>
+</figure>
 </div>
+<p>After you’ve checked this box, you need to <strong>restart Positron</strong>. This is most easily done by pressing <code>Ctrl + Shift + P</code> and then writing <em>“Reload window”</em>. Choose the <code>"Developer: Reload Window"</code> option.</p>
+<p>Next we need to choose a large language model provider. By default, you may choose between Anthropic or GitHub Copilot. Note that the <em>code completion</em> feature explained below is only available with GitHub Copilot as of now.</p>
+<p>I’ve chosen to use GitHub Copilot. To connect with your GitHub account, press <code>Ctrl + Shift + P</code> and write <code>Positron Assistant: Configure Language Model Providers</code>. Select GitHub Copilot and press the <em>Sign In</em> button to initialize GutHub’s OAuth authentication flow. Follow the instructions to log in to your GitHub account and authorize Positron to access your Copilot subscription. After successful authentication, you should see a confirmation message in Positron.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/llm-provider.png" class="img-fluid figure-img"></p>
+<figcaption>There are different options with respect to large language model provider</figcaption>
+</figure>
+</div>
+<p><strong>Important note</strong>: If you don’t seem to have any model connected (i.e.&nbsp;at the bottom of the Positron Assistant Chat panel, if your chat-model is not “GPT-5 mini” after authenticating with GitHub Copilot), you may need to check your settings at github.com under <a href="https://github.com/settings/copilot/features">Copilot settings</a> to ensure that you have access and activated your Github Copilot subscription.</p>
+</section>
+<section id="positron-ai" class="level2">
+<h2 class="anchored" data-anchor-id="positron-ai">Positron AI</h2>
+<p>Within Positron, you have several options to utilize the AI assistant, including a main chat interface, code completion features, and an inline chat function. Each of these features is designed to provide you with different ways to interact with the assistant and get the help you need.</p>
+<section id="chat-interface---context-models-and-modes" class="level3">
+<h3 class="anchored" data-anchor-id="chat-interface---context-models-and-modes">Chat interface - Context, models and modes</h3>
+<p>At the bottom of the main chat interface, you will find a button to switch between different modes of interaction with the AI assistant: <em>‘Ask’</em>, <em>‘Edit’</em>, and <em>‘Agent’</em> mode, a button to choose your desired large language model (e.g.&nbsp;<em>GPT-5 mini</em>) and the option to provide additional context for the assistant to use in its responses. The context can be any relevant information that you want the assistant to consider when generating its responses, such as project details, specific requirements, or any other information that may help the assistant provide more accurate and relevant answers. Examples include project descriptions, code snippets, documentation on your (teams) coding style, etc.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/context.png" class="img-fluid figure-img"></p>
+<figcaption>There are several options available in this panel</figcaption>
+</figure>
+</div>
+<p>With respect to the different modes, there are three main options.</p>
+<ul>
+<li><strong>Ask mode</strong>: This is the default mode where you can ask the assistant questions or request information. Think of it as having ChatGPT embedded directly in the side panel. The assistant will provide responses based on your queries, which can be related to coding, documentation, or general knowledge.<br>
+</li>
+<li><strong>Edit mode</strong>: In this mode, you can provide the assistant with a piece of code or text and ask it to edit or improve it. For example, you can ask the assistant to optimize a function, rewrite a paragraph for clarity, or suggest improvements to your code.<br>
+</li>
+<li><strong>Agent mode</strong>: This mode allows you to set up a more complex interaction with the assistant, including multi-step tasks and workflow planning across the entire project.</li>
+</ul>
+<p>We will primarily be working with the <strong>ask</strong> and <strong>edit</strong> modes in this course, as they are the most commonly used for coding assistance and documentation generation.</p>
+<p><em>Exercise: Try asking the assistant “Can you summarize the main essential equations I need on mean variance portfolio optimization?” in ask mode, and then switch to edit mode to ask it to “Write a function that calculates the optimal portfolio weights based on the mean-variance optimization framework”.</em></p>
+</section>
+<section id="code-completion-with-github-copilot" class="level3">
+<h3 class="anchored" data-anchor-id="code-completion-with-github-copilot">Code Completion with GitHub Copilot</h3>
+<p>Given that you’ve chosen to use GitHub Copilot as the large language model provider, you may take advantage of the <strong>code completion</strong> feature. This allows you to receive so called <em>‘ghost text’</em> suggestions as you write, which are greyed-out text that appears as you type, suggesting completions for your code or text.</p>
+<p>Note that for the standard free setup (Copilot Free plan through Github), there is a usage limit which you may find on GitHub.com under <a href="https://github.com/settings/copilot/features">Copilot settings</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/github-copilot-usage.png" class="img-fluid figure-img"></p>
+<figcaption>Github Copilot usage</figcaption>
+</figure>
+</div>
+<p>The suggestions will appear naturally as you write. You can accept the suggestions by pressing <code>Tab</code> or <code>Ctrl + Right Arrow</code> on Windows/Linux, or <code>Option + Right Arrow</code> on Mac. You can also cycle through different suggestions by pressing <code>Ctrl + Space</code> (or <code>Cmd + Space</code> on Mac) after the initial suggestion appears.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/code-completion-1.png" class="img-fluid figure-img"></p>
+<figcaption>Code suggestions will automatically pop up</figcaption>
+</figure>
+</div>
+<p>It is also possible to give <em>code suggestions</em> by writing <code>//</code> followed by a text prompt, which will trigger the assistant to generate a suggestion based on the prompt. This is particularly useful for generating code, if you’re e.g.&nbsp;unsure about the syntax for a specific function or package.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/code-completion-2.png" class="img-fluid figure-img"></p>
+<figcaption>If you’re a Python user who’s used to matplotlib, the assistant can e.g.&nbsp;guide you to using the plotnine package</figcaption>
+</figure>
+</div>
+</section>
+<section id="inline-chat" class="level3">
+<h3 class="anchored" data-anchor-id="inline-chat">Inline chat</h3>
+<p>In addition to the main chat interface, Positron also offers an <em>inline chat</em> feature. This allows you to use the AI assistant directly within your code or text editor, without needing to switch to a separate chat window. You can access the inline chat by <code>Ctrl + i</code> (or <code>Cmd + i</code> on Mac) while your cursor is in the editor. This will open a small chat interface where you can ask questions or request assistance related to the code or text you’re working on, which is ideal for assistance with very specific lines of code, e.g.&nbsp;<em>“Write documentation for this function”</em>, <em>“Explain this line of code”</em>, <em>“Rewrite this as a function instead”</em>, etc.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/inline-chat.png" class="img-fluid figure-img"></p>
+<figcaption>Pressing <code>Ctrl + i</code> opens up the inline chat function</figcaption>
+</figure>
+</div>
+<p>After providing the inline chat with a prompt, the assistant will generate a response and insert it directly into your code or text editor at the location of your cursor. You can then accept the suggestion, modify it, or ask for a different response if needed.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/inline-chat-2.png" class="img-fluid figure-img"></p>
+<figcaption>You will get the opportunity to accept the suggestion</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
 
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-
-
-
-</main> <!-- /main -->
+</main>
+<!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
