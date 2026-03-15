@@ -25,11 +25,14 @@ An important note is that Git and GitHub are primarily designed for collaboratio
 The workflow outlined below only needs to be done by one person in your group (Student A). After Student A has set up the GitHub repository and pushed the initial files, the other group members (Student B and C) can simply clone the repository to their local machines and pull down the files.
 
 
+![A sketch of the workflow introduced below, including the groups new assignment repo (black), as well as the downloading of files from the course repo (orange).](figures/git-figurative-workflow.jpg){fig-align="center"}
+
+
 #### Part 1 - Creating a GitHub repository for your group.
 
 1. Go to [GitHub.com](https://github.com) and click on the green *"New"* button at the left side of your screen. You may also navigate to the "Repositories" tab on your profile (top right corner) and click on the *"New"* button there.
 
-2. Choose a name for your repository (e.g. *"AEF-Assignments-Group1"*). Add a description and set the visibility to "Private" (such that only you and your group members can access it). You do not need to initialize the repository with a README or .gitignore file. Click *"Create repository"*
+2. Choose a name for your repository (e.g. *"AEF-2026-Assignments-Group1"*). Add a description and set the visibility to "Private" (such that only you and your group members can access it). You do not need to initialize the repository with a README or .gitignore file. Click *"Create repository"*
 
 3. Copy the HTTPS URL of this new repository.
 
@@ -61,9 +64,13 @@ upstream https://github.com/advanced-empirical-finance/course-repository.git (fe
 upstream https://github.com/advanced-empirical-finance/course-repository.git (push)
 ```
 
+
 3. We don't necessarily need all the files from the course repository, so to get the specific files we need, we will use the *checkout* command instead of the *pull* command for this part. First, write `git fetch upstream` to load the latest changes from the course repository. Second, grab the environment files by writing `git checkout upstream/main -- renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore`. This will copy the specified files from the course repository to your local repository and you should see them appear in the file explorer on the left side of Positron. (Note that to add an entire folder you simply need to write `git checkout upstream/main -- foldername/` and it will copy the entire folder with all its contents).
 
 4. Grab the assignment files, e.g. by grabbing the whole folder or by writing `git checkout upstream/main -- mandatory-assignments/MA_1_portfolio_choice_2026.pdf mandatory-assignments/MA_python_template.qmd` (if using Python, choose similarly for R).
+
+
+![After getting the files with the checkout command, you should be able to see them in the left side of Positron](figures/git-upstream-files-1.png){fig-align="center"}
 
 #### Part 4 (Optional) - Organizing the folder structure
 
@@ -73,13 +80,13 @@ upstream https://github.com/advanced-empirical-finance/course-repository.git (pu
 
 1. We now have the files that we need. However, these are only saved locally on your computer as for now (you can check GitHub and see that the repository is still empty). Therefore, we need to push our changes to GitHub, such that our other group members can access the files and we can collaborate on them.
 
-2. To do this, we first need to add the files to the staging area by writing `git add .` (the dot means that we want to add all the files in the current folder and subfolders). You can also specify specific files instead of adding everything, e.g. if you've changed multiple files but you only want to share some of them. Think of the staging area as where you select which changes you want to include in your next commit.
+2. To do this, we first need to add the files to the staging area by writing `git add .` (the dot means that we want to add all the files in the current folder and subfolders). You can also specify specific files instead of adding everything through `git add filename`, e.g. if you've changed multiple files but you only want to share some of them. Think of the staging area as where you select which changes you want to include in your next commit.
 
-3. Next, we need to commit our changes by writing `git commit -m "Initial commit with environment and assignment files"`. The message in the quotation marks should be a brief description of the changes you've made, which will help you and your collaborators keep track of the history of changes in the project. This will create a snapshot of your project at this point in time, which you can revert back to if needed. You can make multiple commits as you work on the project, and each commit will be saved in the history of the project.
+3. Next, we need to commit our changes by writing `git commit -m "Initial commit with environment and assignment files"`. The message in the quotation marks should be a brief description of the changes you've made, which will help you and your collaborators keep track of the history of changes in the project. This will create a snapshot of your project at this point in time, which you can revert back to if needed. You can make multiple commits as you work on the project, and each commit will be saved in the history of the project. These commits (snapshots) are what you will be sharing with your collaborators through GitHub, by pushing them to the shared repository.
 
 4. Finally, we need to push our changes to GitHub by writing `git push origin main`. This will upload your committed changes to the GitHub repository, making them accessible to your collaborators. You can check the repository on GitHub and you should see that the files have been added.
 
-5. Student B and C can now clone the repository to their local machines and simply write `git pull origin main` to pull down the files that Student A has pushed to GitHub. Your assignment files are now shared and you can collaborate on them by making changes locally, committing those changes, and pushing them to GitHub. Remember to pull down the latest changes from GitHub before you start working, to ensure that you're working on the most up-to-date version of the files. You can do this by writing `git pull origin main` in the terminal when you start working.
+5. **Student B and C can now clone the repository to their local machines** and simply write `git pull origin main` to pull down the files that Student A has pushed to GitHub. Your assignment files are now shared and you can collaborate on them by making changes locally, committing those changes, and pushing them to GitHub. Remember to pull down the latest changes from GitHub before you start working, to ensure that you're working on the most up-to-date version of the files. You can do this by writing `git pull origin main` in the terminal when you start working.
 
 #### Part 6 - Keeping your repository up to date with the course repository
 
@@ -91,3 +98,10 @@ upstream https://github.com/advanced-empirical-finance/course-repository.git (pu
 `git push origin main`
 
 
+#### Part 7 - The daily workflow
+
+1. Make sure that you're working on the latest version of your group's repository by writing `git pull origin main` in the terminal before you start working.
+
+2. Open or create the files you want to work on and make your changes, while saving the work regularly.
+
+3. Once you've finished a task or want to share your changes, proceed as in part 5 and 6 to add (`git add .`), commit (`git commit -m "message here"`), and push (`git push origin main`) your changes to your groups repository on GitHub. 
