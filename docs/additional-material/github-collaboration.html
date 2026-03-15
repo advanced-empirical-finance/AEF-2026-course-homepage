@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>positron-ai-assistant</title>
+<title>git-collaboration</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,21 +20,56 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="positron-ai-assistant_files/libs/clipboard/clipboard.min.js"></script>
-<script src="positron-ai-assistant_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="positron-ai-assistant_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="positron-ai-assistant_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="positron-ai-assistant_files/libs/quarto-html/popper.min.js"></script>
-<script src="positron-ai-assistant_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="positron-ai-assistant_files/libs/quarto-html/anchor.min.js"></script>
-<link href="positron-ai-assistant_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="positron-ai-assistant_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="positron-ai-assistant_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="positron-ai-assistant_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="positron-ai-assistant_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="git-collaboration_files/libs/clipboard/clipboard.min.js"></script>
+<script src="git-collaboration_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="git-collaboration_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="git-collaboration_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="git-collaboration_files/libs/quarto-html/popper.min.js"></script>
+<script src="git-collaboration_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="git-collaboration_files/libs/quarto-html/anchor.min.js"></script>
+<link href="git-collaboration_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="git-collaboration_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="git-collaboration_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="git-collaboration_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="git-collaboration_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -48,94 +83,113 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="positron-assistant-guide" class="level1">
-<h1>Positron Assistant Guide</h1>
-<p>Positron offers several AI-powered features to assist you in your work, including the Positron Assistant Chat and Code Completion with GitHub Copilot. These tools are designed to help you save time, increase efficiency, and enhance your overall productivity. For a more detailed introduction to the Positron Assistant, we recommend reading the <a href="https://positron.posit.co/assistant">Positron Assistant Introduction</a> including their guide for getting started.</p>
-<p>Before we begin, remember that AI assistants are not perfect and may sometimes provide incorrect or suboptimal suggestions. <strong>Always review the suggestions provided by the assistant and use your own judgment when deciding whether to accept them.</strong></p>
-<section id="setting-up-positron-assistant" class="level2">
-<h2 class="anchored" data-anchor-id="setting-up-positron-assistant">Setting up Positron Assistant</h2>
-<p>To set up the Positron Assistant, you will first need to enable it in the Positron settings. You may either click on the <code>Chat</code> tab at the left side bar (<code>Ctrl + Alt + I</code>) and enter the settings through there, <em>or</em> by clicking the small gear in the bottom left corner (“Manage” -&gt; “Settings”). Write <code>"Positron Assistant Enable"</code> in the search bar and <strong>check the first box</strong>.</p>
+<section id="collaboration-with-git-and-github" class="level1">
+<h1>Collaboration with Git and GitHub</h1>
+<p>In this section, we will cover the basics of collaborating on code projects using Git and GitHub. We will go through the essential commands and workflows that you need to know to effectively collaborate with others on coding projects such as your mandatory assignments.</p>
+<p>First, some introduction is in order before we start. <strong><em>Git</em></strong> is a version control system, which allows one or multiple people to work on a project simultaneously without overwriting each other’s work. It keeps track of changes made to files and allows you to revert back to previous versions if needed. <strong><em>GitHub</em></strong> is a web-based platform that provides hosting for Git repositories, making it easier to collaborate with others and share your code.</p>
+<section id="why-use-git-and-github-for-collaboration" class="level4">
+<h4 class="anchored" data-anchor-id="why-use-git-and-github-for-collaboration">Why use Git and GitHub for collaboration?</h4>
+<p>Most people have at some point ended up with multiple versions of the same file on their computer (see figure 1), which not only makes it hard for yourself to keep track of the most recent version, but also makes it difficult to collaborate with others, as you may end up sending different versions of the same file back and forth.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/positron_assistant_enable.png" class="img-fluid figure-img"></p>
-<figcaption>Check this box</figcaption>
+<p><img src="figures/git-file-versions.png" class="img-fluid figure-img"></p>
+<figcaption>Bad file management can be a burden</figcaption>
 </figure>
 </div>
-<p>After you’ve checked this box, you need to <strong>restart Positron</strong>. This is most easily done by pressing <code>Ctrl + Shift + P</code> and then writing <em>“Reload window”</em>. Choose the <code>"Developer: Reload Window"</code> option.</p>
-<p>Next we need to choose a large language model provider. By default, you may choose between Anthropic or GitHub Copilot. Note that the <em>code completion</em> feature explained below is only available with GitHub Copilot as of now.</p>
-<p>I’ve chosen to use GitHub Copilot. To connect with your GitHub account, press <code>Ctrl + Shift + P</code> and write <code>Positron Assistant: Configure Language Model Providers</code>. Select GitHub Copilot and press the <em>Sign In</em> button to initialize GutHub’s OAuth authentication flow. Follow the instructions to log in to your GitHub account and authorize Positron to access your Copilot subscription. After successful authentication, you should see a confirmation message in Positron.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/llm-provider.png" class="img-fluid figure-img"></p>
-<figcaption>There are different options with respect to large language model provider</figcaption>
-</figure>
-</div>
-<p><strong>Important note</strong>: If you don’t seem to have any model connected (i.e.&nbsp;at the bottom of the Positron Assistant Chat panel, if your chat-model is not “GPT-5 mini” after authenticating with GitHub Copilot), you may need to check your settings at github.com under <a href="https://github.com/settings/copilot/features">Copilot settings</a> to ensure that you have access and activated your Github Copilot subscription.</p>
+<p><strong>There is also a good chance that you will encounter Git and Github at some point in your future career</strong>, as it is the industry standard for version control and collaboration on code projects. The goal of this overview is not to make you an expert nor cover all the features of Git, but rather to give you a basic understanding of the tools and an opportunity to use them, by showing you how to set up a GitHub repository to collaborate with your group on the mandatory assignments.</p>
 </section>
-<section id="positron-ai" class="level2">
-<h2 class="anchored" data-anchor-id="positron-ai">Positron AI</h2>
-<p>Within Positron, you have several options to utilize the AI assistant, including a main chat interface, code completion features, and an inline chat function. Each of these features is designed to provide you with different ways to interact with the assistant and get the help you need.</p>
-<section id="chat-interface---context-models-and-modes" class="level3">
-<h3 class="anchored" data-anchor-id="chat-interface---context-models-and-modes">Chat interface - Context, models and modes</h3>
-<p>At the bottom of the main chat interface, you will find a button to switch between different modes of interaction with the AI assistant: <em>‘Ask’</em>, <em>‘Edit’</em>, and <em>‘Agent’</em> mode, a button to choose your desired large language model (e.g.&nbsp;<em>GPT-5 mini</em>) and the option to provide additional context for the assistant to use in its responses. The context can be any relevant information that you want the assistant to consider when generating its responses, such as project details, specific requirements, or any other information that may help the assistant provide more accurate and relevant answers. Examples include project descriptions, code snippets, documentation on your (teams) coding style, etc.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/context.png" class="img-fluid figure-img"></p>
-<figcaption>There are several options available in this panel</figcaption>
-</figure>
-</div>
-<p>With respect to the different modes, there are three main options.</p>
-<ul>
-<li><strong>Ask mode</strong>: This is the default mode where you can ask the assistant questions or request information. Think of it as having ChatGPT embedded directly in the side panel. The assistant will provide responses based on your queries, which can be related to coding, documentation, or general knowledge.<br>
-</li>
-<li><strong>Edit mode</strong>: In this mode, you can provide the assistant with a piece of code or text and ask it to edit or improve it. For example, you can ask the assistant to optimize a function, rewrite a paragraph for clarity, or suggest improvements to your code.<br>
-</li>
-<li><strong>Agent mode</strong>: This mode allows you to set up a more complex interaction with the assistant, including multi-step tasks and workflow planning across the entire project.</li>
-</ul>
-<p>We will primarily be working with the <strong>ask</strong> and <strong>edit</strong> modes in this course, as they are the most commonly used for coding assistance and documentation generation.</p>
-<p><em>Exercise: Try asking the assistant “Can you summarize the main essential equations I need on mean variance portfolio optimization?” in ask mode, and then switch to edit mode to ask it to “Write a function that calculates the optimal portfolio weights based on the mean-variance optimization framework”.</em></p>
+<section id="are-there-any-limitations" class="level4">
+<h4 class="anchored" data-anchor-id="are-there-any-limitations">Are there any limitations?</h4>
+<p>An important note is that Git and GitHub are primarily designed for collaboration on code projects. This is essentially done by sharing - i.e.&nbsp;pushing and pulling - <em>commits</em> (which are snapshots of your project at a specific point in time) to and from a shared repository on GitHub. This also means that there is no live-editing as in Overleaf or similar, so you won’t be able to see each other’s changes in real-time. I would recommend either working on the models in python files separate from your quarto-document - for example creating files such as <code>mean-variance-pfo.py</code> and adding the code to the quarto document afterwards, or at the very least, work on different sections of the quarto document to avoid merge conflicts.</p>
 </section>
-<section id="code-completion-with-github-copilot" class="level3">
-<h3 class="anchored" data-anchor-id="code-completion-with-github-copilot">Code Completion with GitHub Copilot</h3>
-<p>Given that you’ve chosen to use GitHub Copilot as the large language model provider, you may take advantage of the <strong>code completion</strong> feature. This allows you to receive so called <em>‘ghost text’</em> suggestions as you write, which are greyed-out text that appears as you type, suggesting completions for your code or text.</p>
-<p>Note that for the standard free setup (Copilot Free plan through Github), there is a usage limit which you may find on GitHub.com under <a href="https://github.com/settings/copilot/features">Copilot settings</a></p>
+<section id="overview-of-the-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="overview-of-the-workflow">Overview of the workflow</h3>
+<p>The workflow outlined below only needs to be done by one person in your group (Student A). After Student A has set up the GitHub repository and pushed the initial files, the other group members (Student B and C) can simply clone the repository to their local machines and pull down the files.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/github-copilot-usage.png" class="img-fluid figure-img"></p>
-<figcaption>Github Copilot usage</figcaption>
+<p><img src="figures/git-figurative-workflow.jpg" class="img-fluid figure-img"></p>
+<figcaption>A sketch of the workflow introduced below, including the groups new assignment repo (black), as well as the downloading of files from the course repo (orange).</figcaption>
 </figure>
 </div>
-<p>The suggestions will appear naturally as you write. You can accept the suggestions by pressing <code>Tab</code> or <code>Ctrl + Right Arrow</code> on Windows/Linux, or <code>Option + Right Arrow</code> on Mac. You can also cycle through different suggestions by pressing <code>Ctrl + Space</code> (or <code>Cmd + Space</code> on Mac) after the initial suggestion appears.</p>
+<section id="part-1---creating-a-github-repository-for-your-group." class="level4">
+<h4 class="anchored" data-anchor-id="part-1---creating-a-github-repository-for-your-group.">Part 1 - Creating a GitHub repository for your group.</h4>
+<ol type="1">
+<li><p>Go to <a href="https://github.com">GitHub.com</a> and click on the green <em>“New”</em> button at the left side of your screen. You may also navigate to the “Repositories” tab on your profile (top right corner) and click on the <em>“New”</em> button there.</p></li>
+<li><p>Choose a name for your repository (e.g.&nbsp;<em>“AEF-2026-Assignments-Group1”</em>). Add a description and set the visibility to “Private” (such that only you and your group members can access it). You do not need to initialize the repository with a README or .gitignore file. Click <em>“Create repository”</em></p></li>
+<li><p>Copy the HTTPS URL of this new repository.</p></li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/code-completion-1.png" class="img-fluid figure-img"></p>
-<figcaption>Code suggestions will automatically pop up</figcaption>
+<p><img src="figures/git-url.png" class="img-fluid figure-img"></p>
+<figcaption>You should see a similar setup as above. Copy the URL</figcaption>
 </figure>
 </div>
-<p>It is also possible to give <em>code suggestions</em> by writing <code>//</code> followed by a text prompt, which will trigger the assistant to generate a suggestion based on the prompt. This is particularly useful for generating code, if you’re e.g.&nbsp;unsure about the syntax for a specific function or package.</p>
+<ol start="4" type="1">
+<li>Add collaborators: On GitHub, go to your new repository’s main page, click on the <em>“Settings”</em> tab, then select <em>“Collaborators”</em> (or <em>“Collaborators and teams”</em>). Click <em>“Add people”</em>, search for your group members by their GitHub username or email, and send them invitations. Each group member must accept the invitation (they will receive an email and/or a notification on GitHub) before they can push changes to the repository.</li>
+</ol>
+</section>
+<section id="part-2---making-a-local-copy-of-the-repository-through-positron" class="level4">
+<h4 class="anchored" data-anchor-id="part-2---making-a-local-copy-of-the-repository-through-positron">Part 2 - Making a local copy of the repository through Positron</h4>
+<ol type="1">
+<li><p>Within Positron, click on <em>“New”</em> (top left corner) and then select <em>“New folder from Git”</em>.</p></li>
+<li><p>Paste the URL of your new GitHub repository and click OK. This will create a local copy of the empty repository on your computer, which you can work on and later push changes to GitHub. If you’re prompted by the Git Credential Manager, log in.</p></li>
+<li><p>Go to the terminal window in Positron. The default terminal will most likely be PowerShell on Windows, but you can change this to Git Bash (which I recommend) or any terminal of your choice.</p></li>
+</ol>
+</section>
+<section id="part-3---connecting-to-the-course-repository-and-grabbing-files" class="level4">
+<h4 class="anchored" data-anchor-id="part-3---connecting-to-the-course-repository-and-grabbing-files">Part 3 - Connecting to the course repository and grabbing files</h4>
+<ol type="1">
+<li><p>As of now, our newly created repository is empty. In order to access the course materials, such as the mandatory assignment files, we will add an “upstream” connection to the course repository. This will allow us to pull changes from the course repository into our local repository, which we can then push to our GitHub repository. In the terminal, write <code>git remote add upstream https://github.com/advanced-empirical-finance/course-repository.git</code> and press enter.</p></li>
+<li><p>To verify that it worked, you can write <code>git remote -v</code> in the terminal. Your output should look something like this:</p></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li><p>We don’t necessarily need all the files from the course repository, so to get the specific files we need, we will use the <em>checkout</em> command instead of the <em>pull</em> command for this part. First, write <code>git fetch upstream</code> to load the latest changes from the course repository. Second, grab the environment files by writing <code>git checkout upstream/main -- renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore</code>. This will copy the specified files from the course repository to your local repository and you should see them appear in the file explorer on the left side of Positron. (Note that to add an entire folder you simply need to write <code>git checkout upstream/main -- foldername/</code> and it will copy the entire folder with all its contents).</p></li>
+<li><p>Grab the assignment files, e.g.&nbsp;by grabbing the whole folder or by writing <code>git checkout upstream/main -- mandatory-assignments/MA_1_portfolio_choice_2026.pdf mandatory-assignments/MA_python_template.qmd</code> (if using Python, choose similarly for R).</p></li>
+</ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/code-completion-2.png" class="img-fluid figure-img"></p>
-<figcaption>If you’re a Python user who’s used to matplotlib, the assistant can e.g.&nbsp;guide you to using the plotnine package</figcaption>
+<p><img src="figures/git-upstream-files-1.png" class="img-fluid figure-img"></p>
+<figcaption>After getting the files with the checkout command, you should be able to see them in the left side of Positron</figcaption>
 </figure>
 </div>
 </section>
-<section id="inline-chat" class="level3">
-<h3 class="anchored" data-anchor-id="inline-chat">Inline chat</h3>
-<p>In addition to the main chat interface, Positron also offers an <em>inline chat</em> feature. This allows you to use the AI assistant directly within your code or text editor, without needing to switch to a separate chat window. You can access the inline chat by <code>Ctrl + i</code> (or <code>Cmd + i</code> on Mac) while your cursor is in the editor. This will open a small chat interface where you can ask questions or request assistance related to the code or text you’re working on, which is ideal for assistance with very specific lines of code, e.g.&nbsp;<em>“Write documentation for this function”</em>, <em>“Explain this line of code”</em>, <em>“Rewrite this as a function instead”</em>, etc.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/inline-chat.png" class="img-fluid figure-img"></p>
-<figcaption>Pressing <code>Ctrl + i</code> opens up the inline chat function</figcaption>
-</figure>
-</div>
-<p>After providing the inline chat with a prompt, the assistant will generate a response and insert it directly into your code or text editor at the location of your cursor. You can then accept the suggestion, modify it, or ask for a different response if needed.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/inline-chat-2.png" class="img-fluid figure-img"></p>
-<figcaption>You will get the opportunity to accept the suggestion</figcaption>
-</figure>
-</div>
+<section id="part-4-optional---organizing-the-folder-structure" class="level4">
+<h4 class="anchored" data-anchor-id="part-4-optional---organizing-the-folder-structure">Part 4 (Optional) - Organizing the folder structure</h4>
+<ol type="1">
+<li>If you want a different folder structure, e.g.&nbsp;a folder for each assignment, you can simply move the files around in the file explorer on the left side of Positron. You can also use the terminal by writing <code>mkdir "Assignment 1"</code> to create a new folder, <code>mv mandatory-assignments/MA_1_portfolio_choice_2026.pdf "Assignment 1/"</code> <code>mv mandatory-assignments/MA_python_template.qmd "Assignment 1/"</code> to move the assignment files and <code>rmdir mandatory-assignments</code> to remove the now empty folder. Leave the environment files in the main root folder.</li>
+</ol>
+</section>
+<section id="part-5---saving-and-sharing-your-work-with-git-and-github" class="level4">
+<h4 class="anchored" data-anchor-id="part-5---saving-and-sharing-your-work-with-git-and-github">Part 5 - Saving and sharing your work with Git and GitHub</h4>
+<ol type="1">
+<li><p>We now have the files that we need. However, these are only saved locally on your computer as for now (you can check GitHub and see that the repository is still empty). Therefore, we need to push our changes to GitHub, such that our other group members can access the files and we can collaborate on them.</p></li>
+<li><p>To do this, we first need to add the files to the staging area by writing <code>git add .</code> (the dot means that we want to add all the files in the current folder and subfolders). You can also specify specific files instead of adding everything through <code>git add filename</code>, e.g.&nbsp;if you’ve changed multiple files but you only want to share some of them. Think of the staging area as where you select which changes you want to include in your next commit.</p></li>
+<li><p>Next, we need to commit our changes by writing <code>git commit -m "Initial commit with environment and assignment files"</code>. The message in the quotation marks should be a brief description of the changes you’ve made, which will help you and your collaborators keep track of the history of changes in the project. This will create a snapshot of your project at this point in time, which you can revert back to if needed. You can make multiple commits as you work on the project, and each commit will be saved in the history of the project. These commits (snapshots) are what you will be sharing with your collaborators through GitHub, by pushing them to the shared repository.</p></li>
+<li><p>Finally, we need to push our changes to GitHub by writing <code>git push origin main</code>. This will upload your committed changes to the GitHub repository, making them accessible to your collaborators. You can check the repository on GitHub and you should see that the files have been added.</p></li>
+<li><p><strong>Student B and C can now clone the repository to their local machines</strong> and simply write <code>git pull origin main</code> to pull down the files that Student A has pushed to GitHub. Your assignment files are now shared and you can collaborate on them by making changes locally, committing those changes, and pushing them to GitHub. Remember to pull down the latest changes from GitHub before you start working, to ensure that you’re working on the most up-to-date version of the files. You can do this by writing <code>git pull origin main</code> in the terminal when you start working.</p></li>
+</ol>
+</section>
+<section id="part-6---keeping-your-repository-up-to-date-with-the-course-repository" class="level4">
+<h4 class="anchored" data-anchor-id="part-6---keeping-your-repository-up-to-date-with-the-course-repository">Part 6 - Keeping your repository up to date with the course repository</h4>
+<ol type="1">
+<li><p>If there are updates to the course repository which you would like to add to your assignment repository, or when the next assignment is released, you can simply load the latest changes from the course repository by writing <code>git fetch upstream</code> and then <code>git checkout upstream/main -- files_or_folders_you_want_to_update</code>. I do <strong>not</strong> recommend using the <code>git pull upstream main</code> command here, as this will pull all the changes from the course repository and may cause merge conflicts.</p></li>
+<li><p>To share the updates with your group members, simply do as before, to push it to Github by<br>
+<code>git add .</code><br>
+<code>git commit -m "Updated files with latest changes from course repository"</code><br>
+<code>git push origin main</code></p></li>
+</ol>
+</section>
+<section id="part-7---the-daily-workflow" class="level4">
+<h4 class="anchored" data-anchor-id="part-7---the-daily-workflow">Part 7 - The daily workflow</h4>
+<ol type="1">
+<li><p>Make sure that you’re working on the latest version of your group’s repository by writing <code>git pull origin main</code> in the terminal before you start working.</p></li>
+<li><p>Open or create the files you want to work on and make your changes, while saving the work regularly.</p></li>
+<li><p>Once you’ve finished a task or want to share your changes, proceed as in part 5 and 6 to add (<code>git add .</code>), commit (<code>git commit -m "message here"</code>), and push (<code>git push origin main</code>) your changes to your groups repository on GitHub.</p></li>
+</ol>
 </section>
 </section>
 </section>
