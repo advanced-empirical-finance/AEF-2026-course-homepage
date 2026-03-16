@@ -45,19 +45,19 @@ from sklearn.exceptions import ConvergenceWarning
 # | include: true
 # | echo: true
 factors_ff3_monthly = pd.read_parquet(
-    "/Users/gabrielbaker/Desktop/AEF2026/course-repository/data-python/factors_ff3_monthly.parquet"
+    "data/factors_ff3_monthly.parquet"
 ).add_prefix("factor_ff_")
 
 factors_q_monthly = pd.read_parquet(
-    "/Users/gabrielbaker/Desktop/AEF2026/course-repository/data-python/factors_q_monthly.parquet"
+    "data/factors_q_monthly.parquet"
 ).add_prefix("factor_q_")
 
 macro_predictors = pd.read_parquet(
-    "/Users/gabrielbaker/Desktop/AEF2026/course-repository/data-python/macro_predictors.parquet"
+    "data/macro_predictors.parquet"
 ).add_prefix("macro_")
 
 industries_ff_monthly = pd.read_parquet(
-    "/Users/gabrielbaker/Desktop/AEF2026/course-repository/data-python/industries_ff_monthly.parquet"
+    "data/industries_ff_monthly.parquet"
 ).melt(id_vars="date", var_name="industry", value_name="ret")
 
 data = (industries_ff_monthly
