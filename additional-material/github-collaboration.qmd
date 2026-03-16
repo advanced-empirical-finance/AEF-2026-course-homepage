@@ -1,0 +1,168 @@
+
+# Collaboration with Git and GitHub
+
+This guide covers the essential Git and GitHub commands and workflows you need to collaborate with your group on the mandatory assignments.
+
+***Git*** is a version control system that lets one or more people work on a project simultaneously without overwriting each other's work. It tracks changes to files and lets you revert to earlier versions if needed. ***GitHub*** is a web platform that hosts Git repositories, making it easy to share code and collaborate.
+
+
+#### Why use Git and GitHub for collaboration?
+
+Most people have at some point ended up with multiple versions of the same file (see figure 1), making it hard to track the latest version and even harder to collaborate without sending files back and forth.
+
+![Bad file management can be a burden](figures/git-file-versions.png){fig-align="center"}
+
+Git and GitHub are the industry standard for version control and are widely used in finance and data science roles. The goal here is not to make you an expert, but to give you enough to collaborate effectively on your assignments.
+
+
+#### Are there any limitations?
+
+Git collaboration works by sharing *commits* — snapshots of your project at a point in time — to and from a shared repository on GitHub. Unlike Overleaf, there is no live co-editing, so you won't see each other's changes in real time. To avoid merge conflicts, I recommend either working in separate Python files (e.g. `mean-variance-pfo.py`) and pasting code into the Quarto document afterwards, or at minimum working on different sections of the Quarto document at the same time.
+
+
+### Overview of the workflow
+
+Only one person in your group (Student A) needs to follow Parts 1–5. Once Student A has set up the repository and pushed the initial files, the other group members (Student B and C) clone the repository and pull the files.
+
+
+![A sketch of the workflow introduced below, including the groups new assignment repo (black), as well as the downloading of files from the course repo (orange).](figures/git-figurative-workflow.jpg){fig-align="center"}
+
+
+#### Part 1 - Creating a GitHub repository for your group.
+
+1. Go to [GitHub.com](https://github.com) and click the green *"New"* button on the left, or navigate to *"Repositories"* in your profile (top right) and click *"New"*.
+
+2. Name your repository (e.g. *"AEF-2026-Assignments-Group1"*), add a description, and set visibility to *"Private"*. You do not need to initialize with a README or .gitignore. Click *"Create repository"*.
+
+3. Copy the HTTPS URL of the new repository.
+
+![You should see a similar setup as above. Copy the URL](figures/git-url.png){fig-align="center"}
+
+4. Add collaborators: go to *Settings* → *Collaborators* → *Add people*, and search for your group members by GitHub username or email. Each member must accept the invitation before they can push to the repository.
+
+
+#### Part 2 - Making a local copy of the repository through Positron
+
+1. In Positron, click *"New"* (top left) and select *"New folder from Git"*.
+
+2. Paste the repository URL and click OK. This creates a local copy on your computer. Log in if prompted by the Git Credential Manager.
+
+3. Open the terminal in Positron. On Windows, the default is PowerShell — you can switch to Git Bash (recommended) or any terminal you prefer.
+
+
+
+#### Part 3 - Connecting to the course repository and grabbing files
+
+1. Your repository is currently empty. To access course materials, add an "upstream" connection to the course repository by running:
+
+```bash
+git remote add upstream https://github.com/advanced-empirical-finance/course-repository.git
+```
+
+2. Verify it worked by running `git remote -v`. Your output should look like this:
+
+```bash
+origin   https://github.com/your-username/AEF-Assignments-Group1.git (fetch)
+origin   https://github.com/your-username/AEF-Assignments-Group1.git (push)
+upstream https://github.com/advanced-empirical-finance/course-repository.git (fetch)
+upstream https://github.com/advanced-empirical-finance/course-repository.git (push)
+```
+
+
+3. Rather than pulling everything, use `checkout` to grab only the files you need. First fetch the latest state of the course repository:
+
+```bash
+git fetch upstream
+```
+
+Then grab the environment files:
+
+```bash
+git checkout upstream/main -- renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore
+```
+
+The files will appear in Positron's file explorer. To copy an entire folder, use `git checkout upstream/main -- foldername/`.
+
+4. Grab the assignment files, e.g.:
+
+```bash
+git checkout upstream/main -- mandatory-assignments/MA_1_portfolio_choice_2026.pdf mandatory-assignments/MA_python_template.qmd
+```
+
+(Choose the R template instead if you are working in R.)
+
+
+![After getting the files with the checkout command, you should be able to see them in the left side of Positron](figures/git-upstream-files-1.png){fig-align="center"}
+
+#### Part 4 (Optional) - Organizing the folder structure
+
+1. To reorganize into per-assignment folders, you can drag files in Positron's file explorer or use the terminal:
+
+```bash
+mkdir "Assignment 1"
+mv mandatory-assignments/MA_1_portfolio_choice_2026.pdf "Assignment 1/"
+mv mandatory-assignments/MA_python_template.qmd "Assignment 1/"
+rmdir mandatory-assignments
+```
+
+Leave the environment files in the root folder.
+
+#### Part 5 - Saving and sharing your work with Git and GitHub
+
+1. The files are currently only on your local machine — GitHub still shows an empty repository. To share them, you need to stage, commit, and push.
+
+2. Stage all files:
+```bash
+git add .
+```
+The `.` adds everything in the current folder. To stage specific files only, use `git add filename`. Think of staging as selecting which changes to include in your next commit.
+
+3. Commit the staged changes with a short message describing what you did:
+```bash
+git commit -m "Initial commit with environment and assignment files"
+```
+This creates a snapshot of your project that you can return to later.
+
+4. Push to GitHub:
+```bash
+git push origin main
+```
+You can now check your repository on GitHub and see the files.
+
+5. **Student B and C** can now clone the repository to their machines (Parts 1–2 without creating a new repo, by using Student A's URL) and run `git pull origin main` to download everything. From this point on, the daily workflow is: pull before you start, work, then add → commit → push.
+
+#### Part 6 - Keeping your repository up to date with the course repository
+
+1. When new assignments are released or course files are updated, fetch and selectively check out the files you need:
+
+```bash
+git fetch upstream
+git checkout upstream/main -- files_or_folders_you_want_to_update
+```
+
+Do **not** use `git pull upstream main` — it pulls everything and is likely to cause merge conflicts.
+
+2. Share the updates with your group by pushing as usual:
+
+```bash
+git add .
+git commit -m "Updated files with latest changes from course repository"
+git push origin main
+```
+
+
+#### Part 7 - The daily workflow
+
+1. Before you start, pull the latest changes from your group's repository:
+```bash
+git pull origin main
+```
+
+2. Open or create your files and make your changes, saving regularly.
+
+3. When you're done or want to share progress, stage, commit, and push:
+```bash
+git add .
+git commit -m "Your message here"
+git push origin main
+```
