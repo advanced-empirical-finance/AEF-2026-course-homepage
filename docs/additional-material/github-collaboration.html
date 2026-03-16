@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>git-collaboration</title>
+<title>github-collaboration</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,53 +58,212 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="git-collaboration_files/libs/clipboard/clipboard.min.js"></script>
-<script src="git-collaboration_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="git-collaboration_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="git-collaboration_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="git-collaboration_files/libs/quarto-html/popper.min.js"></script>
-<script src="git-collaboration_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="git-collaboration_files/libs/quarto-html/anchor.min.js"></script>
-<link href="git-collaboration_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="git-collaboration_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="git-collaboration_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="git-collaboration_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="git-collaboration_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-43081d808c96cc46af55a3a816ae9eed.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
 
+<link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
-<main class="content" id="quarto-document-content">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../additional-material/index.html"> 
+<span class="menu-text">more ressources</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../slides-index.html"> 
+<span class="menu-text">lecture plan</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../exercises/index.html"> 
+<span class="menu-text">exercises</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://code.com"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/positron-ai-assistant.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/github-collaboration.html">Collaboration with Git and GitHub</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Additional ressources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Positron</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/positron-ai-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Positron AI Assistant Guide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/quarto-documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducible Research with Quarto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/github-collaboration.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Collaboration with Git and GitHub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/ml-data-preparation-for-python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Replicating Gu Kelly &amp; Xiu (2020)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../additional-material/assignment-quality-criteria.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Assignment Quality Criteria</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#collaboration-with-git-and-github" id="toc-collaboration-with-git-and-github" class="nav-link active" data-scroll-target="#collaboration-with-git-and-github">Collaboration with Git and GitHub</a>
+  <ul class="collapse">
+  <li><a href="#overview-of-the-workflow" id="toc-overview-of-the-workflow" class="nav-link" data-scroll-target="#overview-of-the-workflow">Overview of the workflow</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../additional-material/positron-ai-assistant.html">Positron</a></li><li class="breadcrumb-item"><a href="../additional-material/github-collaboration.html">Collaboration with Git and GitHub</a></li></ol></nav></header>
 
 
 
 
 <section id="collaboration-with-git-and-github" class="level1">
 <h1>Collaboration with Git and GitHub</h1>
-<p>In this section, we will cover the basics of collaborating on code projects using Git and GitHub. We will go through the essential commands and workflows that you need to know to effectively collaborate with others on coding projects such as your mandatory assignments.</p>
-<p>First, some introduction is in order before we start. <strong><em>Git</em></strong> is a version control system, which allows one or multiple people to work on a project simultaneously without overwriting each other’s work. It keeps track of changes made to files and allows you to revert back to previous versions if needed. <strong><em>GitHub</em></strong> is a web-based platform that provides hosting for Git repositories, making it easier to collaborate with others and share your code.</p>
+<p>This guide covers the essential Git and GitHub commands and workflows you need to collaborate with your group on the mandatory assignments.</p>
+<p><strong><em>Git</em></strong> is a version control system that lets one or more people work on a project simultaneously without overwriting each other’s work. It tracks changes to files and lets you revert to earlier versions if needed. <strong><em>GitHub</em></strong> is a web platform that hosts Git repositories, making it easy to share code and collaborate.</p>
 <section id="why-use-git-and-github-for-collaboration" class="level4">
 <h4 class="anchored" data-anchor-id="why-use-git-and-github-for-collaboration">Why use Git and GitHub for collaboration?</h4>
-<p>Most people have at some point ended up with multiple versions of the same file on their computer (see figure 1), which not only makes it hard for yourself to keep track of the most recent version, but also makes it difficult to collaborate with others, as you may end up sending different versions of the same file back and forth.</p>
+<p>Most people have at some point ended up with multiple versions of the same file (see figure 1), making it hard to track the latest version and even harder to collaborate without sending files back and forth.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/git-file-versions.png" class="img-fluid figure-img"></p>
 <figcaption>Bad file management can be a burden</figcaption>
 </figure>
 </div>
-<p><strong>There is also a good chance that you will encounter Git and Github at some point in your future career</strong>, as it is the industry standard for version control and collaboration on code projects. The goal of this overview is not to make you an expert nor cover all the features of Git, but rather to give you a basic understanding of the tools and an opportunity to use them, by showing you how to set up a GitHub repository to collaborate with your group on the mandatory assignments.</p>
+<p>Git and GitHub are the industry standard for version control and are widely used in finance and data science roles. The goal here is not to make you an expert, but to give you enough to collaborate effectively on your assignments.</p>
 </section>
 <section id="are-there-any-limitations" class="level4">
 <h4 class="anchored" data-anchor-id="are-there-any-limitations">Are there any limitations?</h4>
-<p>An important note is that Git and GitHub are primarily designed for collaboration on code projects. This is essentially done by sharing - i.e.&nbsp;pushing and pulling - <em>commits</em> (which are snapshots of your project at a specific point in time) to and from a shared repository on GitHub. This also means that there is no live-editing as in Overleaf or similar, so you won’t be able to see each other’s changes in real-time. I would recommend either working on the models in python files separate from your quarto-document - for example creating files such as <code>mean-variance-pfo.py</code> and adding the code to the quarto document afterwards, or at the very least, work on different sections of the quarto document to avoid merge conflicts.</p>
+<p>Git collaboration works by sharing <em>commits</em> — snapshots of your project at a point in time — to and from a shared repository on GitHub. Unlike Overleaf, there is no live co-editing, so you won’t see each other’s changes in real time. To avoid merge conflicts, I recommend either working in separate Python files (e.g.&nbsp;<code>mean-variance-pfo.py</code>) and pasting code into the Quarto document afterwards, or at minimum working on different sections of the Quarto document at the same time.</p>
 </section>
 <section id="overview-of-the-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="overview-of-the-workflow">Overview of the workflow</h3>
-<p>The workflow outlined below only needs to be done by one person in your group (Student A). After Student A has set up the GitHub repository and pushed the initial files, the other group members (Student B and C) can simply clone the repository to their local machines and pull down the files.</p>
+<p>Only one person in your group (Student A) needs to follow Parts 1–5. Once Student A has set up the repository and pushed the initial files, the other group members (Student B and C) clone the repository and pull the files.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/git-figurative-workflow.jpg" class="img-fluid figure-img"></p>
@@ -114,9 +273,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-1---creating-a-github-repository-for-your-group." class="level4">
 <h4 class="anchored" data-anchor-id="part-1---creating-a-github-repository-for-your-group.">Part 1 - Creating a GitHub repository for your group.</h4>
 <ol type="1">
-<li><p>Go to <a href="https://github.com">GitHub.com</a> and click on the green <em>“New”</em> button at the left side of your screen. You may also navigate to the “Repositories” tab on your profile (top right corner) and click on the <em>“New”</em> button there.</p></li>
-<li><p>Choose a name for your repository (e.g.&nbsp;<em>“AEF-2026-Assignments-Group1”</em>). Add a description and set the visibility to “Private” (such that only you and your group members can access it). You do not need to initialize the repository with a README or .gitignore file. Click <em>“Create repository”</em></p></li>
-<li><p>Copy the HTTPS URL of this new repository.</p></li>
+<li><p>Go to <a href="https://github.com">GitHub.com</a> and click the green <em>“New”</em> button on the left, or navigate to <em>“Repositories”</em> in your profile (top right) and click <em>“New”</em>.</p></li>
+<li><p>Name your repository (e.g.&nbsp;<em>“AEF-2026-Assignments-Group1”</em>), add a description, and set visibility to <em>“Private”</em>. You do not need to initialize with a README or .gitignore. Click <em>“Create repository”</em>.</p></li>
+<li><p>Copy the HTTPS URL of the new repository.</p></li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -125,31 +284,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <ol start="4" type="1">
-<li>Add collaborators: On GitHub, go to your new repository’s main page, click on the <em>“Settings”</em> tab, then select <em>“Collaborators”</em> (or <em>“Collaborators and teams”</em>). Click <em>“Add people”</em>, search for your group members by their GitHub username or email, and send them invitations. Each group member must accept the invitation (they will receive an email and/or a notification on GitHub) before they can push changes to the repository.</li>
+<li>Add collaborators: go to <em>Settings</em> → <em>Collaborators</em> → <em>Add people</em>, and search for your group members by GitHub username or email. Each member must accept the invitation before they can push to the repository.</li>
 </ol>
 </section>
 <section id="part-2---making-a-local-copy-of-the-repository-through-positron" class="level4">
 <h4 class="anchored" data-anchor-id="part-2---making-a-local-copy-of-the-repository-through-positron">Part 2 - Making a local copy of the repository through Positron</h4>
 <ol type="1">
-<li><p>Within Positron, click on <em>“New”</em> (top left corner) and then select <em>“New folder from Git”</em>.</p></li>
-<li><p>Paste the URL of your new GitHub repository and click OK. This will create a local copy of the empty repository on your computer, which you can work on and later push changes to GitHub. If you’re prompted by the Git Credential Manager, log in.</p></li>
-<li><p>Go to the terminal window in Positron. The default terminal will most likely be PowerShell on Windows, but you can change this to Git Bash (which I recommend) or any terminal of your choice.</p></li>
+<li><p>In Positron, click <em>“New”</em> (top left) and select <em>“New folder from Git”</em>.</p></li>
+<li><p>Paste the repository URL and click OK. This creates a local copy on your computer. Log in if prompted by the Git Credential Manager.</p></li>
+<li><p>Open the terminal in Positron. On Windows, the default is PowerShell — you can switch to Git Bash (recommended) or any terminal you prefer.</p></li>
 </ol>
 </section>
 <section id="part-3---connecting-to-the-course-repository-and-grabbing-files" class="level4">
 <h4 class="anchored" data-anchor-id="part-3---connecting-to-the-course-repository-and-grabbing-files">Part 3 - Connecting to the course repository and grabbing files</h4>
 <ol type="1">
-<li><p>As of now, our newly created repository is empty. In order to access the course materials, such as the mandatory assignment files, we will add an “upstream” connection to the course repository. This will allow us to pull changes from the course repository into our local repository, which we can then push to our GitHub repository. In the terminal, write <code>git remote add upstream https://github.com/advanced-empirical-finance/course-repository.git</code> and press enter.</p></li>
-<li><p>To verify that it worked, you can write <code>git remote -v</code> in the terminal. Your output should look something like this:</p></li>
+<li>Your repository is currently empty. To access course materials, add an “upstream” connection to the course repository by running:</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add upstream https://github.com/advanced-empirical-finance/course-repository.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li>Verify it worked by running <code>git remote -v</code>. Your output should look like this:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">origin</span>   https://github.com/your-username/AEF-Assignments-Group1.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">fetch</span><span class="kw">)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">upstream</span> https://github.com/advanced-empirical-finance/course-repository.git <span class="er">(</span><span class="ex">push</span><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="3" type="1">
-<li><p>We don’t necessarily need all the files from the course repository, so to get the specific files we need, we will use the <em>checkout</em> command instead of the <em>pull</em> command for this part. First, write <code>git fetch upstream</code> to load the latest changes from the course repository. Second, grab the environment files by writing <code>git checkout upstream/main -- renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore</code>. This will copy the specified files from the course repository to your local repository and you should see them appear in the file explorer on the left side of Positron. (Note that to add an entire folder you simply need to write <code>git checkout upstream/main -- foldername/</code> and it will copy the entire folder with all its contents).</p></li>
-<li><p>Grab the assignment files, e.g.&nbsp;by grabbing the whole folder or by writing <code>git checkout upstream/main -- mandatory-assignments/MA_1_portfolio_choice_2026.pdf mandatory-assignments/MA_python_template.qmd</code> (if using Python, choose similarly for R).</p></li>
+<li>Rather than pulling everything, use <code>checkout</code> to grab only the files you need. First fetch the latest state of the course repository:</li>
 </ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch upstream</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then grab the environment files:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout upstream/main <span class="at">--</span> renv.lock uv.lock .Rprofile pyproject.toml _quarto.yml .python-version .gitignore</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The files will appear in Positron’s file explorer. To copy an entire folder, use <code>git checkout upstream/main -- foldername/</code>.</p>
+<ol start="4" type="1">
+<li>Grab the assignment files, e.g.:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout upstream/main <span class="at">--</span> mandatory-assignments/MA_1_portfolio_choice_2026.pdf mandatory-assignments/MA_python_template.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>(Choose the R template instead if you are working in R.)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/git-upstream-files-1.png" class="img-fluid figure-img"></p>
@@ -160,42 +330,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="part-4-optional---organizing-the-folder-structure" class="level4">
 <h4 class="anchored" data-anchor-id="part-4-optional---organizing-the-folder-structure">Part 4 (Optional) - Organizing the folder structure</h4>
 <ol type="1">
-<li>If you want a different folder structure, e.g.&nbsp;a folder for each assignment, you can simply move the files around in the file explorer on the left side of Positron. You can also use the terminal by writing <code>mkdir "Assignment 1"</code> to create a new folder, <code>mv mandatory-assignments/MA_1_portfolio_choice_2026.pdf "Assignment 1/"</code> <code>mv mandatory-assignments/MA_python_template.qmd "Assignment 1/"</code> to move the assignment files and <code>rmdir mandatory-assignments</code> to remove the now empty folder. Leave the environment files in the main root folder.</li>
+<li>To reorganize into per-assignment folders, you can drag files in Positron’s file explorer or use the terminal:</li>
 </ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="st">"Assignment 1"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> mandatory-assignments/MA_1_portfolio_choice_2026.pdf <span class="st">"Assignment 1/"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> mandatory-assignments/MA_python_template.qmd <span class="st">"Assignment 1/"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rmdir</span> mandatory-assignments</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Leave the environment files in the root folder.</p>
 </section>
 <section id="part-5---saving-and-sharing-your-work-with-git-and-github" class="level4">
 <h4 class="anchored" data-anchor-id="part-5---saving-and-sharing-your-work-with-git-and-github">Part 5 - Saving and sharing your work with Git and GitHub</h4>
 <ol type="1">
-<li><p>We now have the files that we need. However, these are only saved locally on your computer as for now (you can check GitHub and see that the repository is still empty). Therefore, we need to push our changes to GitHub, such that our other group members can access the files and we can collaborate on them.</p></li>
-<li><p>To do this, we first need to add the files to the staging area by writing <code>git add .</code> (the dot means that we want to add all the files in the current folder and subfolders). You can also specify specific files instead of adding everything through <code>git add filename</code>, e.g.&nbsp;if you’ve changed multiple files but you only want to share some of them. Think of the staging area as where you select which changes you want to include in your next commit.</p></li>
-<li><p>Next, we need to commit our changes by writing <code>git commit -m "Initial commit with environment and assignment files"</code>. The message in the quotation marks should be a brief description of the changes you’ve made, which will help you and your collaborators keep track of the history of changes in the project. This will create a snapshot of your project at this point in time, which you can revert back to if needed. You can make multiple commits as you work on the project, and each commit will be saved in the history of the project. These commits (snapshots) are what you will be sharing with your collaborators through GitHub, by pushing them to the shared repository.</p></li>
-<li><p>Finally, we need to push our changes to GitHub by writing <code>git push origin main</code>. This will upload your committed changes to the GitHub repository, making them accessible to your collaborators. You can check the repository on GitHub and you should see that the files have been added.</p></li>
-<li><p><strong>Student B and C can now clone the repository to their local machines</strong> and simply write <code>git pull origin main</code> to pull down the files that Student A has pushed to GitHub. Your assignment files are now shared and you can collaborate on them by making changes locally, committing those changes, and pushing them to GitHub. Remember to pull down the latest changes from GitHub before you start working, to ensure that you’re working on the most up-to-date version of the files. You can do this by writing <code>git pull origin main</code> in the terminal when you start working.</p></li>
+<li><p>The files are currently only on your local machine — GitHub still shows an empty repository. To share them, you need to stage, commit, and push.</p></li>
+<li><p>Stage all files:</p></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>.</code> adds everything in the current folder. To stage specific files only, use <code>git add filename</code>. Think of staging as selecting which changes to include in your next commit.</p>
+<ol start="3" type="1">
+<li>Commit the staged changes with a short message describing what you did:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial commit with environment and assignment files"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This creates a snapshot of your project that you can return to later.</p>
+<ol start="4" type="1">
+<li>Push to GitHub:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can now check your repository on GitHub and see the files.</p>
+<ol start="5" type="1">
+<li><strong>Student B and C</strong> can now clone the repository to their machines (Parts 1–2 without creating a new repo, by using Student A’s URL) and run <code>git pull origin main</code> to download everything. From this point on, the daily workflow is: pull before you start, work, then add → commit → push.</li>
 </ol>
 </section>
 <section id="part-6---keeping-your-repository-up-to-date-with-the-course-repository" class="level4">
 <h4 class="anchored" data-anchor-id="part-6---keeping-your-repository-up-to-date-with-the-course-repository">Part 6 - Keeping your repository up to date with the course repository</h4>
 <ol type="1">
-<li><p>If there are updates to the course repository which you would like to add to your assignment repository, or when the next assignment is released, you can simply load the latest changes from the course repository by writing <code>git fetch upstream</code> and then <code>git checkout upstream/main -- files_or_folders_you_want_to_update</code>. I do <strong>not</strong> recommend using the <code>git pull upstream main</code> command here, as this will pull all the changes from the course repository and may cause merge conflicts.</p></li>
-<li><p>To share the updates with your group members, simply do as before, to push it to Github by<br>
-<code>git add .</code><br>
-<code>git commit -m "Updated files with latest changes from course repository"</code><br>
-<code>git push origin main</code></p></li>
+<li>When new assignments are released or course files are updated, fetch and selectively check out the files you need:</li>
 </ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch upstream</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout upstream/main <span class="at">--</span> files_or_folders_you_want_to_update</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Do <strong>not</strong> use <code>git pull upstream main</code> — it pulls everything and is likely to cause merge conflicts.</p>
+<ol start="2" type="1">
+<li>Share the updates with your group by pushing as usual:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Updated files with latest changes from course repository"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="part-7---the-daily-workflow" class="level4">
 <h4 class="anchored" data-anchor-id="part-7---the-daily-workflow">Part 7 - The daily workflow</h4>
 <ol type="1">
-<li><p>Make sure that you’re working on the latest version of your group’s repository by writing <code>git pull origin main</code> in the terminal before you start working.</p></li>
-<li><p>Open or create the files you want to work on and make your changes, while saving the work regularly.</p></li>
-<li><p>Once you’ve finished a task or want to share your changes, proceed as in part 5 and 6 to add (<code>git add .</code>), commit (<code>git commit -m "message here"</code>), and push (<code>git push origin main</code>) your changes to your groups repository on GitHub.</p></li>
+<li>Before you start, pull the latest changes from your group’s repository:</li>
 </ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li><p>Open or create your files and make your changes, saving regularly.</p></li>
+<li><p>When you’re done or want to share progress, stage, commit, and push:</p></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Your message here"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+
 </section>
 </section>
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
