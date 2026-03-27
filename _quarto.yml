@@ -45,13 +45,15 @@ website:
        style: docked
        contents:
          - additional-material/index.qmd
-         - section: Positron
+         - section: Positron and AI
            contents:
              - additional-material/positron-ai-assistant.qmd
+             - additional-material/assignment-quality-criteria.qmd
+         - section: Workflows
+           contents:
              - additional-material/quarto-documentation.qmd
              - additional-material/github-collaboration.qmd
              - additional-material/ml-data-preparation-for-python.qmd
-             - additional-material/assignment-quality-criteria.qmd
 
 format:
   html:
