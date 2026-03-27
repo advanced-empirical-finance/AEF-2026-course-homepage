@@ -17,7 +17,7 @@ website:
       - text: exercises
         file: exercises/index.qmd
       - icon: github
-        url:  https://code.com
+        url:  https://github.com/advanced-empirical-finance/AEF-2026-course-homepage
   sidebar:
      - title: exercises
        style: docked
