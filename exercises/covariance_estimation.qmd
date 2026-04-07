@@ -1,5 +1,5 @@
 ---
-title: "(Co)variance estimation"
+title: (Co)variance estimation
 ---
 
 ## ARCH and GARCH
@@ -8,65 +8,151 @@ This short exercise illustrates how to perform maximum likelihood estimation usi
 
 **Exercises:**
 
-1. As a benchmark dataset, download prices and compute daily returns for all stocks that are part of the Dow Jones 30 index (`ticker <- "DOW"`). The sample period should start on January 1st, 2000. Then, decompose the time series into a predictable part and the residual, $r_t = E(r_t|\mathcal{F}_{t-1}) + \varepsilon_t$. The most straightforward approach would be to demean the time series by simply subtracting the sample mean, but in principle, more sophisticated methods can be used.
-1. For each of the 30 tickers, illustrate the rolling window standard deviation based on some suitable estimation window length.
+1. As a benchmark dataset, download prices and compute daily returns for all stocks that are part of the Dow Jones 30 index. The sample period should start on January 1st, 2000. Then, decompose the time series into a predictable part and a residual, $r_t = E(r_t|\mathcal{F}_{t-1}) + \varepsilon_t$. The most straightforward approach is to demean the series by subtracting the sample mean, but in principle more sophisticated methods (e.g. a factor model) can be used.
+1. For each of the 30 tickers, illustrate the rolling-window standard deviation based on an estimation window length of your choice.
 1. Write a small function that computes the maximum likelihood estimator (MLE) of an ARCH($p$) model.
-1. Write a second function implementing MLE estimation for a GARCH($p,q$) model. 
-1. What is the unconditional estimated variance of the ARCH($1$) and the GARCH($1, 1$) model for each ticker?
-
-<!-- 1. Use your code or the `rugarch` package to fit a GARCH and an ARCH model for each time series and create 1-day ahead volatility forecasts with one year as the initial estimation window. Compare the forecasts to a 1-day ahead volatility forecast based on the sample standard deviation (often called the random walk model). Illustrate the forecast performance against the next day's squared return and compute each model's mean squared prediction error. What can you conclude about the predictive performance?  -->
-
-- Compute and illustrate the model-implied Value-at-risk, defined as the lowest return your model expects with a probability of less than 5 %. Formally, the VaR is defined as $\text{VaR} _{\alpha }(X)= -\inf {\big \{}x\in \mathbb {R} :F_{-X}(x)>\alpha {\big \}}=F_{-X}^{-1}(1-\alpha)$ where $X$ is the return distribution. Illustrate stock returns that fall below the estimated Value-at-risk. What can you conclude?
+1. Write a second function that implements MLE estimation for a GARCH($p,q$) model.
+1. What is the unconditional estimated variance implied by the ARCH($1$) and GARCH($1, 1$) models for each ticker?
 
 **Solutions:**
 
+::: {.panel-tabset group="language"}
+## R
+
 ```{r}
+#| eval: true
 library(tidyverse)
-library(tidyquant)
+library(tidyfinance)
 ```
 
-As usual, I use the `tidyquant` package to download price data of the time series of 30 stocks and to compute (adjusted) net returns. Then, I demean the return time series. This step could be replaced by either adjusting return based on some estimated factor model or predictions that stem from the part on Machine Learning. 
+## Python
+
+```{python}
+import pandas as pd
+import numpy as np
+import tidyfinance as tf
+from plotnine import *
+from scipy.optimize import minimize
+```
+
+:::
+
+As usual, I download daily prices for the 30 index constituents and compute (adjusted) net returns. I then demean each return series. This simple demeaning step could be replaced by adjusting returns with an estimated factor model or with predictions from the Machine Learning part of the course.
+
+::: {.panel-tabset group="language"}
+## R
 
 ```{r}
-ticker <- tq_index("DOW") 
-index_prices <- tq_get(ticker,
-  get = "stock.prices",
-  from = "2000-01-01"
+#| eval: true
+
+ticker <- download_data(
+  type = "constituents",
+  index = "Dow Jones Industrial Average"
+) |> pull(symbol)
+
+index_prices <- download_data(
+  type = "stock_prices",
+  symbols = ticker,
+  start_date = "2000-01-01"
 )
 
 returns <- index_prices |>
   group_by(symbol) |>
-  mutate(ret = 100 * (adjusted / lag(adjusted) - 1)) |>
+  mutate(ret = 100 * (adjusted_close / lag(adjusted_close) - 1)) |>
   select(symbol, date, ret) |>
   drop_na(ret) |>
   mutate(ret = ret - mean(ret))
 ```
-Similar to the Chapter on beta estimation, I use the `slider` package for convenient rolling window computations. For detailed documentation, consult [this homepage](https://github.com/DavisVaughan/slider). The option `.complete = TRUE' ensures that the rolling standard deviations are only computed if sufficient data is available. 
+
+## Python
+
+```{python}
+tickers = (
+    tf.download_data(domain="constituents", index="Dow Jones Industrial Average")
+)["symbol"].tolist()
+
+index_prices = tf.download_data(
+    domain="stock_prices", symbols=tickers, start_date="2000-01-01"
+)
+
+returns = (
+    index_prices.sort_values(["symbol", "date"])
+    .groupby("symbol", group_keys=False)
+    .apply(
+        lambda df: df.assign(
+            ret=100 * (df["adjusted_close"] / df["adjusted_close"].shift(1) - 1)
+        )
+    )[["symbol", "date", "ret"]]
+    .dropna(subset=["ret"])
+)
+
+returns["ret"] = returns.groupby("symbol")["ret"].transform(lambda x: x - x.mean())
+```
+
+:::
+
+As in the chapter on beta estimation, I use a rolling-window approach to compute the standard deviation. Requiring a complete window ensures that a rolling standard deviation is only reported once enough observations are available.
+
+::: {.panel-tabset group="language"}
+## R
+
 ```{r}
+#| eval: true
+
 library(slider)
 
-rolling_sd <- returns |> 
-  group_by(symbol) |> 
-  mutate(rolling_sd = slide_dbl(ret, sd, 
+rolling_sd <- returns |>
+  group_by(symbol) |>
+  mutate(rolling_sd = slide_dbl(ret, sd,
                                 .before = 100,
                                 .complete = TRUE)) # 100 day estimation window
 
 rolling_sd |>
-  drop_na() |> 
-  ggplot(aes(x=date, 
-             y = sqrt(250) * rolling_sd, 
-             color = symbol)) + 
+  drop_na() |>
+  ggplot(aes(x=date,
+             y = sqrt(250) * rolling_sd,
+             color = symbol)) +
   geom_line() +
   labs(x = "", y = "Standard deviation (annualized)") +
   theme(legend.position = "None")
 ```
 
-The figure illustrates at least two relevant features: i) Although rather persistent, volatilities change over time, and ii) volatilities tend to co-move. Next, I write a simplified script that performs maximum likelihood estimation of the parameters of an ARCH($p$) model for Gaussian distributed innovations.
+## Python
+
+```{python}
+rolling_sd = returns.groupby("symbol", group_keys=False).apply(
+    lambda df: df.assign(
+        rolling_sd=df["ret"].rolling(window=101, min_periods=101).std()
+    )
+)
+
+rolling_sd = rolling_sd.dropna(subset=["rolling_sd"]).assign(
+    annualized_sd=np.sqrt(250) * rolling_sd["rolling_sd"]
+)
+
+
+(
+    ggplot(rolling_sd, aes(x="date", y="annualized_sd", color="symbol"))
+    + geom_line()
+    + labs(x="", y="Standard deviation (annualized)")
+    + theme(legend_position="none")
+)
+```
+
+:::
+
+The figure illustrates two relevant stylized facts: i) volatilities are persistent but clearly change over time, and ii) volatilities tend to co-move across stocks. Next, I write a simplified routine that performs maximum likelihood estimation of an ARCH($p$) model under Gaussian innovations.
+
+::: {.panel-tabset group="language"}
+## R
+
 ```{r}
+#| eval: true
+
 logL_arch <- function(params, p, ret){
   # Inputs: params (a p + 1 x 1 vector of ARCH parameters)
   #         p (lag-length)
-  #         ret demeaned returns 
+  #         ret demeaned returns
   # Output: the log-likelihood (for normally distributed innovation terms)
   eps_sqr_lagged <- cbind(ret, 1)
   for(i in 1:p){
@@ -79,20 +165,51 @@ logL_arch <- function(params, p, ret){
 }
 ```
 
-The function `logL_arch` computes an ARCH specification's (log) likelihood with $p$ lags. The function returns the *negative* log-likelihood because most optimization procedures in `R` are designed to search for minima instead of maximization. 
+## Python
 
-The following lines show how to estimate the model for the time series of demeaned AAPL returns (in percent) with `optim` and `p = 2` lags. Note my (almost) arbitrary choice for the initial parameter vector. Also, note that the function `logL_arch` and the optimization procedure do not enforce the regularity conditions, which would ensure stationary volatility processes. 
+```{python}
+def logL_arch(params, p, ret):
+    """
+    Inputs: params (a p + 1 x 1 vector of ARCH parameters)
+            p (lag-length)
+            ret demeaned returns
+    Output: the log-likelihood (for normally distributed innovation terms)
+    """
+    ret = np.asarray(ret)
+
+    X = np.column_stack(
+        [np.ones(len(ret))] + [np.roll(ret, i) ** 2 for i in range(1, p + 1)]
+    )
+
+    X = X[p:]
+    ret_clean = ret[p:]
+
+    sigma = X @ params
+
+    return 0.5 * np.sum(np.log(sigma)) + 0.5 * np.sum((ret_clean**2) / sigma)
+```
+
+:::
+
+The function `logL_arch` computes the (log) likelihood of an ARCH specification with $p$ lags. It returns the *negative* log-likelihood because the optimizers used below (`optim` in R, `scipy.optimize.minimize` in Python) search for minima.
+
+The following lines estimate the model on demeaned AAPL returns (in percent) with $p = 2$ lags. Note the (almost) arbitrary choice of initial parameter vector. Also note that neither `logL_arch` nor the optimizer enforces the regularity conditions that would guarantee a stationary volatility process.
+
+::: {.panel-tabset group="language"}
+## R
 
 ```{r}
+#| eval: true
+
 p <- 2
 ret <- returns |> filter(symbol == "AAPL") |> pull(ret)
 
-initial_params <- (c(sd(ret), rep(1, p)))
-fit_manual <- optim(par = initial_params, 
-                    fn = logL_arch, 
-                    hessian = TRUE, 
-                    method="L-BFGS-B", 
-                    lower = 0, 
+initial_params <- c(var(ret), rep(1, p))
+fit_manual <- optim(par = initial_params,
+                    fn = logL_arch,
+                    hessian = TRUE,
+                    method="L-BFGS-B",
+                    lower = 0,
                     p = p,
                     ret = ret)
 
@@ -102,13 +219,44 @@ se <- sqrt(diag(solve(fit_manual$hessian)))
 cbind(fitted_params, se) |> knitr::kable(digits = 2)
 
 # Run the code below to compare the results with tseries package
-# library(series)
+# library(tseries)
 # summary(garch(ret,c(0,p)))
 ```
 
-We can implement GARCH estimation with very few adjustments
+## Python
+
+```{python}
+p = 2
+ret = returns.loc[returns["symbol"] == "AAPL", "ret"].values
+
+initial_params = np.concatenate(([np.var(ret, ddof=1)], np.ones(p)))
+
+res = minimize(
+    logL_arch,
+    initial_params,
+    args=(p, ret),
+    bounds=[(0, None)] * (p + 1),
+    method="L-BFGS-B",
+)
+
+fitted_params = res.x
+
+hessian_inv = res.hess_inv.todense()
+se = np.sqrt(np.diag(hessian_inv))
+
+pd.DataFrame({"param": fitted_params.round(2), "se": se.round(2)})
+```
+
+:::
+
+GARCH estimation only requires a few adjustments to the ARCH code.
+
+::: {.panel-tabset group="language"}
+## R
+
 ```{r}
-logL_garch <- function(params, p, q, ret, 
+#| eval: true
+logL_garch <- function(params, p, q, ret,
                        return_only_loglik = TRUE){
   eps_sqr_lagged <- cbind(ret, 1)
   for(i in 1:p){
@@ -116,11 +264,11 @@ logL_garch <- function(params, p, q, ret,
   }
   sigma.sqrd <- rep(sd(ret)^2, nrow(eps_sqr_lagged))
   for(t in (1 + max(p, q)):nrow(eps_sqr_lagged)){
-    sigma.sqrd[t] <- params[1:(1+p)]%*% eps_sqr_lagged[t,-1] + 
+    sigma.sqrd[t] <- params[1:(1+p)]%*% eps_sqr_lagged[t,-1] +
               params[(2+p):length(params)] %*% sigma.sqrd[(t-1):(t-q)]
   }
   sigma.sqrd <- sigma.sqrd[-(1:(max(p, q)))]
-  
+
   if(return_only_loglik){
     0.5 * sum(log(sigma.sqrd)) + 0.5 * sum(eps_sqr_lagged[(1 + max(p, q)):nrow(eps_sqr_lagged),1]^2/sigma.sqrd)
   }else{
@@ -128,115 +276,229 @@ logL_garch <- function(params, p, q, ret,
   }
 }
 
-p <- 1 # Lag structure 
-q <- 1 
-fit_garch_manual <- optim(par = rep(0.01, p + q + 1), 
-                    fn = logL_garch, 
-                    hessian = TRUE, 
-                    method="L-BFGS-B", 
-                    lower = 0, 
+p <- 1 # Lag structure
+q <- 1
+fit_garch_manual <- optim(par = rep(0.01, p + q + 1),
+                    fn = logL_garch,
+                    hessian = TRUE,
+                    method="L-BFGS-B",
+                    lower = 0,
                     p = p,
                     q = q,
                     ret = ret)
 
 fitted_garch_params <- fit_garch_manual$par
 ```
-Next, I plot the time series of the estimated conditional variances $\sigma_t$ based on the output. To keep the required code clean and simple, my function `logL_garch` returns the fitted variances with the option `return_only_loglik = FALSE.` 
+
+## Python
+
+```{python}
+def logL_garch(params, p, q, ret, return_only_loglik=True):
+    ret = np.asarray(ret)
+    n = len(ret)
+
+    eps_sqr_lagged = np.column_stack([ret, np.ones(n)])
+
+    for i in range(1, p + 1):
+        lagged = np.empty(n)
+        lagged[:] = np.nan
+        lagged[i:] = ret[:-i]
+        eps_sqr_lagged = np.column_stack([eps_sqr_lagged, lagged**2])
+
+    sigma_sq = np.full(n, np.var(ret, ddof=1))
+
+    for t in range(max(p, q), n):
+        omega_alpha = params[: (1 + p)]
+        beta = params[(1 + p) :]
+
+        sigma_lags = np.array([sigma_sq[t - j] for j in range(1, q + 1)])
+
+        sigma_sq[t] = np.dot(omega_alpha, eps_sqr_lagged[t, 1:]) + np.dot(
+            beta, sigma_lags
+        )
+
+    start = max(p, q)
+
+    sigma_sq = sigma_sq[start:]
+    eps = eps_sqr_lagged[start:, 0]
+
+    mask = ~np.isnan(eps)
+    sigma_sq = sigma_sq[mask]
+    eps = eps[mask]
+
+    if return_only_loglik:
+        return 0.5 * np.sum(np.log(sigma_sq)) + 0.5 * np.sum((eps**2) / sigma_sq)
+    else:
+        return sigma_sq
+
+p = 1
+q = 1
+
+init_params = np.full(p + q + 1, 0.01)
+
+result = minimize(
+    logL_garch,
+    init_params,
+    args=(p, q, ret, True),
+    method="L-BFGS-B",
+    bounds=[(0, None)] * (p + q + 1),
+)
+
+fitted_garch_params = result.x
+```
+
+:::
+
+Next, I plot the time series of the estimated conditional volatilities $\sigma_t$ based on the fitted parameters. To keep the code compact, `logL_garch` returns the fitted variances when called with `return_only_loglik = FALSE`.
+
+::: {.panel-tabset group="language"}
+## R
+
 ```{r}
-tibble(vola = logL_garch(fitted_garch_params, p, q, ret, FALSE)) |> 
+#| eval: true
+tibble(vola = logL_garch(fitted_garch_params, p, q, ret, FALSE)) |>
   ggplot(aes(x = 1:length(vola), y = sqrt(vola))) +
   geom_line() +
   labs(x = "", y  = "GARCH(1,1) volatility")
 ```
 
-Next, the typical `tidyverse` approach: Once we implement the workflow for one asset, we can use `mutate` and `map()` to perform the exact computation in a tidy manner for all assets in our sample. The lecture slides define the unconditional variance.
+## Python
+
+```{python}
+vola = logL_garch(fitted_garch_params, p, q, ret, False)
+vola_date = np.arange(0, len(vola))
+vola_df = pd.DataFrame({"date": vola_date, "vola": np.sqrt(vola)})
+
+(
+    ggplot(vola_df, aes(x="date", y="vola"))
+    + geom_line()
+    + labs(x="", y="GARCH(1,1) volatility")
+    + theme(legend_position="none")
+)
+```
+
+:::
+
+Once we have implemented the workflow for one asset, we can apply it to all assets in the sample — using `mutate()` together with `map()` in R, or a `groupby` loop in Python. The lecture slides define the unconditional variance implied by the ARCH model.
+
+::: {.panel-tabset group="language"}
+## R
 
 ```{r}
-unconditional_volatility <- returns |> 
-  arrange(symbol, date) |> 
-  nest(data = c(date, ret)) |> 
+unconditional_volatility <- returns |>
+  arrange(symbol, date) |>
+  nest(data = c(date, ret)) |>
   mutate(arch = map(data, function(.x){
-    
-    ret <- .x |> pull(ret) 
-    p <- 2
-    initial_params <- (c(sd(ret), rep(1, p)))
-    fit_manual <- optim(par = initial_params, 
-                        fn = logL_arch, 
-                        hessian = TRUE, 
-                        method="L-BFGS-B", 
-                        lower = 0, 
+
+    ret <- .x |> pull(ret)
+    p <- 1
+    initial_params <- c(var(ret), rep(1, p))
+    fit_manual <- optim(par = initial_params,
+                        fn = logL_arch,
+                        hessian = TRUE,
+                        method="L-BFGS-B",
+                        lower = 0,
                         p = p,
                         ret = ret)
-    
-    fitted_params <- (fit_manual$par)
+
+    fitted_params <- fit_manual$par
     se <- sqrt(diag(solve(fit_manual$hessian)))
-    
+
     return(tibble(param = c("intercept", paste0("alpha_", 1:p)),
                   value = fitted_params, se = se))
-  })) |> 
-  select(-data) |> 
+  })) |>
+  select(-data) |>
   unnest(arch) |>
-  summarise(uncond_var = dplyr::first(value) / (1 - sum(value) + dplyr::first(value)))
-  
-unconditional_volatility |> 
-  ggplot() + 
-  geom_bar(aes(x = reorder(symbol, uncond_var), 
-               y = sqrt(250) * uncond_var), stat = "identity") + 
+  group_by(symbol) |>
+  summarise(uncond_var = dplyr::first(value) / (1 - sum(value) + dplyr::first(value))) |>
+  ungroup()
+
+unconditional_volatility |>
+  ggplot() +
+  geom_bar(aes(x = reorder(symbol, uncond_var),
+               y = sqrt(250) * uncond_var), stat = "identity") +
   coord_flip() +
-  labs(x = "Unconditional volatility (annualized)", 
+  labs(x = "Unconditional volatility (annualized)",
       y = "")
 ```
 
-<!-- Some more code for (in-sample) estimation of a GARCH model for multiple assets is provided below. For out-of-sample computations, consult the section on multivariate models.  -->
+## Python
 
-<!-- From now on, I will rely on the `rugarch` package for model selection and estimation. First, I specify the model (in this case, a standard GARCH(1,1)). The lines below use the function `ugarchfit` to fit each GARCH model for each ticker and extract $\hat\sigma_t^2$. Note that these are in-sample volatilities because the entire time series is used to fit the GARCH model. In most applications, however, this is sufficient.  -->
+```{python}
+def compute_unconditional_volatility(returns):
+    results = []
 
-<!-- ```{r} -->
-<!-- library(rugarch) -->
-<!-- model.spec <- ugarchspec(variance.model = list(model = 'sGARCH' ,  -->
-<!--                                                garchOrder = c(1 , 1))) -->
+    for symbol, df in returns.sort_values(["symbol", "date"]).groupby("symbol"):
+        ret = df["ret"].values
+        p = 1
 
-<!-- model.fit <- returns |>  -->
-<!--   mutate(Rolling = slide_dbl(ret, sd,  -->
-<!--                              .before = 250, -->
-<!--                              .complete = TRUE)) |> -->
-<!--   nest(data = c(date, Rolling, ret)) |>  -->
-<!--   mutate(garch = map(data, function(x) sigma(ugarchfit(spec = model.spec ,  -->
-<!--                                                  data = x |> pull(ret), -->
-<!--                                                  solver = "hybrid"))|>  -->
-<!--                        as_tibble())) |>  -->
-<!--   mutate(full_data = map2(data, garch, cbind)) |>  -->
-<!--   unnest(full_data) |>  -->
-<!--   select(-data, -garch) |> -->
-<!--   rename("GARCH" = V1) -->
-<!-- ``` -->
+        initial_params = np.concatenate([[np.var(ret, ddof=1)], np.ones(p)])
 
-<!-- Next, I provide some illustrations of the estimated paths of volatilities for the two estimation procedures.  -->
+        res = minimize(
+            logL_arch,
+            x0=initial_params,
+            args=(p, ret),
+            method="L-BFGS-B",
+            bounds=[(0, None)] * (p + 1),
+        )
 
-<!-- ```{r} -->
-<!-- model.fit |>  -->
-<!--   pivot_longer(c(Rolling, GARCH)) |>  -->
-<!--   ggplot(aes(x=date, y = value, color = symbol)) +  -->
-<!--   geom_line() +  -->
-<!--   facet_wrap(~name) -->
-<!-- ``` -->
+        fitted_params = res.x
 
-<!-- For an illustration of the value at risk computation, consult the lecture slides.  -->
+        try:
+            hess_inv = res.hess_inv.todense()
+        except:
+            hess_inv = res.hess_inv
+
+        se = np.sqrt(np.diag(hess_inv))
+
+        omega = fitted_params[0]
+        alpha_sum = np.sum(fitted_params[1:])
+        uncond_var = omega / (1 - alpha_sum)
+
+        results.append({"symbol": symbol, "uncond_var": uncond_var})
+
+    return pd.DataFrame(results)
+
+
+unconditional_volatility = (
+    compute_unconditional_volatility(returns)
+    .assign(annualized_vol=lambda df: np.sqrt(250) * df["uncond_var"])
+    .sort_values("annualized_vol", ascending=False)
+    .assign(
+        symbol=lambda df: pd.Categorical(
+            df["symbol"], categories=df["symbol"][::-1], ordered=True
+        )
+    )
+)
+
+(
+    ggplot(unconditional_volatility)
+    + geom_bar(aes(x="symbol", y="annualized_vol"), stat="identity")
+    + coord_flip()
+    + labs(x="Unconditional volatility (annualized)", y="")
+)
+```
+
+:::
 
 ## Ledoit-Wolf shrinkage estimation
 
-A severe practical issue with the sample variance-covariance matrix in large dimensions ($N >>T$) is that $\hat\Sigma$ is singular. Ledoit and Wolf proposed a series of biased estimators of the variance-covariance matrix $\Sigma$, which overcome this problem. As a result, it is often advised to perform Ledoit-Wolf-like shrinkage on the variance-covariance matrix before proceeding with portfolio optimization.
+A severe practical issue with the sample variance-covariance matrix in large dimensions ($N \gg T$) is that $\hat\Sigma$ becomes singular. Ledoit and Wolf proposed a family of biased estimators of $\Sigma$ that overcome this problem. As a result, it is often advisable to apply Ledoit-Wolf-style shrinkage to the variance-covariance matrix before proceeding with portfolio optimization.
 
 **Exercises:**
 
-- Read the introduction of the paper *Honey, I shrunk the sample covariance matrix*  and implement the feasible linear shrinkage estimator. If in doubt, consult [Michael Wolf's homepage](https://www.econ.uzh.ch/en/people/faculty/wolf/publications.html). You will find helpful `R` and `Python` codes there. 
-- Write a simulation that generates iid distributed returns (you can use the random number generator `rnorm()`) for some dimensions $T \times N$ and compute the minimum-variance portfolio weights based on the sample variance-covariance matrix and Ledoit-Wolf shrinkage. What is the mean squared deviation from the optimal portfolio ($1/N$)? What can you conclude? 
+- Read the introduction of the paper *Honey, I shrunk the sample covariance matrix* and implement the feasible linear shrinkage estimator. If in doubt, consult [Michael Wolf's homepage](https://www.econ.uzh.ch/en/people/faculty/wolf/publications.html), where you will find reference R and Python code.
+- Write a simulation that generates iid returns of dimension $T \times N$ (e.g., with `rnorm()` in R or `np.random.randn()` in Python) and compute the minimum-variance portfolio weights based on (i) the sample variance-covariance matrix and (ii) Ledoit-Wolf shrinkage. What is the mean squared deviation from the theoretically optimal portfolio ($1/N$)? What can you conclude?
 
 **Solutions:**
 
-The assignment requires you to understand the original paper in depth - it is arguably hard to translate the derivations into working code. However, below are some sample codes you can use for future assignments.
+The exercise requires a thorough reading of the original paper — translating the derivations into working code is non-trivial. The reference implementations below can serve as a starting point for future assignments. Note that `compute_ledoit_wolf` expects a $T \times N$ input matrix, where rows index time periods and columns index assets. Passing the transposed matrix is a common source of errors.
+
+::: {.panel-tabset group="language"}
+## R
 
 ```{r}
+#| eval: true
 compute_ledoit_wolf <- function(x) {
   # Computes Ledoit-Wolf shrinkage covariance estimator
   # This function generates the Ledoit-Wolf covariance estimator  as proposed in Ledoit, Wolf 2004 (Honey, I shrunk the sample covariance matrix.)
@@ -282,9 +544,72 @@ compute_ledoit_wolf <- function(x) {
 }
 ```
 
-The simulation can be conducted as below. First, the individual functions simulate iid normal "returns" matrix for given dimensions `T` and `N.` Next, optimal weights are computed using either the variance-covariance matrix or the Ledoit-Wolf shrinkage equivalent. If you want to generate results that can be replicated, use the function `set.seed()`. It takes any integer as input and ensures that whoever runs this code afterward retrieves the same random numbers within the simulation. Otherwise (or if you change "2023" to an arbitrary other value), there will be some variation in the results because of the random sampling of returns.
+## Python
+
+```{python}
+def compute_ledoit_wolf(x):
+    """
+    Computes Ledoit-Wolf shrinkage covariance estimator
+    This function generates the Ledoit-Wolf covariance estimator  as proposed in Ledoit, Wolf 2004 (Honey, I shrunk the sample covariance matrix.)
+    X is a (t x n) matrix of returns
+    """
+    x = np.asarray(x)
+    t, n = x.shape
+
+    x = x - np.mean(x, axis=0)
+
+    sample = (1 / t) * (x.T @ x)
+    var = np.diag(sample)
+    sqrtvar = np.sqrt(var)
+
+    denom = np.outer(sqrtvar, sqrtvar)
+    rBar = (np.sum(sample / denom) - n) / (n * (n - 1))
+
+    prior = rBar * denom
+    np.fill_diagonal(prior, var)
+
+    y = x**2
+    phiMat = (y.T @ y) / t - 2 * (x.T @ x) * sample / t + sample**2
+    phi = np.sum(phiMat)
+
+    def repmat(X, m, n):
+        return np.tile(X, (m, n))
+
+    term1 = ((x**3).T @ x) / t
+    help_mat = (x.T @ x) / t
+    helpDiag = np.diag(help_mat)
+
+    term2 = repmat(helpDiag.reshape(-1, 1), 1, n) * sample
+    term3 = help_mat * repmat(var.reshape(-1, 1), 1, n)
+    term4 = repmat(var.reshape(-1, 1), 1, n) * sample
+
+    thetaMat = term1 - term2 - term3 + term4
+    np.fill_diagonal(thetaMat, 0)
+
+    rho = np.sum(np.diag(phiMat)) + rBar * np.sum(
+        (np.outer(1 / sqrtvar, sqrtvar)) * thetaMat
+    )
+
+    gamma = np.trace((sample - prior).T @ (sample - prior))
+    kappa = (phi - rho) / gamma
+
+    shrinkage = max(0, min(1, kappa / t))
+    if np.isnan(shrinkage):
+        shrinkage = 1
+
+    sigma = shrinkage * prior + (1 - shrinkage) * sample
+    return sigma
+```
+
+:::
+
+The simulation is structured as follows. The helper functions simulate an iid normal "returns" matrix for given dimensions `T` and `N`, and then compute minimum-variance portfolio weights using either the sample variance-covariance matrix or its Ledoit-Wolf shrinkage counterpart. Setting a seed via `set.seed()` (R) or `np.random.seed()` (Python) ensures the random draws — and therefore the results — are reproducible.
+
+::: {.panel-tabset group="language"}
+## R
 
 ```{r}
+#| eval: true
 set.seed(2023)
 
 generate_returns <- function(T, N) matrix(rnorm(T * N), nc = N)
@@ -302,11 +627,39 @@ compute_mvp_lw <- function(mat){
 eval_weight <- function(w) length(w)^2 * sum((w - 1/length(w))^2)
 ```
 
-Note that I evaluate weights based on the squared deviations from the naive portfolio (the minimum variance portfolio in the case of iid returns). The scaling `length(w)^2` is just there to penalize larger dimensions harder.
+## Python
+
+```{python}
+np.random.seed(2023)
+
+def generate_returns(T, N):
+    return np.random.randn(T, N)
+
+def compute_mvp_sample(mat):
+    w = np.linalg.solve(np.cov(mat, rowvar=False), np.ones(mat.shape[1]))
+    return w / np.sum(w)
+
+def compute_mvp_lw(mat):
+    w = np.linalg.solve(compute_ledoit_wolf(mat), np.ones(mat.shape[1]))
+    return w / np.sum(w)
+
+def eval_weight(w):
+    n = len(w)**2
+    return n * np.sum((w - 1 / n) ** 2)
+```
+
+:::
+
+I evaluate the estimated weights based on their squared deviation from the naive $1/N$ portfolio, which is the true minimum-variance portfolio under iid returns. The scaling factor $N^2$ is included to penalize errors more heavily in higher dimensions.
+
+::: {.panel-tabset group="language"}
+## R
 
 ```{r}
+#| eval: true
+
 simulation <- function(T = 100, N = 70){
-  simulation_rounds <- 50 
+  simulation_rounds <- 50
   tmp <- matrix(NA, nc = 2, nr = simulation_rounds)
   for(i in 1:simulation_rounds){
     mat <- generate_returns(T, N)
@@ -326,9 +679,56 @@ result <- bind_rows(simulation(100, 60),
                     simulation(100, 100),
                     simulation(100, 150))
 
-result |> 
+result |>
   pivot_wider(names_from = model, values_from = error) |>
   knitr::kable(digits = 2, "pipe")
 ```
 
-The results show a couple of interesting results: First, the sample variance-covariance matrix breaks down if $N > T$ - no unique minimum variance portfolio anymore. On the contrary, Ledoit-Wolf-like shrinkage retains the positive definiteness of the estimator even if $N > T$. Further, the (scaled) mean-squared error of the portfolio weights relative to the theoretically optimal naive portfolio is way smaller for the Shrinkage version. Although the variance-covariance estimator is biased, the variance of the estimator is reduced substantially and thus provides more robust portfolio weights.
+## Python
+
+```{python}
+def simulation(T=100, N=70):
+    simulation_rounds = 50
+    tmp = np.full((simulation_rounds, 2), np.nan)
+
+    for i in range(simulation_rounds):
+        mat = generate_returns(T, N)
+        w_lw = compute_mvp_lw(mat)
+
+        if N < T:
+            w_sample = compute_mvp_sample(mat)
+        else:
+            w_sample = np.full(N, np.nan)
+
+        tmp[i, 0] = eval_weight(w_lw)
+        tmp[i, 1] = eval_weight(w_sample)
+
+    return pd.DataFrame(
+        {
+            "model": ["Shrinkage", "Sample"],
+            "error": np.nanmean(tmp, axis=0),
+            "N": N,
+            "T": T,
+        }
+    )
+
+result = pd.concat(
+    [
+        simulation(100, 60),
+        simulation(100, 70),
+        simulation(100, 80),
+        simulation(100, 90),
+        simulation(100, 100),
+        simulation(100, 150),
+    ],
+    ignore_index=True,
+)
+
+result_pivot = result.pivot(index=["N", "T"], columns="model", values="error")
+
+print(result_pivot.round(2))
+```
+
+:::
+
+The results highlight two takeaways. First, the sample variance-covariance matrix breaks down once $N \geq T$: it is no longer invertible, so a unique minimum-variance portfolio does not exist. Ledoit-Wolf-style shrinkage, by contrast, remains positive definite even when $N > T$. Second, the (scaled) mean squared error of the portfolio weights relative to the optimal naive portfolio is substantially smaller for the shrinkage estimator. Although the shrinkage estimator is biased, its variance is reduced enough to deliver markedly more robust portfolio weights.
