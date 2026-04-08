@@ -20,6 +20,7 @@ This exercise should help you to fight your way through an actual academic appli
 ::: {.panel-tabset group="language"}
 ## R
 ```{r}
+#| label: r-load-libraries
 library(tidyverse)
 library(arrow)
 library(lubridate)
@@ -27,6 +28,7 @@ library(archive)
 ```
 ## Python
 ```{python}
+#| label: py-load-libraries
 import pandas as pd
 import requests
 import numpy as np
@@ -41,6 +43,7 @@ import zipfile
 First, we download the (large) dataset directly from within R. The data is stored as a .csv file within a zipped folder. For such purposes, the `archive` package is useful. Presumably, you want to store the output as a parquet file. Next, we set `options(timeout = 200)`, which allows the R session to download the dataset for 200 seconds. The default in R is 60 seconds which was too short on my machine.
 
 ```{r}
+#| label: r-download-characteristics
 options(timeout = 1200)
 characteristics <- read_csv(archive_read("https://dachxiu.chicagobooth.edu/download/datashare.zip", 
                                          file = "datashare.csv"))
@@ -59,6 +62,7 @@ characteristics <- characteristics |>
 First, we download the (large) dataset directly from within Python. The data is stored as a .csv file within a zipped folder. For such purposes, the `requests` library is useful. Presumably, you want to store the output as a parquet file. We set `timeout = 1200`, which allows the session to download the dataset for 1200 seconds. The default was too short on my machine.
 
 ```{python}
+#| label: py-download-characteristics
 url = "https://dachxiu.chicagobooth.edu/download/datashare.zip"
 response = requests.get(url, timeout=1200, verify=False)
 
@@ -83,6 +87,7 @@ The cross-sectional ranking may be time-consuming. The idea is that at each date
 ## R
 
 ```{r}
+#| label: r-rank-transform
 rank_transform <- function(x) {
   rx <- rank(x, na.last = TRUE)
   non_nas <- sum(!is.na(x))
@@ -97,6 +102,7 @@ characteristics <- characteristics |>
 
 ## Python
 ```{python}
+#| label: py-rank-transform
 def rank_transform(x):
     rx = x.rank(na_option='keep')
     non_nas = x.count()
@@ -118,6 +124,7 @@ Next, merge the data with monthly CRSP data to get excess returns. To create por
 ## R
 
 ```{r}
+#| label: r-merge-crsp-macro
 crsp_monthly <- read_parquet("data-r/crsp_monthly.parquet") |>
   select(date, permno, mktcap_lag, ret_excess)
 
@@ -134,6 +141,7 @@ characteristics <- characteristics |>
 
 ## Python
 ```{python}
+#| label: py-merge-crsp-macro
 crsp_monthly = (pd.read_parquet("data-python/crsp_monthly.parquet")
   [["date", "permno", "mktcap_lag", "ret_excess"]])
 
@@ -161,6 +169,7 @@ The code below replaces missing values with each stock's cross-sectional median 
 ::: {.panel-tabset group="language"}
 ## R
 ```{r}
+#| label: r-impute-missing
 replace_nas <- function(x) {
   x[is.na(x)] <- median(x, na.rm = TRUE)
   return(x)
@@ -175,6 +184,7 @@ characteristics <- characteristics |>
 
 ## Python
 ```{python}
+#| label: py-impute-missing
 def replace_nas(x):
     x[x.isna()] = x.median(skipna=True)
     return x
@@ -194,6 +204,7 @@ Finally, for your convenience, I include the pre-processed file as `stock_charac
 ::: {.panel-tabset group="language"}
 ## R
 ```{r}
+#| label: r-write-parquet
 write_parquet(
   characteristics |> ungroup(),
   "data-r/stock_characteristics_monthly.parquet"
@@ -202,6 +213,7 @@ write_parquet(
 
 ## Python
 ```{python}
+#| label: py-write-parquet
 characteristics.to_parquet(
   "data-python/stock_characteristics_monthly.parquet",
   index=False

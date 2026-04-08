@@ -20,7 +20,16 @@ This short exercise illustrates how to perform maximum likelihood estimation usi
 ## R
 
 ```{r}
+#| label: r-ggplot-theme
+#| echo: false
+library(ggplot2)
+theme_set(theme_minimal())
+```
+```{r}
+#| label: r-load-libraries
 #| eval: true
+#| message: false
+#| warning: false
 library(tidyverse)
 library(tidyfinance)
 ```
@@ -28,6 +37,7 @@ library(tidyfinance)
 ## Python
 
 ```{python}
+#| label: py-load-libraries
 import pandas as pd
 import numpy as np
 import tidyfinance as tf
@@ -43,6 +53,7 @@ As usual, I download daily prices for the 30 index constituents and compute (adj
 ## R
 
 ```{r}
+#| label: r-download-dj-returns
 #| eval: true
 
 ticker <- download_data(
@@ -67,6 +78,7 @@ returns <- index_prices |>
 ## Python
 
 ```{python}
+#| label: py-download-dj-returns
 tickers = (
     tf.download_data(domain="constituents", index="Dow Jones Industrial Average")
 )["symbol"].tolist()
@@ -97,6 +109,7 @@ As in the chapter on beta estimation, I use a rolling-window approach to compute
 ## R
 
 ```{r}
+#| label: r-rolling-sd
 #| eval: true
 
 library(slider)
@@ -120,6 +133,7 @@ rolling_sd |>
 ## Python
 
 ```{python}
+#| label: py-rolling-sd
 rolling_sd = returns.groupby("symbol", group_keys=False).apply(
     lambda df: df.assign(
         rolling_sd=df["ret"].rolling(window=101, min_periods=101).std()
@@ -147,6 +161,7 @@ The figure illustrates two relevant stylized facts: i) volatilities are persiste
 ## R
 
 ```{r}
+#| label: r-define-arch-loglik
 #| eval: true
 
 logL_arch <- function(params, p, ret){
@@ -168,6 +183,7 @@ logL_arch <- function(params, p, ret){
 ## Python
 
 ```{python}
+#| label: py-define-arch-loglik
 def logL_arch(params, p, ret):
     """
     Inputs: params (a p + 1 x 1 vector of ARCH parameters)
@@ -199,6 +215,7 @@ The following lines estimate the model on demeaned AAPL returns (in percent) wit
 ## R
 
 ```{r}
+#| label: r-estimate-arch
 #| eval: true
 
 p <- 2
@@ -226,6 +243,7 @@ cbind(fitted_params, se) |> knitr::kable(digits = 2)
 ## Python
 
 ```{python}
+#| label: py-estimate-arch
 p = 2
 ret = returns.loc[returns["symbol"] == "AAPL", "ret"].values
 
@@ -255,6 +273,7 @@ GARCH estimation only requires a few adjustments to the ARCH code.
 ## R
 
 ```{r}
+#| label: r-estimate-garch
 #| eval: true
 logL_garch <- function(params, p, q, ret,
                        return_only_loglik = TRUE){
@@ -293,6 +312,7 @@ fitted_garch_params <- fit_garch_manual$par
 ## Python
 
 ```{python}
+#| label: py-estimate-garch
 def logL_garch(params, p, q, ret, return_only_loglik=True):
     ret = np.asarray(ret)
     n = len(ret)
@@ -355,6 +375,7 @@ Next, I plot the time series of the estimated conditional volatilities $\sigma_t
 ## R
 
 ```{r}
+#| label: r-plot-garch-vol
 #| eval: true
 tibble(vola = logL_garch(fitted_garch_params, p, q, ret, FALSE)) |>
   ggplot(aes(x = 1:length(vola), y = sqrt(vola))) +
@@ -365,6 +386,7 @@ tibble(vola = logL_garch(fitted_garch_params, p, q, ret, FALSE)) |>
 ## Python
 
 ```{python}
+#| label: py-plot-garch-vol
 vola = logL_garch(fitted_garch_params, p, q, ret, False)
 vola_date = np.arange(0, len(vola))
 vola_df = pd.DataFrame({"date": vola_date, "vola": np.sqrt(vola)})
@@ -385,6 +407,7 @@ Once we have implemented the workflow for one asset, we can apply it to all asse
 ## R
 
 ```{r}
+#| label: r-unconditional-vol
 unconditional_volatility <- returns |>
   arrange(symbol, date) |>
   nest(data = c(date, ret)) |>
@@ -425,6 +448,7 @@ unconditional_volatility |>
 ## Python
 
 ```{python}
+#| label: py-unconditional-vol
 def compute_unconditional_volatility(returns):
     results = []
 
@@ -498,6 +522,7 @@ The exercise requires a thorough reading of the original paper — translating t
 ## R
 
 ```{r}
+#| label: r-define-ledoit-wolf
 #| eval: true
 compute_ledoit_wolf <- function(x) {
   # Computes Ledoit-Wolf shrinkage covariance estimator
@@ -547,6 +572,7 @@ compute_ledoit_wolf <- function(x) {
 ## Python
 
 ```{python}
+#| label: py-define-ledoit-wolf
 def compute_ledoit_wolf(x):
     """
     Computes Ledoit-Wolf shrinkage covariance estimator
@@ -609,6 +635,7 @@ The simulation is structured as follows. The helper functions simulate an iid no
 ## R
 
 ```{r}
+#| label: r-mvp-helpers
 #| eval: true
 set.seed(2023)
 
@@ -630,6 +657,7 @@ eval_weight <- function(w) length(w)^2 * sum((w - 1/length(w))^2)
 ## Python
 
 ```{python}
+#| label: py-mvp-helpers
 np.random.seed(2023)
 
 def generate_returns(T, N):
@@ -656,6 +684,7 @@ I evaluate the estimated weights based on their squared deviation from the naive
 ## R
 
 ```{r}
+#| label: r-shrinkage-simulation
 #| eval: true
 
 simulation <- function(T = 100, N = 70){
@@ -687,6 +716,7 @@ result |>
 ## Python
 
 ```{python}
+#| label: py-shrinkage-simulation
 def simulation(T=100, N=70):
     simulation_rounds = 50
     tmp = np.full((simulation_rounds, 2), np.nan)

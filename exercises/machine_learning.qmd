@@ -20,6 +20,7 @@ In these exercises, you familiarize yourself with the details behind shrinkage r
 
 ## R
 ```{r}
+#| label: r-load-libraries
 # Load required packages
 library(arrow)
 library(tidyverse)
@@ -39,6 +40,7 @@ c(ncol(X), Matrix::rankMatrix(X))
 
 ## Python
 ```{python}
+#| label: py-load-libraries-and-data
 import pandas as pd
 import requests
 import numpy as np
@@ -70,6 +72,7 @@ As for OLS, the objective function is to minimize the sum of squared errors $(y 
 ## R
 
 ```{r}
+#| label: r-define-ridge-regression
 ridge_regression <- function(y, X, lambda = 0, intercept = FALSE) {
   K <- ncol(X)
   A <- diag(K)
@@ -83,6 +86,7 @@ ridge_regression <- function(y, X, lambda = 0, intercept = FALSE) {
 
 ## Python
 ```{python}
+#| label: py-define-ridge-regression
 def ridge_regression(y, X, lambda_=0, intercept=False):
     K = X.shape[1]
     A = np.eye(K)
@@ -99,6 +103,7 @@ Below, I apply the function to the data set from the previous exercise to illust
 
 ## R
 ```{r}
+#| label: r-apply-ridge
 rc <- c(NA, ridge_regression(y, X, lambda = 1))
 
 # Add an intercept term
@@ -109,6 +114,7 @@ cbind(rc, rc_i)
 
 ## Python
 ```{python}
+#| label: py-apply-ridge
 rc = [np.nan] + list(ridge_regression(y, X, lambda_=1))
 
 # Add an intercept term
@@ -126,6 +132,7 @@ Finally, the following code sequence computes the $L_2$ norm of the ridge regres
 
 ## R
 ```{r}
+#| label: r-ridge-l2-norm
 
 l2_norm <- function(lambda) sum(ridge_regression(y = y, X = X, lambda = lambda)^2) # small helper function to extract the L_2 norm of the ridge regression coefficients
 
@@ -141,6 +148,7 @@ seq(from = 0.01, to = 20, by = 0.1) |>
 
 ## Python
 ```{python}
+#| label: py-ridge-l2-norm
 def l2_norm(lambda_):
     return np.sum(ridge_regression(y, X, lambda_)**2)
 
@@ -160,6 +168,7 @@ To compute the coefficients of linear regression with a penalty on the sum of th
 
 ## R
 ```{r}
+#| label: r-define-lasso-regression
 objective_lasso <- function(beta, y, X, lambda, intercept) {
   residuals <- y - X %*% beta
   sse <- sum(residuals^2)
@@ -186,6 +195,7 @@ cbind(rc, rc_i)
 
 ## Python
 ```{python}
+#| label: py-define-lasso-regression
 def objective_lasso(beta, y, X, lambda_, intercept):
     residuals = y - np.dot(X, beta)
     sse = np.sum(residuals**2)
@@ -215,7 +225,8 @@ Finally, as in the previous example with Ridge regression, I illustrate how a la
 ::: {.panel-tabset group="language"}
 
 ## R
-```{r l1-regression}
+```{r}
+#| label: r-lasso-l1-norm
 
 l1_norm <- function(lambda) sum(abs(lasso_regression(y = y, X = X, lambda = lambda)))
 l1_norm <- Vectorize(l1_norm) # To use the function within a `mutate` operation, it needs to be vectorized
@@ -230,6 +241,7 @@ seq(from = 0, to = 0.5, by = 0.05) |>
 
 ## Python
 ```{python}
+#| label: py-lasso-l1-norm
 def l1_norm(lambda_val):
     return np.sum(np.abs(lasso_regression(y=y, X=X, lambda_=lambda_val)))
 
@@ -251,6 +263,7 @@ While the code above should work, there are well-tested R packages available tha
 
 ## R
 ```{r}
+#| label: r-glmnet-ridge
 library(glmnet)
 # Lasso and Ridge regression
 
@@ -273,8 +286,9 @@ broom::tidy(fit_ridge) |>
 
 ## Python
 ```{python}
+#| label: py-glmnet-ridge
 # import glmnet
-# 
+#
 # # Lasso and Ridge regression
 # fit_ridge = glmnet.elnet(X, y, alpha=0)
 # 
@@ -306,6 +320,7 @@ Note the function argument `alpha`. `glmnet()` allows a more flexible combinatio
 
 ## R
 ```{r}
+#| label: r-glmnet-lasso
 fit_lasso <- glmnet(X, y, # Model
   alpha = 1
 )
@@ -325,6 +340,7 @@ broom::tidy(fit_lasso) |>
 
 ## Python
 ```{python}
+#| label: py-glmnet-lasso
 # import glmnet
 # # Lasso and Ridge regression
 # fit_lasso = glmnet.elnet(X, y, alpha=1)

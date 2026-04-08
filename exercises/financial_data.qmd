@@ -12,6 +12,7 @@ title: Accessing & managing financial data
 ## Python
 
 ```{python}
+#| label: py-load-crsp-monthly
 #| eval: false
 import pandas as pd
 pd.read_parquet("data-python/crsp_monthly.parquet")
@@ -20,6 +21,7 @@ pd.read_parquet("data-python/crsp_monthly.parquet")
 ## R
 
 ```{r}
+#| label: r-load-crsp-monthly
 #| eval: false
 library(arrow)
 crsp_monthly <- read_parquet("data-r/crsp_monthly.parquet")
