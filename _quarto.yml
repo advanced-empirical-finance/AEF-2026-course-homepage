@@ -61,6 +61,8 @@ format:
       - cosmo
     css: styles.css
     toc: true
+    code-block-border-left: true
+
 
 eval: 
   false
