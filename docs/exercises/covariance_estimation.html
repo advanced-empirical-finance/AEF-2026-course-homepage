@@ -311,6 +311,23 @@ window.Quarto = {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">High-frequency data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/high-frequency-econometrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">High-frequency econometrics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -510,9 +527,10 @@ window.Quarto = {
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  eps_sqr_lagged <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(eps_sqr_lagged)</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  sigma <span class="ot">&lt;-</span> eps_sqr_lagged[,<span class="sc">-</span><span class="dv">1</span>] <span class="sc">%*%</span> params</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  log_likelihood <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(sigma)) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(eps_sqr_lagged[,<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>sigma)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(log_likelihood)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(sigma <span class="sc">&lt;=</span> <span class="dv">0</span>)) <span class="fu">return</span>(<span class="fl">1e10</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  log_likelihood <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(sigma)) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(eps_sqr_lagged[,<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>sigma)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(log_likelihood)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
@@ -573,16 +591,16 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">2.49</td>
-<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">2.33</td>
+<td style="text-align: right;">0.27</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">0.16</td>
-<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.13</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.04</td>
 </tr>
 </tbody>
 </table>
@@ -635,26 +653,27 @@ window.Quarto = {
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>              params[(<span class="dv">2</span><span class="sc">+</span>p)<span class="sc">:</span><span class="fu">length</span>(params)] <span class="sc">%*%</span> sigma.sqrd[(t<span class="dv">-1</span>)<span class="sc">:</span>(t<span class="sc">-</span>q)]</span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  sigma.sqrd <span class="ot">&lt;-</span> sigma.sqrd[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">max</span>(p, q)))]</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(return_only_loglik){</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(sigma.sqrd)) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(eps_sqr_lagged[(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">max</span>(p, q))<span class="sc">:</span><span class="fu">nrow</span>(eps_sqr_lagged),<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>sigma.sqrd)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(sigma.sqrd)</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Lag structure</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>fit_garch_manual <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> <span class="fu">rep</span>(<span class="fl">0.01</span>, p <span class="sc">+</span> q <span class="sc">+</span> <span class="dv">1</span>),</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>                    <span class="at">fn =</span> logL_garch,</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hessian =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method=</span><span class="st">"L-BFGS-B"</span>,</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lower =</span> <span class="dv">0</span>,</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                    <span class="at">p =</span> p,</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>                    <span class="at">q =</span> q,</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ret =</span> ret)</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>fitted_garch_params <span class="ot">&lt;-</span> fit_garch_manual<span class="sc">$</span>par</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(sigma.sqrd <span class="sc">&lt;=</span> <span class="dv">0</span>)) <span class="fu">return</span>(<span class="fl">1e10</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(return_only_loglik){</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">log</span>(sigma.sqrd)) <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">sum</span>(eps_sqr_lagged[(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">max</span>(p, q))<span class="sc">:</span><span class="fu">nrow</span>(eps_sqr_lagged),<span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>sigma.sqrd)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(sigma.sqrd)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># Lag structure</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>fit_garch_manual <span class="ot">&lt;-</span> <span class="fu">optim</span>(<span class="at">par =</span> <span class="fu">rep</span>(<span class="fl">0.01</span>, p <span class="sc">+</span> q <span class="sc">+</span> <span class="dv">1</span>),</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">fn =</span> logL_garch,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hessian =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method=</span><span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                    <span class="at">lower =</span> <span class="dv">0</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>                    <span class="at">p =</span> p,</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>                    <span class="at">q =</span> q,</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ret =</span> ret)</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>fitted_garch_params <span class="ot">&lt;-</span> fit_garch_manual<span class="sc">$</span>par</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">

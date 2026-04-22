@@ -177,6 +177,7 @@ logL_arch <- function(params, p, ret){
   }
   eps_sqr_lagged <- na.omit(eps_sqr_lagged)
   sigma <- eps_sqr_lagged[,-1] %*% params
+  if(any(sigma <= 0)) return(1e10)
   log_likelihood <- 0.5 * sum(log(sigma)) + 0.5 * sum(eps_sqr_lagged[,1]^2/sigma)
   return(log_likelihood)
 }
@@ -289,6 +290,7 @@ logL_garch <- function(params, p, q, ret,
               params[(2+p):length(params)] %*% sigma.sqrd[(t-1):(t-q)]
   }
   sigma.sqrd <- sigma.sqrd[-(1:(max(p, q)))]
+  if(any(sigma.sqrd <= 0)) return(1e10)
 
   if(return_only_loglik){
     0.5 * sum(log(sigma.sqrd)) + 0.5 * sum(eps_sqr_lagged[(1 + max(p, q)):nrow(eps_sqr_lagged),1]^2/sigma.sqrd)
