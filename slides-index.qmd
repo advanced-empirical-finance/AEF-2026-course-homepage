@@ -32,3 +32,35 @@
 |  | Thu May 21 | Q&A | | |
 
 : {.primary .hover}
+
+```{=html}
+<style>
+tr.current-week td {
+  background-color: rgba(var(--bs-primary-rgb), 0.12) !important;
+  font-weight: 600;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const dow = today.getDay();
+  const weekStart = new Date(today);
+  weekStart.setDate(today.getDate() + (dow === 0 ? -6 : 1 - dow));
+  const weekEnd = new Date(weekStart);
+  weekEnd.setDate(weekStart.getDate() + 6);
+
+  const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+
+  document.querySelectorAll('table tbody tr').forEach(function (row) {
+    const cells = row.querySelectorAll('td');
+    if (cells.length < 2) return;
+    const m = cells[1].textContent.trim().match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+)/);
+    if (!m) return;
+    const d = new Date(today.getFullYear(), months[m[1]], parseInt(m[2]));
+    if (d >= weekStart && d <= weekEnd) row.classList.add('current-week');
+  });
+});
+</script>
+```
