@@ -480,6 +480,7 @@ orderbook = pd.concat(
     [messages_raw.reset_index(drop=True), orderbook_raw.reset_index(drop=True)],
     axis=1,
 )
+pd.set_option("display.max_columns", 7)
 orderbook.head(10)
 ```
 
