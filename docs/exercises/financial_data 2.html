@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.37">
+<meta name="generator" content="quarto-1.8.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>slides-index</title>
+<title>Accessing &amp; managing financial data</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -23,26 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-8ea3f8fe2dd819244ebb3c06acb6003b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-1fe81d0376b2c50856e68e651e390326.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-43081d808c96cc46af55a3a816ae9eed.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,15 +105,19 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+  </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -88,23 +125,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
 <span class="menu-text">home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./additional-material/index.html"> 
+    <a class="nav-link" href="../additional-material/index.html"> 
 <span class="menu-text">more ressources</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./slides-index.html" aria-current="page"> 
+    <a class="nav-link" href="../slides-index.html"> 
 <span class="menu-text">lecture plan</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./exercises/index.html"> 
+    <a class="nav-link" href="../exercises/index.html"> 
 <span class="menu-text">exercises</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/advanced-empirical-finance/AEF-2026-course-homepage"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://code.com"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -114,269 +151,196 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../exercises/financial_data.html">Asset Pricing</a></li><li class="breadcrumb-item"><a href="../exercises/financial_data.html">Accessing &amp; managing financial data</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#syllabus" id="toc-syllabus" class="nav-link active" data-scroll-target="#syllabus">Syllabus</a></li>
-  </ul>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/technical-prerequisites.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Technical prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Tidy Finance</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Asset Pricing</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/financial_data.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Accessing &amp; managing financial data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/beta_estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Beta Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/portfolio_sorts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Portfolio sorts</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Machine Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/gu_kelly_xiu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empirical Asset Pricing via Machine Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/machine_learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shrinkage Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/machine_learning_nonlinear.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Covariance Estimation and Portfolio Choice</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/covariance_estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">(Co)variance estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../exercises/portfolio_choice.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Portfolio Choice under Transaction Costs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../exercises/financial_data.html">Asset Pricing</a></li><li class="breadcrumb-item"><a href="../exercises/financial_data.html">Accessing &amp; managing financial data</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Accessing &amp; managing financial data</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="syllabus" class="level1">
-<h1>Syllabus</h1>
-<table class="table-primary table-hover caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Week</th>
-<th style="text-align: left;">Date</th>
-<th style="text-align: left;">Topic</th>
-<th style="text-align: left;">Preparation</th>
-<th style="text-align: left;">Exercise</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">7</td>
-<td style="text-align: left;">Mon Feb 9</td>
-<td style="text-align: left;">Kick-off</td>
-<td style="text-align: left;">Complete all <a href="./exercises/technical-prerequisites.html">technical prerequisites</a></td>
-<td style="text-align: left;"><a href="./exercises/technical-prerequisites.html">0</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu Feb 12</td>
-<td style="text-align: left;">Asset prices</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">8</td>
-<td style="text-align: left;">Mon Feb 16</td>
-<td style="text-align: left;">Optimal portfolio choice</td>
-<td style="text-align: left;">Chapter 3 in <a href="https://r4ds.hadley.nz/data-transform">R for Data Science</a> (data transformation), Sections 2.1 and 3.1 of <a href="https://doi-org.ep.fjernadgang.kb.dk/10.1016/B978-0-444-50897-3.50008-0">Portfolio Choice Problems</a></td>
-<td style="text-align: left;"><a href="./exercises/introduction.html#introduction-to-tidy-finance">1</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu Feb 19</td>
-<td style="text-align: left;">Optimal portfolio choice</td>
-<td style="text-align: left;">Introduction and Section 1 of <a href="https://onlinelibrary-wiley-com.ep.fjernadgang.kb.dk/doi/full/10.1111/1540-6261.00580">Risk Reduction in Large Portfolios</a></td>
-<td style="text-align: left;"><a href="./exercises/introduction.html#scaling-up-the-analysis">2</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">9</td>
-<td style="text-align: left;">Thu Feb 26</td>
-<td style="text-align: left;">Multifactor models</td>
-<td style="text-align: left;">Chapters 7 and 8 of <a href="https://www.wiley.com/en-us/Empirical+Asset+Pricing%3A+The+Cross+Section+of+Stock+Returns-p-9781118095041">Empirical Asset Pricing: The Cross-Section of Stock Returns</a></td>
-<td style="text-align: left;"><a href="./exercises/financial_data.html">3</a>, <a href="./exercises/beta_estimation.html">4</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Fri Feb 27</td>
-<td style="text-align: left;"><strong>MA 1 released</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./additional-material/quarto-documentation.html">Quarto</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">10</td>
-<td style="text-align: left;">Mon Mar 2</td>
-<td style="text-align: left;">Reproducibility crisis</td>
-<td style="text-align: left;">FT article: “The hidden ‘replication crisis’ of finance”</td>
-<td style="text-align: left;"><a href="./exercises/portfolio_sorts.html">5</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu Mar 5</td>
-<td style="text-align: left;">Reproducibility crisis</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Sat Mar 7</td>
-<td style="text-align: left;"><strong>MA 1 deadline</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">11</td>
-<td style="text-align: left;">Thu Mar 12</td>
-<td style="text-align: left;">ML in Finance</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">Mon Mar 16</td>
-<td style="text-align: left;">ML in Finance</td>
-<td style="text-align: left;"><a href="https://dachxiu.chicagobooth.edu/download/ML.pdf">Empirical asset pricing via Machine Learning</a></td>
-<td style="text-align: left;"><a href="./exercises/gu_kelly_xiu.html">6</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu Mar 19</td>
-<td style="text-align: left;">ML in Finance</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./exercises/machine_learning.html">7</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">13</td>
-<td style="text-align: left;">Thu Mar 26</td>
-<td style="text-align: left;">ML in Finance</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./exercises/machine_learning_nonlinear.html">8</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>Easter break (W14)</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Fri Apr 3</td>
-<td style="text-align: left;"><strong>MA 2 released</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">15</td>
-<td style="text-align: left;">Tue Apr 7</td>
-<td style="text-align: left;">ML in Finance</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu Apr 9</td>
-<td style="text-align: left;">Volatility estimation</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./exercises/covariance_estimation.html">9</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Sun Apr 12</td>
-<td style="text-align: left;"><strong>MA 2 deadline (8pm)</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">16</td>
-<td style="text-align: left;">Mon Apr 13</td>
-<td style="text-align: left;">Volatility estimation</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">17</td>
-<td style="text-align: left;">Thu Apr 23</td>
-<td style="text-align: left;">Portfolio optimization</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./exercises/portfolio_choice.html">10</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">18</td>
-<td style="text-align: left;">Mon Apr 27</td>
-<td style="text-align: left;">Parametric Portfolio Choice</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./exercises/high-frequency-econometrics.html#read-in-and-process-lobster-files.qmd">11</a></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu Apr 30</td>
-<td style="text-align: left;">High-frequency econometrics</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Fri May 1</td>
-<td style="text-align: left;"><strong>MA 3 released</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">19</td>
-<td style="text-align: left;">Thu May 7</td>
-<td style="text-align: left;">Guest lecture: Cilie Feldager Chief GenAI Model Evaluation Expert (Danske Bank)</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><a href="./exercises/high-frequency-econometrics.html#brownian-motion-and-realized-volatility.qmd">12</a></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Sun May 10</td>
-<td style="text-align: left;"><strong>MA 3 deadline (8pm)</strong></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">20</td>
-<td style="text-align: left;">Mon May 11</td>
-<td style="text-align: left;">High-frequency econometrics</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">21</td>
-<td style="text-align: left;">Tue May 19</td>
-<td style="text-align: left;">High-frequency econometrics</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Thu May 21</td>
-<td style="text-align: left;">Q&amp;A</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-<style>
-tr.current-week td {
-  background-color: rgba(var(--bs-primary-rgb), 0.12) !important;
-  font-weight: 600;
-}
-</style>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const dow = today.getDay();
-  const weekStart = new Date(today);
-  weekStart.setDate(today.getDate() + (dow === 0 ? -6 : 1 - dow));
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 6);
-
-  const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-
-  document.querySelectorAll('table tbody tr').forEach(function (row) {
-    const cells = row.querySelectorAll('td');
-    if (cells.length < 2) return;
-    const m = cells[1].textContent.trim().match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d+)/);
-    if (!m) return;
-    const d = new Date(today.getFullYear(), months[m[1]], parseInt(m[2]));
-    if (d >= weekStart && d <= weekEnd) row.classList.add('current-week');
-  });
-});
-</script>
+    
+  
+    
+  </div>
+  
 
 
-</section>
+</header>
+
+
+<p><strong>Exercises:</strong></p>
+<ol type="1">
+<li><p>Read the book chapters <a href="https://www.tidy-finance.org/r/accessing-and-managing-financial-data.html">Accessing &amp; managing financial data</a> and <a href="https://www.tidy-finance.org/r/wrds-crsp-and-compustat.html">WRDS, CRSP, and Compustat</a> entirely. If you prefer to read Python code, the chapters are available <a href="https://www.tidy-finance.org/python/accessing-and-managing-financial-data.html">here</a> and <a href="https://www.tidy-finance.org/python/wrds-crsp-and-compustat.html">here</a>. They may contain some advanced concepts but also a description of almost every important dataset relevant to research in empirical finance. To get more information on how to compute returns adjusted for delisting, follow the procedure described in Chapter 7.2 of the book <em>Empirical Asset Pricing</em>.</p></li>
+<li><p>Download the file <code>crsp_monthly.parquet</code> from Absalon. Store it in the folder called <code>data-r</code> (<code>data-python</code>) within your standard working directory for the course. Almost all exercises from now on will start with reading data out of this file, so make sure you familiarize yourself with this short <em>minimal setup to load data into your R or Python session memory from a fresh session</em> (you can consult it anytime again later during the course).</p></li>
+</ol>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="language">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">R</a></li></ul>
+<div class="tab-content" data-group="language">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pd.read_parquet(<span class="st">"data-python/crsp_monthly.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>crsp_monthly <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(<span class="st">"data-r/crsp_monthly.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<ol start="4" type="1">
+<li>If you need help with .parquet files, post your question on Absalon. Your TA, your peers, and I will help you!</li>
+<li>Replicate the following two figures provided in the lecture slides: i) Create a time series of the number of stocks in the CRSP sample, which are listed on NASDAQ, NYSE, and AMEX. ii) Illustrate the time series of total market values (inflation-adjusted) based on industry classification <code>siccd</code>. The book <em>Empirical Asset Pricing</em> (Bali, Murrey, and Engle) provides a detailed walk-through if you need help.</li>
+</ol>
+<p><strong>Solutions:</strong> All solutions are provided in the book chapter <em>WRDS, CRSP, and Compustat</em> (<a href="https://www.tidy-finance.org/r/wrds-crsp-and-compustat.html">R version</a> and <a href="https://www.tidy-finance.org/python/wrds-crsp-and-compustat.html">Python version</a>) and the lecture slides.</p>
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
