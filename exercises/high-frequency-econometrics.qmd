@@ -385,7 +385,409 @@ ggplot() +
 
 ## Python
 
-No code available (yet)
+```{python}
+#| label: py-load-libraries-lobster
+import py7zr
+import pandas as pd
+import numpy as np
+from plotnine import (
+    ggplot, aes, geom_step, geom_point, labs,
+    theme_bw, theme, element_blank,
+)
+from great_tables import GT
+```
+
+I use the following code to read in (general) Lobster files - change `ticker`, `date`, and `level` in the code snippet below.
+```{python}
+#| label: py-read-archive-files
+archive_path = "SAP_2022-01-01_2022-01-31_5.7z"
+
+with py7zr.SevenZipFile(archive_path, mode="r") as archive:
+    file_info = archive.list()
+
+files_available = pd.DataFrame(
+    {"path": [f.filename for f in file_info], "size": [f.uncompressed for f in file_info]}
+)
+files_available[["ticker", "date", "level"]] = (
+    files_available["path"].str.extract(r"(.*)_(.*)_342.*_(.*).csv")
+)
+
+files_available.head(10)
+```
+
+Lobster files always follow the same naming convention; thus, the code above can be recycled in a more general fashion for other Lobster files. The helper below extracts a single file from the archive into memory, mirroring `archive::archive_read()` in R.
+
+```{python}
+#| label: py-define-read-archive-csv
+def read_archive_csv(path, target_index, names=None, usecols=None):
+    factory = py7zr.io.BytesIOFactory(500_000_000)
+    with py7zr.SevenZipFile(path, mode="r") as archive:
+        target = archive.getnames()[target_index]
+        archive.extract(targets=[target], factory=factory)
+    buf = factory.products[target]
+    buf.seek(0)
+    return pd.read_csv(buf, header=None, names=names, usecols=usecols)
+```
+
+Next, we read in data for one(!) of the trading days available in the archive.
+
+```{python}
+#| label: fig-py-traded-prices
+#| fig-cap: "Traded prices for SAP on January 3rd, 2022, based on execution messages (types 4 and 5)."
+messages_raw = read_archive_csv(
+    archive_path,
+    target_index=2,
+    names=["ts", "type", "order_id", "m_size", "m_price", "direction", "null"],
+    usecols=range(6),
+)
+messages_raw["ts"] = (
+    pd.Timestamp("2022-01-07", tz="UTC")
+    + pd.to_timedelta(messages_raw["ts"], unit="s")
+)
+messages_raw["m_price"] = messages_raw["m_price"] / 10000
+
+(
+    ggplot(
+        messages_raw[messages_raw["type"].isin([4, 5])],
+        aes(x="ts", y="m_price"),
+    )
+    + geom_step()
+    + geom_point(data=messages_raw.tail(1), color="red", size=3)
+    + labs(x="", y="USD", title="Traded prices: SAP, January 3rd, 2022")
+)
+```
+
+Note my naming convention for column names. The argument `usecols=range(6)` makes sure we drop the trailing `null` column for easy processing afterward. By default, `ts` denotes the time in seconds since midnight (decimals are precise until the nanosecond level), and `price` always comes in 10.000 USD. `type` denotes the message type: `4`, for instance, corresponds to the execution of a visible order. The remaining variables are explained in more detail [here](https://lobsterdata.com/info/DataStructure.php).
+
+Next, the corresponding orderbook snapshots contain `price` and quoted `size` for each of the `5` levels.
+
+The code below is rather flexible to handle Lobster files with more or less levels. Each column contains the corresponding prices and sizes on each side of the order book. After merging the `message` and `orderbook` files, the entire data thus looks as follows.
+
+```{python}
+#| label: py-read-orderbook
+level = 5
+ob_cols = [
+    f"{var}_{lvl}"
+    for lvl in range(1, level + 1)
+    for var in ("ask_price", "ask_size", "bid_price", "bid_size")
+]
+
+orderbook_raw = read_archive_csv(archive_path, target_index=3, names=ob_cols)
+price_cols = [c for c in orderbook_raw.columns if "price" in c]
+orderbook_raw[price_cols] = orderbook_raw[price_cols] / 10000
+
+orderbook = pd.concat(
+    [messages_raw.reset_index(drop=True), orderbook_raw.reset_index(drop=True)],
+    axis=1,
+)
+orderbook.head(10)
+```
+
+The order book contains as many observations as the message file. While the columns `ts` to `direction` help understand the specific messages, the remaining columns contain a snapshot of the order book at that particular time.
+
+Next, Lobster sometimes contains opening and closing auctions (in particular on days when trading hours deviate from the regular times). If you follow the documentation on Lobster, you will see that these times can be identified as I do in the code below.
+
+```{python}
+#| label: py-identify-auctions
+opening_auction = orderbook.loc[
+    (orderbook["type"] == 6) & (orderbook["order_id"] == -1), "ts"
+]
+if opening_auction.empty:
+    opening_auction = orderbook["ts"].head(1)
+
+closing_auction = orderbook.loc[
+    (orderbook["type"] == 6) & (orderbook["order_id"] == -2), "ts"
+]
+if closing_auction.empty:
+    closing_auction = orderbook["ts"].tail(1)
+
+pd.concat([opening_auction, closing_auction]).tolist()
+```
+
+In line with the exercise, the function `process_orderbook()` performs several essential steps. You can call it from within Python with the following command.
+
+```{python}
+#| label: py-define-process-orderbook
+def process_orderbook(orderbook):
+    orderbook = orderbook.copy()
+
+    # Did a trading halt happen? ----
+    halt_mask = (
+        (orderbook["type"] == 7)
+        & (orderbook["direction"] == -1)
+        & (orderbook["m_price"].isin([-1 / 10000, 1 / 10000]))
+    )
+    halt_ts = orderbook.loc[halt_mask, "ts"].reset_index(drop=True)
+
+    while len(halt_ts) > 1:
+        # Filter out messages that occurred in between trading halts
+        print("Trading halt detected")
+        orderbook = orderbook[
+            (orderbook["ts"] < halt_ts.iloc[0]) | (orderbook["ts"] > halt_ts.iloc[1])
+        ]
+        halt_ts = halt_ts.iloc[2:].reset_index(drop=True)
+
+    # Opening and closing auction ----
+    # Discard everything before type 6 & ID -1 and everything after type 6 & ID -2
+    opening = orderbook.loc[
+        (orderbook["type"] == 6) & (orderbook["order_id"] == -1), "ts"
+    ]
+    closing = orderbook.loc[
+        (orderbook["type"] == 6) & (orderbook["order_id"] == -2), "ts"
+    ]
+    open_ts = (
+        opening.iloc[0]
+        if len(opening) == 1
+        else orderbook["ts"].iloc[0] - pd.Timedelta("0.1s")
+    )
+    close_ts = (
+        closing.iloc[0]
+        if len(closing) == 1
+        else orderbook["ts"].iloc[-1] + pd.Timedelta("0.1s")
+    )
+    orderbook = orderbook[(orderbook["ts"] > open_ts) & (orderbook["ts"] < close_ts)]
+    orderbook = orderbook[~orderbook["type"].isin([6, 7])]
+
+    # Replace "empty" slots in the order book (0 volume) with NA prices ----
+    bid_price_cols = [c for c in orderbook.columns if "bid_price" in c]
+    ask_price_cols = [c for c in orderbook.columns if "ask_price" in c]
+    orderbook[bid_price_cols] = orderbook[bid_price_cols].mask(orderbook[bid_price_cols] < 0)
+    orderbook[ask_price_cols] = orderbook[ask_price_cols].mask(orderbook[ask_price_cols] >= 999999)
+
+    # Remove crossed order book observations ----
+    orderbook = orderbook[orderbook["ask_price_1"] > orderbook["bid_price_1"]]
+
+    # Merge transactions with unique timestamp ----
+    trades = orderbook[orderbook["type"].isin([4, 5])][
+        ["ts", "type", "order_id", "m_size", "m_price", "direction"]
+    ].copy()
+
+    snapshots = (
+        orderbook.drop_duplicates(subset="ts", keep="first")
+        .assign(midquote=lambda d: (d["ask_price_1"] + d["bid_price_1"]) / 2)
+        [["ts", "ask_price_1", "bid_price_1", "midquote"]]
+        .sort_values("ts")
+        .reset_index(drop=True)
+    )
+    snapshots["lag_midquote"] = snapshots["midquote"].shift(1)
+
+    trades = trades.merge(snapshots, on="ts", how="inner")
+
+    # lobster convention: direction = 1 if executed against a limit buy order
+    trades["direction"] = np.where(
+        (trades["type"] == 5) & (trades["m_price"] < trades["lag_midquote"]),
+        1.0,
+        np.where(
+            (trades["type"] == 5) & (trades["m_price"] > trades["lag_midquote"]),
+            -1.0,
+            np.where(trades["type"] == 4, trades["direction"].astype(float), np.nan),
+        ),
+    )
+
+    # Aggregate transactions with size and volume-weighted price
+    trade_aggregated = trades.groupby("ts", as_index=False).apply(
+        lambda g: pd.Series(
+            {
+                "type": g["type"].iloc[-1],
+                "order_id": np.nan,
+                "m_price": np.sum(g["m_price"] * g["m_size"]) / g["m_size"].sum(),
+                "m_size": g["m_size"].sum(),
+                "direction": g["direction"].iloc[-1],
+            }
+        ),
+        include_groups=False,
+    )
+
+    # Merge trades with the last observed order book snapshot
+    snapshot_cols = ["ts"] + [
+        c for c in orderbook.columns if c.startswith(("ask_", "bid_"))
+    ]
+    last_snapshot = (
+        orderbook[snapshot_cols]
+        .drop_duplicates(subset="ts", keep="last")
+        .reset_index(drop=True)
+    )
+    trade_aggregated = trade_aggregated.merge(last_snapshot, on="ts", how="inner")
+
+    non_trades = orderbook[~orderbook["type"].isin([4, 5])]
+    orderbook = (
+        pd.concat([non_trades, trade_aggregated], ignore_index=True)
+        .sort_values("ts")
+        .reset_index(drop=True)
+    )
+    orderbook["direction"] = np.where(
+        orderbook["type"].isin([4, 5]), orderbook["direction"], np.nan
+    )
+    return orderbook
+```
+
+You can process the raw data from before by simply calling.
+```{python}
+#| label: py-process-orderbook
+orderbook = process_orderbook(orderbook)
+```
+
+The function `compute_depth` below computes the number of traded shares within `bp` basis points of the associated best price, which can be used to measure liquidity.
+```{python}
+#| label: py-define-compute-depth
+def compute_depth(orderbook, side="bid", bp=0):
+    # Computes depth (in contracts) based on order book snapshots
+    if side == "bid":
+        ref = (1 - bp / 10000) * orderbook["bid_price_1"]
+        price_cols = [c for c in orderbook.columns if "bid_price" in c]
+        size_cols = [c for c in orderbook.columns if "bid_size" in c]
+        idx = orderbook[price_cols].ge(ref, axis=0).fillna(False)
+    else:
+        ref = (1 + bp / 10000) * orderbook["ask_price_1"]
+        price_cols = [c for c in orderbook.columns if "ask_price" in c]
+        size_cols = [c for c in orderbook.columns if "ask_size" in c]
+        idx = orderbook[price_cols].le(ref, axis=0).fillna(False)
+
+    sizes = orderbook[size_cols].fillna(0).values
+    return (sizes * idx.values).sum(axis=1)
+```
+
+Next, I compute the midquote, bid-ask spread, aggregate volume, and depth (the amount of trade-able units in the order book):
+
+- Midquote $q_t = (a_t + b_t)/2$ (where $a_t$ and $b_t$ denote the best bid and best ask)
+- Spread $S_t= (a_t - b_t)$ (values below are computed in basis points relative to the concurrent midquote)
+- Volume is the aggregate sum of traded units of the stock. I do not differentiate between hidden (`type==5`) and visible volume.
+- Depth at the best level.
+
+I aggregate the information into buckets of 5 minutes, using time-weighting for the order book variables.
+
+```{python}
+#| label: tbl-py-orderbook-summary
+#| tbl-cap: "Five-minute summaries of midquote, spread (bps), trade count, volume, and quoted depth for SAP, January 2022."
+summary = pd.DataFrame(
+    {
+        "ts": orderbook["ts"].values,
+        "midquote": (orderbook["ask_price_1"] + orderbook["bid_price_1"]) / 2,
+        "trading_volume": np.where(
+            orderbook["type"].isin([4, 5]),
+            orderbook["m_price"] * orderbook["m_size"],
+            np.nan,
+        ),
+        "depth0_bid": orderbook["bid_size_1"].values,
+        "depth0_ask": orderbook["ask_size_1"].values,
+    }
+)
+summary["spread"] = (
+    10000
+    * (orderbook["ask_price_1"].values - orderbook["bid_price_1"].values)
+    / summary["midquote"]
+)
+# time between messages (0 for last message)
+summary["ts_latency"] = (
+    (summary["ts"].shift(-1) - summary["ts"]).dt.total_seconds().fillna(0)
+)
+# 5-minute buckets (e.g. messages from 10:30:00 - 10:34:59.xx belong into 10:30:00)
+summary["ts_minute"] = summary["ts"].dt.floor("5min")
+
+
+def weighted_mean(values, weights):
+    mask = ~values.isna()
+    if not mask.any() or weights[mask].sum() == 0:
+        return np.nan
+    return np.average(values[mask], weights=weights[mask])
+
+
+orderbook_summaries = summary.groupby("ts_minute", as_index=False).apply(
+    lambda g: pd.Series(
+        {
+            "midquote": g["midquote"].iloc[-1],
+            "n_trades": int(g["trading_volume"].notna().sum()),
+            "n": len(g),
+            "trading_volume": float(g["trading_volume"].sum()),
+            "depth0_bid": weighted_mean(g["depth0_bid"], g["ts_latency"]),
+            "depth0_ask": weighted_mean(g["depth0_ask"], g["ts_latency"]),
+            "spread": weighted_mean(g["spread"], g["ts_latency"]),
+        }
+    ),
+    include_groups=False,
+)
+
+orderbook_display = orderbook_summaries.copy()
+orderbook_display["ts_minute"] = orderbook_display["ts_minute"].dt.time
+
+(
+    GT(orderbook_display)
+    .cols_label(
+        ts_minute="Time",
+        midquote="Midquote (USD)",
+        n_trades="Trades",
+        n="Messages",
+        trading_volume="Volume (USD)",
+        depth0_bid="Bid depth",
+        depth0_ask="Ask depth",
+        spread="Spread (bps)",
+    )
+    .tab_spanner(
+        label="Order book",
+        columns=["midquote", "spread", "depth0_bid", "depth0_ask"],
+    )
+    .tab_spanner(
+        label="Trading activity",
+        columns=["n_trades", "n", "trading_volume"],
+    )
+    .fmt_time(columns="ts_minute", time_style="h_m_p")
+    .fmt_currency(columns="midquote", currency="USD", decimals=2)
+    .fmt_currency(columns="trading_volume", currency="USD", decimals=0)
+    .fmt_number(columns=["depth0_bid", "depth0_ask"], decimals=0)
+    .fmt_number(columns="spread", decimals=2)
+    .fmt_integer(columns=["n_trades", "n"])
+)
+```
+
+Finally, some visualization of the data at hand: The code below shows the dynamics of the traded prices (red points) and the quoted prices at the higher order book levels.
+
+```{python}
+#| label: fig-py-orderbook-dynamics
+#| fig-cap: "Order book dynamics for SAP: quoted prices at each level (shaded by relative depth) with executed trades overlaid in red."
+orderbook_trades = orderbook.loc[orderbook["type"].isin([4, 5]), ["ts", "m_price"]]
+
+ob_minute = (
+    orderbook.assign(ts_new=lambda d: d["ts"].dt.floor("min"))
+    .groupby("ts_new", as_index=False)
+    .last()
+    .drop(columns="ts_new")
+)
+quote_cols = [c for c in ob_minute.columns if c.startswith(("ask_", "bid_"))]
+long_df = (
+    ob_minute[["ts"] + quote_cols]
+    .melt(id_vars="ts", var_name="key", value_name="value")
+)
+parts = long_df["key"].str.split("_", expand=True)
+long_df["side"] = parts[0]
+long_df["variable"] = parts[1]
+long_df["level"] = parts[2].astype(int)
+orderbook_quotes = (
+    long_df.pivot_table(
+        index=["ts", "side", "level"], columns="variable", values="value"
+    )
+    .reset_index()
+    .dropna(subset=["price"])
+)
+orderbook_quotes["size_norm"] = orderbook_quotes["size"] / orderbook_quotes["size"].max()
+orderbook_quotes["level"] = pd.Categorical(orderbook_quotes["level"])
+
+(
+    ggplot()
+    + theme_bw()
+    + geom_point(
+        orderbook_quotes,
+        aes(x="ts", y="price", color="level", size="size_norm"),
+        alpha=0.1,
+    )
+    + geom_point(orderbook_trades, aes(x="ts", y="m_price"), color="red")
+    + labs(title="Orderbook Dynamics", y="Price", x="")
+    + theme(
+        panel_grid_major=element_blank(),
+        panel_grid_minor=element_blank(),
+        legend_position="none",
+    )
+)
+```
 
 :::
 
