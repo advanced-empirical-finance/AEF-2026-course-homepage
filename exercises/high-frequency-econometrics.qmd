@@ -445,14 +445,15 @@ messages_raw["ts"] = (
     + pd.to_timedelta(messages_raw["ts"], unit="s")
 )
 messages_raw["m_price"] = messages_raw["m_price"] / 10000
+trades = messages_raw[messages_raw["type"].isin([4, 5])]
 
 (
     ggplot(
-        messages_raw[messages_raw["type"].isin([4, 5])],
+        trades,
         aes(x="ts", y="m_price"),
     )
     + geom_step()
-    + geom_point(data=messages_raw.tail(1), color="red", size=3)
+    + geom_point(data=trades.tail(1), color="red", size=3)
     + labs(x="", y="USD", title="Traded prices: SAP, January 3rd, 2022")
 )
 ```
