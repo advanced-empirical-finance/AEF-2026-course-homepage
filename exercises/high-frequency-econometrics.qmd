@@ -2,7 +2,6 @@
 title: High-frequency econometrics
 execute: 
   eval: true
-jupyter: python3
 ---
 
 Two recently developed packages simplify programmatic access to [LOBSTER](https://lobsterdata.com) data directly from your analysis environment:
