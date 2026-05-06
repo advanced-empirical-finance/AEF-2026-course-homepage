@@ -420,9 +420,14 @@ Lobster files always follow the same naming convention; thus, the code above can
 ```{python}
 #| label: py-define-read-archive-csv
 def read_archive_csv(path, target_index, names=None, usecols=None):
-    factory = py7zr.io.BytesIOFactory(500_000_000)
     with py7zr.SevenZipFile(path, mode="r") as archive:
-        target = archive.getnames()[target_index]
+        file_info = archive.list()
+        target_info = file_info[target_index]
+        target = target_info.filename
+        target_size = target_info.uncompressed
+        if target_size is None or target_size < 0:
+            raise ValueError(f"Could not determine uncompressed size for archive member: {target}")
+        factory = py7zr.io.BytesIOFactory(max(target_size, 1))
         archive.extract(targets=[target], factory=factory)
     buf = factory.products[target]
     buf.seek(0)
