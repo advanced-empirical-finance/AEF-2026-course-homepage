@@ -441,7 +441,7 @@ messages_raw = read_archive_csv(
     usecols=range(6),
 )
 messages_raw["ts"] = (
-    pd.Timestamp("2022-01-07", tz="UTC")
+    pd.Timestamp("2022-01-03", tz="UTC")
     + pd.to_timedelta(messages_raw["ts"], unit="s")
 )
 messages_raw["m_price"] = messages_raw["m_price"] / 10000
