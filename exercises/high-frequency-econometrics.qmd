@@ -654,18 +654,18 @@ def compute_depth(orderbook, side="bid", bp=0):
     return (sizes * idx.values).sum(axis=1)
 ```
 
-Next, I compute the midquote, bid-ask spread, aggregate volume, and depth (the amount of trade-able units in the order book):
+Next, I compute the midquote, bid-ask spread, aggregate notional volume, and depth (the amount of trade-able units in the order book):
 
 - Midquote $q_t = (a_t + b_t)/2$ (where $a_t$ and $b_t$ denote the best bid and best ask)
 - Spread $S_t= (a_t - b_t)$ (values below are computed in basis points relative to the concurrent midquote)
-- Volume is the aggregate sum of traded units of the stock. I do not differentiate between hidden (`type==5`) and visible volume.
+- Notional volume is the aggregate traded dollar value of the stock, computed as trade price times trade size. I do not differentiate between hidden (`type==5`) and visible trade volume.
 - Depth at the best level.
 
 I aggregate the information into buckets of 5 minutes, using time-weighting for the order book variables.
 
 ```{python}
 #| label: tbl-py-orderbook-summary
-#| tbl-cap: "Five-minute summaries of midquote, spread (bps), trade count, volume, and quoted depth for SAP, January 2022."
+#| tbl-cap: "Five-minute summaries of midquote, spread (bps), trade count, notional volume, and quoted depth for SAP, January 2022."
 summary = pd.DataFrame(
     {
         "ts": orderbook["ts"].values,
