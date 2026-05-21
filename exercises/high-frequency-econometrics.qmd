@@ -982,6 +982,55 @@ Finally, some more analysis regarding the infill asymptotics. As should be clear
 
 Note that the code below illustrates how to work with the `xts` package and switch between the `tidyverse` and the `high-frequency` data format requirements. Of course, the procedure could be more convenient, but it is worth exploiting the functionalities of both worlds instead of recording everything in a tidy manner.
 
+```{r}
+#| label: fig-infill-asymptotics
+#| fig-cap: "Sampling distributions of the realized volatility at six different sampling frequencies, illustrating infill asymptotics; the dotted line marks the true volatility $\\sigma$."
+#| cache: true
+infill_asymptotics <- function(tab, sampling_frequency = 5) {
+  tab_xts <- as.xts(tab |> select(price), order.by = tab |> pull(time))
+  tab_xts <- aggregatePrice(
+    tab_xts,
+    alignBy = "minutes",
+    alignPeriod = sampling_frequency,
+    tz = "GMT",
+    marketOpen = "09:30:00"
+  )
+
+  tab_xts |>
+    fortify.zoo() |>
+    as_tibble() |>
+    rename("ts" = Index, "price" = PRICE) |>
+    summarise(rv = sum((price - lag(price))^2, na.rm = TRUE)) |>
+    as.numeric()
+}
+
+rvs <- simulation |>
+  group_by(iteration) |>
+  nest(data = c(step, time, price)) |>
+  mutate(
+    "1 Second" = map_dbl(data, infill_asymptotics, 1 / 60),
+    "1 Minute" = map_dbl(data, infill_asymptotics, 1),
+    "5 Minutes" = map_dbl(data, infill_asymptotics, 5),
+    "15 Minutes" = map_dbl(data, infill_asymptotics, 15),
+    "1 hour" = map_dbl(data, infill_asymptotics, 60),
+    "1 day" = map_dbl(data, infill_asymptotics, 6.5 * 60)
+  )
+
+rvs |>
+  select(-data) |>
+  ungroup() |>
+  pivot_longer(-iteration, names_to = "Sampling Frequency", values_to = "rv") |>
+  mutate(
+    `Sampling Frequency` = as.factor(`Sampling Frequency`),
+    `Sampling Frequency` = fct_reorder(`Sampling Frequency`, rv, sd)
+  ) |>
+  ggplot(aes(x = sqrt(rv), fill = `Sampling Frequency`)) +
+  geom_density() +
+  geom_vline(aes(xintercept = true_sigma), linetype = "dotted") +
+  facet_wrap(~`Sampling Frequency`, scales = "free_y") +
+  labs(x = "(Log) Realized Volatility", y = "")
+```
+
 ## Python
 ```{python}
 #| label: load-libraries-bm-py
