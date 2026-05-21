@@ -6,7 +6,6 @@ subtitle: A workflow for fitting, shrinking, uploading, and retrieving model obj
 ```{r}
 #| label: setup-python
 #| include: false
-
 reticulate::use_python(Sys.getenv("RETICULATE_PYTHON"), required = TRUE)
 ```
 
@@ -31,7 +30,6 @@ We load six packages. `tidyfinance` provides access to financial data. `tidymode
 
 ```{r}
 #| label: load-packages-r
-
 library(tidyfinance)
 library(tidymodels)
 library(butcher)
@@ -73,7 +71,6 @@ Suppose we want to predict monthly S&P 500 excess returns using macroeconomic pr
 
 ```{r}
 #| label: download-data-r
-
 data <- download_data("macro_predictors", "monthly")
 ```
 
@@ -104,10 +101,9 @@ Because the data are a time series, we use `initial_time_split()` rather than a 
 
 ```{r}
 #| label: train-test-split-r
-
-split      <- initial_time_split(data, prop = 0.8)
+split <- initial_time_split(data, prop = 0.8)
 train_data <- training(split)
-test_data  <- testing(split)
+test_data <- testing(split)
 ```
 
 ## Python
@@ -143,7 +139,6 @@ A recipe defines the preprocessing steps applied to the data before modelling. W
 
 ```{r}
 #| label: define-recipe-r
-
 rec <- recipe(rp_div ~ ., data = train_data) |>
   step_rm(date) |>
   step_normalize(all_predictors())
@@ -176,7 +171,6 @@ We fix `mixture = 0`, which gives a pure ridge regression, and tune only the pen
 
 ```{r}
 #| label: tune-model-r
-
 enet_spec <- linear_reg(penalty = tune(), mixture = 0) |>
   set_engine("glmnet")
 
@@ -186,17 +180,17 @@ enet_wf <- workflow() |>
 
 rolling_folds <- rolling_origin(
   train_data,
-  initial    = 120,
-  assess     = 60,
+  initial = 120,
+  assess = 60,
   cumulative = FALSE,
-  skip       = 59
+  skip = 59
 )
 
 tuned <- tune_grid(
   enet_wf,
   resamples = rolling_folds,
-  grid      = 30,
-  metrics   = metric_set(rmse, rsq_trad, mae)
+  grid = 30,
+  metrics = metric_set(rmse, rsq_trad, mae)
 )
 
 enet_wf_final <- enet_wf |>
@@ -239,7 +233,6 @@ A fitted workflow in R carries a lot of extra baggage: the training data, the ca
 
 ```{r}
 #| label: butcher-and-save-r
-
 enet_wf_final |> butcher() |> write_rds("model_ridge.rds")
 ```
 
@@ -268,7 +261,6 @@ You can add `HF_TOKEN=hf_your_token_here` to your `.Renviron` file (run `usethis
 ```{r}
 #| label: set-hf-token-r
 #| eval: false
-
 Sys.setenv(HF_TOKEN = "hf_your_token_here")
 ```
 
@@ -296,7 +288,6 @@ We read the token from the environment and send a POST request to the Hugging Fa
 
 ```{r}
 #| label: hf-create-repo-r
-
 hf_token <- Sys.getenv("HF_TOKEN")
 
 request("https://huggingface.co/api/repos/create") |>
@@ -333,7 +324,6 @@ Hugging Face stores files via a commit API. We read the `.rds` file as raw bytes
 ```{r}
 #| eval: false
 #| label: hf-username-r
-
 hf_username <- "your-username"
 ```
 
@@ -344,15 +334,20 @@ hf_username <- "voigtstefan"
 
 ```{r}
 #| label: hf-upload-model-r
-
 repo_name <- "ma2-model-1"
 file_name <- "model_ridge.rds"
 
-model_bytes  <- readBin(file_name, "raw", file.size(file_name))
+model_bytes <- readBin(file_name, "raw", file.size(file_name))
 model_base64 <- base64enc::base64encode(model_bytes)
 
 request(
-  paste0("https://huggingface.co/api/models/", hf_username, "/", repo_name, "/commit/main")
+  paste0(
+    "https://huggingface.co/api/models/",
+    hf_username,
+    "/",
+    repo_name,
+    "/commit/main"
+  )
 ) |>
   req_auth_bearer_token(hf_token) |>
   req_body_json(list(
@@ -400,8 +395,11 @@ A peer reviewer only needs your Hugging Face username.
 
 ```{r}
 #| label: download-and-predict-r
-
-model_url <- paste0("https://huggingface.co/", hf_username, "/ma2-model-1/resolve/main/model_ridge.rds")
+model_url <- paste0(
+  "https://huggingface.co/",
+  hf_username,
+  "/ma2-model-1/resolve/main/model_ridge.rds"
+)
 download.file(model_url, destfile = "model_ridge.rds", mode = "wb")
 loaded_model <- read_rds("model_ridge.rds")
 
