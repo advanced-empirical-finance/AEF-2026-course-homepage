@@ -1,5 +1,7 @@
-
-# Collaboration with Git and GitHub
+---
+title: Collaboration with Git and GitHub
+description: "The essential Git and GitHub workflow for collaborating with your group on the mandatory assignments."
+---
 
 This guide covers the essential Git and GitHub commands and workflows you need to collaborate with your group on the mandatory assignments.
 

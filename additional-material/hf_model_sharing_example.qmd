@@ -1,6 +1,7 @@
 ---
 title: Sharing Trained Models via Hugging Face Hub
 subtitle: A workflow for fitting, shrinking, uploading, and retrieving model objects
+description: "Fit, shrink, upload, and retrieve model objects via the Hugging Face Hub."
 ---
 
 ```{r}

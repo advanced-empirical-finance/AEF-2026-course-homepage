@@ -1,5 +1,6 @@
 ---
 title: Positron AI Assistant Guide
+description: "Enable and use Positron's AI chat and Copilot code completion — setup, settings, and sensible practice."
 ---
 
 Positron offers several AI-powered features to assist you in your work, including the Positron Assistant Chat and Code Completion with GitHub Copilot. These tools are designed to help you save time, increase efficiency, and enhance your overall productivity. For a more detailed introduction to the Positron Assistant, we recommend reading the [Positron Assistant Introduction](https://positron.posit.co/assistant) including their guide for getting started. 

@@ -1,5 +1,6 @@
 ---
 title: Replicating Gu Kelly & Xiu (2020)
+description: "Prepare the Gu, Kelly & Xiu (2020) dataset in Python and set it up for machine-learning models."
 jupyter: aef-2026
 execute:
     eval: false

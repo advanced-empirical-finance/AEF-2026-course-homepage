@@ -1,17 +1,38 @@
 ---
-title: Welcome!
+title: "Advanced Empirical Finance"
+subtitle: "Topics and Data Science"
+toc: false
 ---
-  
-In the course "Advanced Empirical Finance" we repeatedly ask: (How) can state-of-the-art methods improve financial decision-making?
 
-While the lecture covers all relevant theoretical aspects and is based on very recent academic papers, you should spend most of your effort on this course on actually *doing* empirical work. Get your computer ready to work on real problems for financial applications and discuss your code with your peers to acquire the necessary skills to make a difference either in the Finance industry or academia. 
+The guiding question of this course: **(How) can state-of-the-art methods improve financial decision-making?** The lecture covers the theory and the recent papers — but most of your effort should go into actually *doing* empirical work.
 
-The [exercise sets](exercises/index.qmd) partially subsume work I created with my colleagues Christoph Scheuch and Patrick Weiss for the books [Tidy Finance with R](https://www.tidy-finance.org/r/index.html) and [Tidy Finance with Python](https://www.tidy-finance.org/python/index.html). You are very welcome to give us feedback on *every* aspect of the book such that we can improve the codes, explanations, and general structure. Please contact me or my colleagues directly via [contact@tidy-finance.org](mailto:contact@tidy-finance.org) if you spot typos, mistakes, or other issues that deserve more attention. 
+```{=html}
+<div class="grid home-cards">
+  <a class="home-card g-col-12 g-col-md-6 g-col-lg-4" href="exercises/technical-prerequisites.html">
+    <span class="home-card-title">🚀 Start here</span>
+    <span class="home-card-text">Get R, Python &amp; Positron ready before the first lecture (Exercise&nbsp;0).</span>
+  </a>
+  <a class="home-card g-col-12 g-col-md-6 g-col-lg-4" href="slides-index.html">
+    <span class="home-card-title">🗓️ Lecture plan</span>
+    <span class="home-card-text">Week-by-week schedule with readings and assignment deadlines.</span>
+  </a>
+  <a class="home-card g-col-12 g-col-md-6 g-col-lg-4" href="slides.html">
+    <span class="home-card-title">📊 Slides</span>
+    <span class="home-card-text">View and download every lecture deck, embedded on one page.</span>
+  </a>
+  <a class="home-card g-col-12 g-col-md-6 g-col-lg-4" href="exercises/index.html">
+    <span class="home-card-title">✏️ Exercises</span>
+    <span class="home-card-text">Hands-on problem sets that build the skills the lectures introduce.</span>
+  </a>
+  <a class="home-card g-col-12 g-col-md-6 g-col-lg-4" href="additional-material/index.html">
+    <span class="home-card-title">📚 More resources</span>
+    <span class="home-card-text">Guides on Quarto, Git, Positron AI, and machine-learning workflows.</span>
+  </a>
+</div>
+```
 
-Needless to say, you should try to solve each question on your own before you refer to my proposed answers. 
-Optimally, you discuss issues with your peers and try to find hints either in the lecture slides or online. 
-There are many ways to get an answer to your questions, most directly you can simply post your questions on StackExchange or Absalon. 
+## About the exercises
 
-As an absolute minimum before trying to solve the following exercises, make sure you are familiar with Garrett Grolemund's and Hadley Wickham's excellent book [R for Data Science](https://r4ds.hadley.nz/). I will make further information or references available on Absalon. 
+The [exercise sets](exercises/index.qmd) partially subsume work I created with my colleagues Christoph Scheuch and Patrick Weiss for the books [Tidy Finance with R](https://www.tidy-finance.org/r/index.html) and [Tidy Finance with Python](https://www.tidy-finance.org/python/index.html). Feedback on *every* aspect is very welcome — if you spot typos, mistakes, or anything that deserves more attention, contact me or my colleagues at [contact@tidy-finance.org](mailto:contact@tidy-finance.org).
 
-**Things to get done before the first lecture**: To dive right into it, check [Exercise 0](exercises/technical-prerequisites.qmd) file to comply with the technical prerequisites of this course - you should have R, Python, and Positron ready to get started. 
+Try to solve each question on your own before consulting the proposed answers, and discuss issues with your peers. The most direct way to get help is to post your questions on StackExchange or Absalon. As an absolute minimum, make sure you are familiar with Grolemund and Wickham's [R for Data Science](https://r4ds.hadley.nz/) before starting.

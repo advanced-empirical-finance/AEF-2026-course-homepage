@@ -1,5 +1,6 @@
 ---
 title: Reproducible Research with Quarto
+description: "Literate programming with Quarto — keep code, output, and prose in one file that re-renders on every change."
 ---
 
 ## Why reproducible documents?

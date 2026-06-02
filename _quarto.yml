@@ -1,6 +1,14 @@
 project:
   type: website
   output-dir: docs
+  # Pulls the latest lecture decks from ../course-repository and regenerates
+  # slides.qmd before every render. Requires course-repository checked out
+  # alongside this repo.
+  pre-render:
+    - tools/build-slides-page.R
+  resources:
+    - slides/
+    - CNAME      # keep the custom domain on every render of docs/
 
 
 website:
@@ -10,12 +18,14 @@ website:
     right:
       - text: home
         file: index.qmd
-      - text: more ressources 
-        file: additional-material/index.qmd
-      - text: lecture plan 
+      - text: lecture plan
         file: slides-index.qmd
       - text: exercises
         file: exercises/index.qmd
+      - text: slides
+        file: slides.qmd
+      - text: more ressources
+        file: additional-material/index.qmd
       - icon: github
         url:  https://github.com/advanced-empirical-finance/AEF-2026-course-homepage
   sidebar:
@@ -66,7 +76,12 @@ format:
     css: styles.css
     toc: true
     code-block-border-left: true
+    grid:
+      sidebar-width: 250px
+      body-width: 1100px      # wider content (Quarto default is 900px)
+      margin-width: 200px
+      gutter-width: 1.5rem
 
 
-eval: 
+eval:
   false

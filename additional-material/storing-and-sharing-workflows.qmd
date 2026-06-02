@@ -1,5 +1,6 @@
 ---
 title: Storing and sharing ML models in Python
+description: "Persist and share trained ML models in Python so results stay reproducible across machines and sessions."
 jupyter: aef-2026
 ---
 ## ML Example
